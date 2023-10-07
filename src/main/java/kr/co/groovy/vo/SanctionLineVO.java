@@ -13,7 +13,7 @@ public class SanctionLineVO {
     private String elctrnSanctnEtprCode;
     private String elctrnSanctnemplId;
     private String sanctnLineOrdr;
-    private String sanctnLineSign;
+    private byte[] sanctnLineSign;
     private String sanctnLineReturnResn;
     private Date sanctnLineDate;
     private String commonCodeSanctProgrs;
