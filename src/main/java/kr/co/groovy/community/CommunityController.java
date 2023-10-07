@@ -36,28 +36,7 @@ public class CommunityController {
     public ModelAndView teamCommunity(Principal principal, ModelAndView mav) {
         String emplId = principal.getName();
         List<SntncVO> sntncList = service.loadPost(emplId);
-        Map<String, Integer> recommendPostCnt = new HashMap<>();
-        Map<String, Integer> recommendedEmpleChk = new HashMap<>();
-        Map<String, Integer> answerPostCnt = new HashMap<>();
-        Map<String, Object> map = new HashMap<>();
-        for (SntncVO post : sntncList) {
-            String sntncEtprCode = post.getSntncEtprCode();
-
-            int recommendCnt = service.loadRecommend(sntncEtprCode);
-            recommendPostCnt.put(sntncEtprCode, recommendCnt);
-
-            map.put("sntncEtprCode", sntncEtprCode);
-            map.put("recomendEmplId", emplId);
-            int recommendedChk = service.findRecommend(map);
-            recommendedEmpleChk.put(sntncEtprCode, recommendedChk);
-            int answerCnt = service.loadAnswerCnt(sntncEtprCode);
-            answerPostCnt.put(sntncEtprCode, answerCnt);
-
-        }
         mav.addObject("sntncList", sntncList);
-        mav.addObject("recommendPostCnt", recommendPostCnt);
-        mav.addObject("recommendedEmpleChk", recommendedEmpleChk);
-        mav.addObject("answerPostCnt", answerPostCnt);
         mav.setViewName("community/teamCommunity");
         return mav;
     }

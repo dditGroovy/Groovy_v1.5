@@ -129,34 +129,28 @@
                                 <div class="post-card-footer">
                                     <div class="enter-wrap">
                                         <div class="recommend-wrap">
-                                            <c:forEach var="recommendedChk" items="${recommendedEmpleChk}">
-                                                <c:if test="${recommendedChk.key == sntncVO.sntncEtprCode}">
-                                                    <c:choose>
-                                                        <c:when test="${recommendedChk.value == 0}">
-                                                            <button class="recommend-icon-btn unRecommendBtn enter-btn"
-                                                                    data-idx="${sntncVO.sntncEtprCode}"></button>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <button class="recommend-icon-btn recommendBtn enter-btn"
-                                                                    data-idx="${sntncVO.sntncEtprCode}"></button>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:if>
-                                            </c:forEach>
-                                            <c:forEach var="recommendCnt" items="${recommendPostCnt}">
-                                                <c:if test="${recommendCnt.key == sntncVO.sntncEtprCode}">
-                                                    <span class="recommendCnt enter-text">${recommendCnt.value} Likes                                                                                                                                                                                                              </span>
-                                                </c:if>
-                                            </c:forEach>
+                                            <c:if test="${not empty sntncVO.recomendedChk}">
+                                                <c:choose>
+                                                    <c:when test="${sntncVO.recomendedChk == 0}">
+                                                        <button class="recommend-icon-btn unRecommendBtn enter-btn"
+                                                                data-idx="${sntncVO.sntncEtprCode}"></button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="recommend-icon-btn recommendBtn enter-btn"
+                                                                data-idx="${sntncVO.sntncEtprCode}"></button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:if>
+                                            <c:if test="${not empty sntncVO.recomendCnt}">
+                                                <span class="recommendCnt enter-text">${sntncVO.recomendCnt} Likes                                                                                                                                                                                                              </span>
+                                            </c:if>
                                         </div>
                                         <div class="answer-area">
                                             <div class="answer-wrap">
-                                                <c:forEach var="answerPostCnt" items="${answerPostCnt}">
-                                                    <c:if test="${answerPostCnt.key == sntncVO.sntncEtprCode}">
-                                                        <button class="loadAnswer enter-btn btn"></button>
-                                                        <span class="answerCnt enter-text">${answerPostCnt.value} Comments</span>
-                                                    </c:if>
-                                                </c:forEach>
+                                                <c:if test="${not empty sntncVO.answerCnt}">
+                                                    <button class="loadAnswer enter-btn btn"></button>
+                                                    <span class="answerCnt enter-text">${sntncVO.answerCnt} Comments</span>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>

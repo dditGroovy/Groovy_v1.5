@@ -92,7 +92,6 @@
 
 .alarmListBox .aTag p {
     font-size: 11px;
-    white-space: nowrap;
     word-break: break-all;
     color: var(--color-font-md);
     vertical-align: middle;

@@ -70,6 +70,21 @@ public class CommunityService {
         mapper.inputTeamNoti(map);
     }
 
+    public List<SntncVO> loadPost(String emplId) {
+        List<SntncVO> sntncList = mapper.loadPost(emplId);
+
+        for (SntncVO post : sntncList) {
+            String postCode = post.getSntncEtprCode();
+            int recommendCnt = loadRecommend(postCode);
+            int recomendedChk = findRecommend(emplId, postCode);
+            int answerCnt = loadAnswerCnt(postCode);
+
+            post.setRecomendCnt(recommendCnt);
+            post.setRecomendedChk(recomendedChk);
+            post.setAnswerCnt(answerCnt);
+        }
+        return sntncList;
+    }
     public List<SntncVO> loadTeamNoti(String emplId) {
         return mapper.loadTeamNoti(emplId);
     }
@@ -78,17 +93,15 @@ public class CommunityService {
         mapper.modifyTeamNoti(map);
     }
 
-    public List<SntncVO> loadPost(String emplId) {
+/*    public List<SntncVO> loadPost(String emplId) {
         return mapper.loadPost(emplId);
     }
 
-    ;
+    */
 
     public int modifyPost(Map<String, Object> map) {
         return mapper.modifyPost(map);
     }
-
-    ;
 
     public void deletePost(Map<String, Object> map) {
         mapper.deletePost(map);
@@ -99,7 +112,10 @@ public class CommunityService {
         return mapper.loadRecommend(sntncEtprCode);
     }
 
-    public int findRecommend(Map<String, Object> map) {
+    public int findRecommend(String emplId, String sntncEtprCode) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("emplId", emplId);
+        map.put("sntncEtprCode", sntncEtprCode);
         return mapper.findRecommend(map);
     }
 
