@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.file.FileMapper">
+    <select id="downloadFile" parameterType="int" resultType="uploadFileVO">
+        SELECT UPLOAD_FILE_SN,
+               UPLOAD_FILE_ETPR_CODE,
+               UPLOAD_FILE_ORGINL_NM,
+               UPLOAD_FILE_STRE_NM,
+               UPLOAD_FILE_SIZE,
+               UPLOAD_FILE_RGSDE
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_SN = #{uploadFileSn}
+    </select>
+
+    <select id="downloadFileByDate" resultType="uploadFileVO" parameterType="Map">
+        SELECT UPLOAD_FILE_SN,
+               UPLOAD_FILE_ETPR_CODE,
+               UPLOAD_FILE_ORGINL_NM,
+               UPLOAD_FILE_STRE_NM,
+               UPLOAD_FILE_SIZE,
+               UPLOAD_FILE_RGSDE
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE 'SD-AT%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+    </select>
+
+    <insert id="uploadFile" parameterType="uploadFileVO">
+        INSERT INTO UPLOAD_FILE( UPLOAD_FILE_SN
+                               , UPLOAD_FILE_ETPR_CODE
+                               , UPLOAD_FILE_ORGINL_NM
+                               , UPLOAD_FILE_STRE_NM
+                               , UPLOAD_FILE_SIZE,
+                                 UPLOAD_FILE_RGSDE)
+        VALUES (UPLOAD_FILE_SEQ.nextval,
+                #{etprCode},
+                #{originalFileName},
+                #{newFileName},
+                #{fileSize},
+                sysdate)
+
+    </insert>
+
+    <select id="downloadFileByDateForZip" resultType="uploadFileVO" parameterType="Map">
+        SELECT UPLOAD_FILE_SN,
+               UPLOAD_FILE_ETPR_CODE,
+               UPLOAD_FILE_ORGINL_NM,
+               UPLOAD_FILE_STRE_NM,
+               UPLOAD_FILE_SIZE,
+               UPLOAD_FILE_RGSDE
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE 'SD-AT%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+    </select>
+</mapper>

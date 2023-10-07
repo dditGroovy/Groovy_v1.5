@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.salary.SalaryMapper">
+    <select id="loadSalary" resultType="annualSalaryVO">
+        SELECT ANSLRY_STDR_YEAR,
+               COMMON_CODE_DEPT_CRSF,
+               COMMON_CODE_DEPT_CRSF AS ORIGINAL_CODE,
+               ANSLRY_ALLWNC
+        FROM ANSLRY
+        WHERE COMMON_CODE_DEPT_CRSF LIKE 'DEPT%'
+          AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
+    </select>
+
+    <select id="loadBonus" resultType="annualSalaryVO">
+        SELECT ANSLRY_STDR_YEAR,
+               COMMON_CODE_DEPT_CRSF,
+               COMMON_CODE_DEPT_CRSF AS ORIGINAL_CODE,
+               ANSLRY_ALLWNC
+        FROM ANSLRY
+        WHERE COMMON_CODE_DEPT_CRSF LIKE 'CLSF%'
+          AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
+        ORDER BY COMMON_CODE_DEPT_CRSF DESC
+    </select>
+
+    <select id="loadTariff" parameterType="String" resultType="tariffVO">
+        SELECT TARAT_STDR_YEAR,
+        TARAT_STDR_NM,
+        TARAT_STDR_VALUE,
+        TARAT_STDR_CODE,
+        TARAT_STDR_USE_AT
+        FROM
+        TARAT_STDR
+        WHERE
+        TARAT_STDR_YEAR =
+        <choose>
+            <when test="year != null and year !=''">
+                #{year}
+            </when>
+            <otherwise>
+                TO_CHAR(SYSDATE, 'yyyy')
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="loadEmpList" resultType="employeeVO">
+        SELECT EMPL_ID,
+               EMPL_NM,
+               COMMON_CODE_DEPT,
+               COMMON_CODE_CLSF,
+               COMMON_CODE_DEPT AS DEPT_NM,
+               COMMON_CODE_CLSF AS CLSF_NM
+        FROM EMPL
+    </select>
+
+    <select id="loadPaymentList" parameterType="String" resultType="paystubVO">
+        SELECT SD.SALARY_DTSMT_ISSU_DATE
+             , SD.SALARY_DTSMT_ETPR_CODE
+             , S.SALARY_EMPL_ID
+             , S.SALARY_BSLRY
+             , S.SALARY_OVTIME_ALLWNC
+             , (SELECT EMPL_NM FROM EMPL WHERE S.SALARY_EMPL_ID = EMPL.EMPL_ID) AS SALARY_EMPL_NM
+             , (SELECT C.COMMON_NAME
+                FROM COMMON C,
+                     EMPL E
+                WHERE E.EMPL_ID = S.SALARY_EMPL_ID
+                  AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                       AS DEPT_NM
+             , (SELECT C.COMMON_NAME
+                FROM COMMON C,
+                     EMPL E
+                WHERE E.EMPL_ID = S.SALARY_EMPL_ID
+                  AND C.COMMON_CODE = E.COMMON_CODE_CLSF)                       AS CLSF_NM
+             , (SELECT EMPL_NM FROM EMPL WHERE S.SALARY_EMPL_ID = EMPL.EMPL_ID) AS SALARY_EMPL_NM
+             , SD.SALARY_DTSMT_PYMNT_TOTAMT
+             , SD.SALARY_DTSMT_SIS_NP
+             , SD.SALARY_DTSMT_SIS_HI
+             , SD.SALARY_DTSMT_SIS_EI
+             , SD.SALARY_DTSMT_SIS_WCI
+             , SD.SALARY_DTSMT_INCMTAX
+             , SD.SALARY_DTSMT_LOCALITY_INCMTAX
+             , SD.SALARY_DTSMT_DDC_TOTAMT
+             , SD.SALARY_DTSMT_NET_PAY
+             , TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'MM')                         as MONTH
+        FROM SALARY S
+                 INNER JOIN SALARY_DTSMT SD
+                            ON S.SALARY_PYMNT_DATE = SD.SALARY_DTSMT_ISSU_DATE AND S.SALARY_EMPL_ID = SD.SALARY_EMPL_ID
+        WHERE S.SALARY_EMPL_ID = #{emplId}
+          AND TO_CHAR(SALARY_PYMNT_DATE, 'YYYY') = #{year}
+        ORDER BY SALARY_DTSMT_ISSU_DATE DESC
+    </select>
+
+    <select id="loadRecentPaystub" parameterType="String" resultType="paystubVO">
+        SELECT SALARY_DTSMT_ETPR_CODE,
+               SALARY_DTSMT_ISSU_DATE,
+               SALARY_EMPL_ID,
+               SALARY_DTSMT_DDC_TOTAMT,
+               SALARY_DTSMT_PYMNT_TOTAMT,
+               SALARY_DTSMT_NET_PAY,
+               SALARY_DTSMT_SIS_NP,
+               SALARY_DTSMT_SIS_HI,
+               SALARY_DTSMT_SIS_EI,
+               SALARY_DTSMT_SIS_WCI,
+               SALARY_DTSMT_INCMTAX,
+               SALARY_DTSMT_LOCALITY_INCMTAX,
+               SALARY_BSLRY,
+               SALARY_OVTIME_ALLWNC
+        FROM (SELECT SD.SALARY_DTSMT_ETPR_CODE,
+                     SD.SALARY_DTSMT_ISSU_DATE,
+                     SD.SALARY_EMPL_ID,
+                     SD.SALARY_DTSMT_DDC_TOTAMT,
+                     SD.SALARY_DTSMT_PYMNT_TOTAMT,
+                     SD.SALARY_DTSMT_NET_PAY,
+                     SD.SALARY_DTSMT_SIS_NP,
+                     SD.SALARY_DTSMT_SIS_HI,
+                     SD.SALARY_DTSMT_SIS_EI,
+                     SD.SALARY_DTSMT_SIS_WCI,
+                     SD.SALARY_DTSMT_INCMTAX,
+                     SD.SALARY_DTSMT_LOCALITY_INCMTAX,
+                     S.SALARY_BSLRY,
+                     S.SALARY_OVTIME_ALLWNC
+              FROM SALARY_DTSMT SD,
+                   SALARY S
+              WHERE SD.SALARY_EMPL_ID = #{emplId}
+                AND SD.SALARY_DTSMT_ISSU_DATE = S.SALARY_PYMNT_DATE
+              ORDER BY SD.SALARY_DTSMT_ISSU_DATE DESC)
+        WHERE ROWNUM = 1
+    </select>
+
+    <select id="loadYearsForSortPaystub" parameterType="String" resultType="int">
+        SELECT EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE)
+        FROM SALARY_DTSMT
+        WHERE SALARY_EMPL_ID = #{emplId}
+        GROUP BY EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE)
+        ORDER BY EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE) DESC
+    </select>
+
+    <select id="loadPaystubList" parameterType="String" resultType="paystubVO">
+        SELECT SALARY_DTSMT_ETPR_CODE,
+               SALARY_DTSMT_ISSU_DATE,
+               SALARY_DTSMT_NET_PAY
+        FROM SALARY_DTSMT
+        WHERE SALARY_EMPL_ID = #{emplId}
+          AND EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE) = #{year}
+        ORDER BY SALARY_DTSMT_ISSU_DATE DESC
+    </select>
+
+    <update id="modifyIncmtax" parameterType="map">
+        /* 세율 기준 수정 */
+        UPDATE TARAT_STDR
+        SET TARAT_STDR_VALUE = #{value}
+        WHERE TARAT_STDR_CODE = #{code}
+    </update>
+
+    <update id="modifySalary" parameterType="map">
+        /* 세율 기준 수정 */
+        UPDATE ANSLRY
+        SET ANSLRY_ALLWNC = #{value}
+        WHERE COMMON_CODE_DEPT_CRSF = #{code}
+    </update>
+
+    <select id="loadPaystubDetail" parameterType="String" resultType="paystubVO">
+        SELECT SD.SALARY_DTSMT_ETPR_CODE,
+               SD.SALARY_DTSMT_ISSU_DATE,
+               SD.SALARY_EMPL_ID,
+               SD.SALARY_DTSMT_DDC_TOTAMT,
+               SD.SALARY_DTSMT_PYMNT_TOTAMT,
+               SD.SALARY_DTSMT_NET_PAY,
+               SD.SALARY_DTSMT_SIS_NP,
+               SD.SALARY_DTSMT_SIS_HI,
+               SD.SALARY_DTSMT_SIS_EI,
+               SD.SALARY_DTSMT_SIS_WCI,
+               SD.SALARY_DTSMT_INCMTAX,
+               SD.SALARY_DTSMT_LOCALITY_INCMTAX,
+               S.SALARY_BSLRY,
+               S.SALARY_OVTIME_ALLWNC
+        FROM SALARY_DTSMT SD
+                 INNER JOIN SALARY S
+                            ON TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD') =
+                               TO_CHAR(S.SALARY_PYMNT_DATE, 'YYYY-MM-DD')
+                                AND SD.SALARY_EMPL_ID = S.SALARY_EMPL_ID
+        WHERE SD.SALARY_EMPL_ID = #{emplId}
+          AND TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD') = TO_CHAR(S.SALARY_PYMNT_DATE, 'YYYY-MM-DD')
+          AND TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD') = #{paymentDate}
+    </select>
+
+    <select id="getExistsYears" resultType="String">
+        SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'YYYY') AS WORK_YEAR
+        FROM DCLZ
+        ORDER BY WORK_YEAR desc
+    </select>
+
+    <select id="getExistsMonthByYear" resultType="String" parameterType="String">
+        SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'MM') AS WORK_MONTH
+        FROM DCLZ
+        WHERE TO_CHAR(DCLZ_WORK_DE, 'YYYY') = #{dclzWorkDe}
+        ORDER BY WORK_MONTH
+    </select>
+
+    <select id="getCommuteByYearAndMonth" resultType="commuteVO" parameterType="String">
+        <![CDATA[
+        SELECT DCLZ_EMPL_ID,
+               SUM(
+                       CASE
+                           WHEN DCLZ_DAIL_WORK_TIME < 480 THEN DCLZ_DAIL_WORK_TIME
+                           ELSE 480
+                           END
+                   )                                                                  AS REAL_WORK_TIME,
+               SUM(
+                       CASE
+                           WHEN DCLZ_DAIL_WORK_TIME > 480 THEN (DCLZ_DAIL_WORK_TIME - 480)
+                           ELSE 0
+                           END
+                   )                                                                  AS OVER_WORK_TIME,
+               (SELECT EMPL_NM FROM EMPL WHERE EMPL_ID = DCLZ_EMPL_ID)                AS EMPL_NM,
+               (SELECT C.COMMON_NAME
+                FROM COMMON C,
+                     EMPL E
+                WHERE E.EMPL_ID = DCLZ_EMPL_ID
+                  AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                             AS DEPT_NM,
+               (SELECT E.COMMON_CODE_CLSF FROM EMPL E WHERE E.EMPL_ID = DCLZ_EMPL_ID) AS COMMON_CODE_CLSF
+        FROM DCLZ
+        WHERE DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{date}, 'YY-MM'), 'MM') AND LAST_DAY(TO_DATE(#{date}, 'YY-MM'))
+        GROUP BY DCLZ_EMPL_ID
+        ]]>
+    </select>
+
+    <select id="getPrescribedWorkingHours" resultType="String" parameterType="String">
+    <![CDATA[
+        SELECT to_char(COUNT(1) * 8 * 60) AS DEFAULT_WORK_TIME
+        FROM (SELECT TO_CHAR(START_DT + LEVEL - 1, 'YYYYMMDD') DATES,
+                     TO_CHAR(START_DT + LEVEL - 1, 'D')        D
+              FROM (SELECT TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AS START_DT,
+                           LAST_DAY(to_date(#{date}, 'yy-mm'))    AS END_DT
+                    FROM DUAL)
+              CONNECT BY LEVEL <= END_DT - START_DT + 1) A
+        WHERE A.D NOT IN ('1', '7')
+        ]]>
+    </select>
+
+    <select id="getSalaryBslry" resultType="paystubVO" parameterType="String">
+        select EMPL_ID as salary_empl_id,
+               case
+                   when COMMON_CODE_HFFC_STTUS = 'HFFC010' then
+                       floor(((select a.ANSLRY_ALLWNC
+                               from ANSLRY a
+                               where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_CLSF
+                                 and a.ANSLRY_STDR_YEAR = #{year}) +
+                              (select a.ANSLRY_ALLWNC
+                               from ANSLRY a
+                               where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_DEPT
+                                 and a.ANSLRY_STDR_YEAR = #{year})) /
+                             12)
+                   when COMMON_CODE_HFFC_STTUS = 'HFFC011' then floor(
+                                   ((select a.ANSLRY_ALLWNC
+                                     from ANSLRY a
+                                     where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_CLSF
+                                       and a.ANSLRY_STDR_YEAR = #{year}) +
+                                    (select a.ANSLRY_ALLWNC
+                                     from ANSLRY a
+                                     where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_DEPT
+                                       and a.ANSLRY_STDR_YEAR = #{year})) /
+                                   12 * 0.3)
+                   end as salary_bslry
+        from empl e
+        where (e.COMMON_CODE_DEPT not in 'DEPT015'
+            or e.COMMON_CODE_CLSF not in 'CLSF010')
+    </select>
+
+    <select id="getCoWtrmsAbsenc" resultType="commuteVO" parameterType="String">
+        SELECT DCLZ_EMPL_ID, COUNT(DCLZ_WORK_DE) AS CO_WTRMS_ABSENC
+        FROM DCLZ
+        WHERE COMMON_CODE_LABOR_STTUS = 'LABOR_STTUS015'
+          AND DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{date}, 'YY-MM'), 'MM') AND LAST_DAY(TO_DATE(#{DATE}, 'YY-MM'))
+        GROUP BY DCLZ_EMPL_ID
+    </select>
+
+    <select id="existsInsertedSalaryDtsmt" parameterType="Map" resultType="int">
+        SELECT COUNT(INSERT_AT)
+        FROM SALARY_DTSMT
+        WHERE SALARY_EMPL_ID = #{salaryEmplId}
+          AND TO_DATE(TO_CHAR(SALARY_DTSMT_ISSU_DATE, 'YYYY-MM'), 'YYYY-MM')
+            = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
+    </select>
+
+    <select id="existsInsertedSalary" resultType="int">
+        SELECT COUNT(INSERT_AT)
+        FROM SALARY
+        WHERE SALARY_EMPL_ID = #{salaryemplid}
+          AND TO_DATE(TO_CHAR(SALARY_PYMNT_DATE, 'YYYY-MM'), 'YYYY-MM')
+            = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
+    </select>
+
+    <select id="existsUploadedFile" resultType="int" parameterType="String">
+        SELECT COUNT(UPLOAD_FILE_ETPR_CODE)
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE = #{salaryDtsmtEtprCode}
+    </select>
+
+    <insert id="inputSalary" parameterType="paystubVO">
+        INSERT INTO SALARY ( SALARY_PYMNT_DATE
+                           , SALARY_EMPL_ID
+                           , SALARY_BSLRY
+                           , SALARY_OVTIME_ALLWNC
+                           , INSERT_AT)
+        VALUES ( #{salaryDtsmtIssuDate}
+               , #{salaryEmplId}
+               , #{salaryBslry}
+               , #{salaryOvtimeAllwnc}
+               , #{insertAt})
+    </insert>
+
+    <insert id="inputSalaryDtsmt" parameterType="paystubVO">
+        INSERT INTO SALARY_DTSMT ( SALARY_DTSMT_ETPR_CODE
+                                 , SALARY_DTSMT_ISSU_DATE
+                                 , SALARY_EMPL_ID
+                                 , SALARY_DTSMT_PYMNT_TOTAMT
+                                 , SALARY_DTSMT_SIS_NP
+                                 , SALARY_DTSMT_SIS_HI
+                                 , SALARY_DTSMT_SIS_EI
+                                 , SALARY_DTSMT_SIS_WCI
+                                 , SALARY_DTSMT_INCMTAX
+                                 , SALARY_DTSMT_LOCALITY_INCMTAX
+                                 , SALARY_DTSMT_DDC_TOTAMT
+                                 , SALARY_DTSMT_NET_PAY
+                                 , INSERT_AT)
+        VALUES ('SD-AT-' || TO_CHAR(#{salaryDtsmtIssuDate}, 'YYMM') || '-' || #{salaryEmplId},
+                #{salaryDtsmtIssuDate},
+                #{salaryEmplId},
+                #{salaryDtsmtPymntTotamt},
+                #{salaryDtsmtSisNp},
+                #{salaryDtsmtSisHi},
+                #{salaryDtsmtSisEi},
+                #{salaryDtsmtSisWci},
+                #{salaryDtsmtIncmtax},
+                #{salaryDtsmtLocalityIncmtax},
+                #{salaryDtsmtDdcTotamt},
+                #{salaryDtsmtNetPay},
+                #{insertAt})
+    </insert>
+
+    <insert id="inputSalaryDtsmtPdf" parameterType="map">
+        INSERT INTO UPLOAD_FILE(UPLOAD_FILE_SN,
+                                UPLOAD_FILE_ETPR_CODE,
+                                UPLOAD_FILE_ORGINL_NM,
+                                UPLOAD_FILE_STRE_NM,
+                                UPLOAD_FILE_SIZE,
+                                UPLOAD_FILE_RGSDE)
+        VALUES (UPLOAD_FILE_SEQ.nextval,
+                #{salaryDtsmtEtprcode},
+                #{originalFileName},
+                #{newFileName},
+                #{fileSize},
+                sysdate)
+    </insert>
+
+    <select id="getDtsmtFileByDateAndEmplId" parameterType="Map" resultType="uploadFileVO">
+        SELECT upload_file_sn
+             , upload_file_etpr_code
+             , upload_file_orginl_nm
+             , upload_file_stre_nm
+             , upload_file_size
+             , upload_file_rgsde
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+    </select>
+</mapper>

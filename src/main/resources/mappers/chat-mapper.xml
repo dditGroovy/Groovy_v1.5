@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.chat.ChatMapper">
+
+    <insert id="inputChatRoom" parameterType="map">
+        INSERT INTO CHTT_ROOM
+        VALUES (CHTT_ROOM_SEQ.NEXTVAL,
+                #{chttRoomNm},
+                #{chttRoomTy},
+                #{chttRoomNmpr},
+                SYSDATE)
+    </insert>
+
+    <insert id="inputChatMember" parameterType="String">
+        INSERT INTO CHTT_MBR
+        VALUES (CHTT_ROOM_SEQ.CURRVAL,
+                #{chttMbrEmplId})
+    </insert>
+
+    <select id="checkDuplication" parameterType="map" resultType="integer">
+        SELECT COUNT(*) AS EXISTING_CNT
+        FROM CHTT_MBR CM1
+                 INNER JOIN CHTT_MBR CM2 ON CM1.CHTT_ROOM_NO = CM2.CHTT_ROOM_NO
+                 INNER JOIN CHTT_ROOM CR ON CM1.CHTT_ROOM_NO = CR.CHTT_ROOM_NO
+        WHERE CM1.CHTT_MBR_EMPL_ID = #{emplId1}
+          AND CM2.CHTT_MBR_EMPL_ID = #{emplId2}
+          AND CR.CHTT_ROOM_TY = '0'
+    </select>
+
+    <select id="loadChatRooms" parameterType="String" resultType="chatRoomVO">
+        SELECT
+            CR.CHTT_ROOM_NO,
+            CR.CHTT_ROOM_NM,
+            CR.CHTT_ROOM_TY,
+            CASE
+                WHEN CR.CHTT_ROOM_TY = 0 THEN (
+                    SELECT UF.UPLOAD_FILE_STRE_NM
+                    FROM EMPL E
+                             JOIN UPLOAD_FILE UF ON E.PROFL_ETPR_CODE = UF.UPLOAD_FILE_ETPR_CODE
+                    WHERE E.EMPL_ID = (
+                        SELECT CM.CHTT_MBR_EMPL_ID
+                        FROM CHTT_MBR CM
+                        WHERE CM.CHTT_ROOM_NO = CR.CHTT_ROOM_NO
+                          AND CM.CHTT_MBR_EMPL_ID != #{emplId}
+                    )
+                )
+                ELSE 'ThumbnailForMultiChatRoom.png'
+                END AS CHTT_ROOM_THUMBNAIL,
+            COALESCE(C.CHTT_CN, '(채팅 내역이 없습니다)') AS LATEST_CHTT_CN,
+            COALESCE(C.CHTT_INPUT_DATE, CR.CHTT_ROOM_CREAT_DE) AS LATEST_INPUT_DATE
+        FROM CHTT_ROOM CR
+                 LEFT JOIN (
+            SELECT
+                C1.CHTT_ROOM_NO,
+                C1.CHTT_CN,
+                C1.CHTT_INPUT_DATE
+            FROM CHTT C1
+            WHERE C1.CHTT_INPUT_DATE = (
+                SELECT MAX(C2.CHTT_INPUT_DATE)
+                FROM CHTT C2
+                WHERE C2.CHTT_ROOM_NO = C1.CHTT_ROOM_NO
+            )
+        ) C ON CR.CHTT_ROOM_NO = C.CHTT_ROOM_NO
+                 LEFT JOIN CHTT_MBR CM ON CM.CHTT_ROOM_NO = CR.CHTT_ROOM_NO
+        WHERE CM.CHTT_MBR_EMPL_ID = #{emplId} OR CM.CHTT_MBR_EMPL_ID IS NULL
+        ORDER BY LATEST_INPUT_DATE DESC
+    </select>
+
+    <select id="loadEmpListForChat" resultType="employeeVO">
+        SELECT E.EMPL_ID,
+               E.EMPL_NM,
+               (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = E.COMMON_CODE_DEPT) AS DEPT_NM,
+               (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = E.COMMON_CODE_CLSF) AS CLSF_NM,
+               UF.UPLOAD_FILE_STRE_NM  AS PROFL_PHOTO_FILE_STRE_NM
+        FROM EMPL E
+                 JOIN UPLOAD_FILE UF ON E.PROFL_ETPR_CODE = UF.UPLOAD_FILE_ETPR_CODE
+        WHERE E.EMPL_ID != #{emplId}
+        ORDER BY EMPL_NM
+    </select>
+
+    <select id="loadRoomMessages" parameterType="integer" resultType="chatVO">
+        SELECT C.CHTT_NO,
+               C.CHTT_ROOM_NO,
+               C.CHTT_MBR_EMPL_ID,
+               E.EMPL_NM AS CHTT_MBR_EMPL_NM,
+               C.CHTT_CN,
+               C.CHTT_INPUT_DATE,
+               F.UPLOAD_FILE_STRE_NM AS PROFL_PHOTO_FILE_STRE_NM
+        FROM CHTT C, EMPL E, UPLOAD_FILE F
+        WHERE C.CHTT_MBR_EMPL_ID = E.EMPL_ID
+          AND E.PROFL_ETPR_CODE = F.UPLOAD_FILE_ETPR_CODE
+          AND C.CHTT_ROOM_NO = #{chttRoomNo}
+        ORDER BY CHTT_INPUT_DATE
+    </select>
+
+    <insert id="inputMessage" parameterType="chatVO">
+        INSERT INTO CHTT (CHTT_NO,
+                          CHTT_ROOM_NO,
+                          CHTT_MBR_EMPL_ID,
+                          CHTT_CN,
+                          CHTT_INPUT_DATE)
+        VALUES (CHTT_SEQ.nextval,
+                #{chttRoomNo},
+                #{chttMbrEmplId},
+                #{chttCn},
+                #{chttInputDate})
+    </insert>
+
+    <select id="loadRoomMembers" parameterType="integer" resultType="String">
+        SELECT CHTT_MBR_EMPL_ID
+        FROM CHTT_MBR
+        WHERE CHTT_ROOM_NO = #{chttRoomNo}
+    </select>
+
+    <insert id="inviteEmpl" parameterType="chatVO">
+        INSERT INTO CHTT_MBR
+        VALUES (#{chttRoomNo}, #{chttMbrEmplId})
+    </insert>
+
+    <update id="modifyRoomNm" parameterType="chatRoomVO">
+        UPDATE CHTT_ROOM
+        SET CHTT_ROOM_NM = #{chttRoomNm}
+        WHERE CHTT_ROOM_NO = #{chttRoomNo}
+    </update>
+
+    <select id="loadNewRoomName" resultType="String">
+        SELECT CHTT_ROOM_NM
+        FROM CHTT_ROOM
+        WHERE CHTT_ROOM_NO = #{chttRoomNo}
+    </select>
+
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:annotation-config/>
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@112.220.114.130:1521:xe"/>
+        <property name="username" value="team4_202303F"/>
+        <property name="password" value="java"/>
+        <property name="maxTotal" value="3"/>
+        <property name="maxWaitMillis" value="3000"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="/WEB-INF/mybatisAlias/mybatisAlias.xml"/>
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    </bean>
+
+    <!-- 파일 업로드 설정 시작 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- 메일 서버 연동 -->
+    <bean id="googleMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="your_email"/>
+        <property name="password" value="your_password!"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="naverMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.naver.com"/>
+        <property name="port" value="465"/>
+        <property name="username" value="your_email"/>
+        <property name="password" value="your_password"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtps.checkserveridentity">true</prop>
+                <prop key="mail.smtps.ssl.trust">*</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="daumMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.daum.net"/>
+        <property name="port" value="465"/>
+        <property name="username" value="your_email"/>
+        <property name="password" value="your_password"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtps.checkserveridentity">true</prop>
+                <prop key="mail.smtps.ssl.trust">*</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 파일업로드 디렉토리 설정 -->
+    <!--운영 서버용-->
+    <bean id="uploadPath" class="java.lang.String">
+        <constructor-arg value="/root/uploads"/>
+    </bean>
+    <!--개발/테스트용 (서주 로컬)-->
+    <bean id="uploadSeoju" class="java.lang.String">
+        <constructor-arg value="/Users/seojukang/uploads"/>
+    </bean>
+    <!--개발/테스트용 (맥 로컬 - 혜진이랑 테스트용)-->
+    <bean id="uploadTest" class="java.lang.String">
+        <constructor-arg value="/Users/uploads"/>
+    </bean>
+    <!--개발/테스트용 (혜진로컬)-->
+    <bean id="uploadHyejin" class="java.lang.String">
+        <constructor-arg value="/Users/leehyejin/Project/ddit/Projects/5. Groovy/upload"/>
+    </bean>
+    <!-- 개발/테스트용 (수인이 거) -->
+    <bean id="uploadSuin" class="java.lang.String">
+        <constructor-arg value="E:/ddit/uploads"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="kr.co.groovy"/>
+    </bean>
+
+</beans>

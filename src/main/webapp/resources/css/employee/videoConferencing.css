@@ -1,0 +1,69 @@
+.btn-control {
+    display: none;
+    justify-content: center;
+    gap: var(--vw-24);
+    margin: var(--vh-48);
+}
+
+body {
+    background-color: var(--color-bg-sky);
+}
+
+img {
+    width: calc((380/var(--vw))*100vw);
+}
+
+.btn-join {
+    text-align: center;
+    padding: calc((320/var(--vh))*100vh)
+}
+
+#joinBtn {
+    transition: background-color 0.3s ease-in-out,
+                box-shadow 0.3s ease-in-out,
+                color 0.3s ease-in-out;
+}
+
+#joinBtn:hover {
+    background-color: var(--color-white);
+    box-shadow: var(--clay-card);
+    color: var(--color-main);
+}
+
+.video-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--vw-32);
+    margin: 0 var(--vw-40);
+}
+
+.video-container {
+    width: calc((500/1920)*100vw);
+    height: calc((350/1080)*100vh);
+    box-sizing: border-box;
+    background-color: #282828;
+}
+
+#cameraBtn {
+    background-image: url("/resources/images/icon/video.svg");
+}
+
+#micBtn {
+    background-image: url("/resources/images/icon/mic.svg");
+}
+
+#leaveBtn {
+    background-image: url("/resources/images/icon/leave.svg");
+}
+
+.btn-icon {
+    width: var(--vw-64);
+    height: var(--vh-64);
+    background-color: white;
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vh-8);
+    background-repeat: no-repeat;
+    background-position: center;
+}

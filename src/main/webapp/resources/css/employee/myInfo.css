@@ -1,0 +1,284 @@
+/*@import "../commonStyle.css";*/
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--color-main);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+
+#profileImage {
+    border-radius: 50%;
+    width: calc((100 / var(--vw)) * 100vw);
+    height: calc((100 / var(--vw)) * 100vw);
+}
+
+#userSignProfile {
+    border: 1px solid lightgray;
+    width: calc((100 / var(--vw)) * 100vw);
+    height: calc((100 / var(--vw)) * 100vw);
+}
+
+.modifyPhoto {
+    width: calc((32 / var(--vw)) * 100vw);
+    height: calc((32 / var(--vw)) * 100vw);
+    position: relative;
+    left: calc((-24 / var(--vw)) * 100vw);
+}
+
+.profile-wrap, .sign-wrap {
+    width: calc((536 / var(--vw)) * 100vw);
+    height: calc((360 / 1080) * 100vh);
+
+}
+
+.alert-wrap {
+    width: calc((440 / var(--vw)) * 100vw);
+    height: calc((740 / 1080) * 100vh);
+}
+
+
+.profile-header {
+    display: flex;
+
+}
+
+.info-content {
+    display: flex;
+    gap: var(--vw-24);
+    justify-content: center;
+}
+
+.flex-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-inner {
+    gap: var(--vw-24);
+}
+
+.box-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--vh-16);
+    border-bottom: 2px solid var(--color-bg-grey);
+}
+
+.toggle-title {
+    text-align: center;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-24);
+}
+
+.info-title {
+    margin-bottom: var(--vh-8);
+    font-size: var(--font-size-18);
+}
+
+.info-desc {
+    color: var(--color-font-high);
+    font-size: var(--font-size-14);
+}
+
+.info-body {
+    /*text-align: center;*/
+    justify-content: center;
+    height: 90%;
+
+}
+
+#profileForm, #signForm {
+    margin-top: 2%;
+    padding: var(--vw-32) 0;
+    text-align: center;
+
+
+}
+
+#profileForm {
+    margin-left: 8%;
+
+}
+
+#alertForm {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.right {
+    display: flex;
+    gap: var(--vw-24);
+}
+
+#saveButton, #modifyPass {
+    width: calc((160 / var(--vw)) * 100vw);
+    padding: 10px;
+    font-size: var(--font-size-14);
+    margin-left: var(--vw-10)
+}
+
+.info-btn {
+    position: absolute;
+    right: 4%;
+    bottom: 6%;
+}
+
+.new-pass, .current-pass {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pass-wrap input[type="password"] {
+    width: calc((224 / var(--vw)) * 100vw);
+    padding: var(--vh-12);
+    border-radius: 20px;
+    border: 1px solid var(--color-bg-darkGrey);
+
+}
+
+
+.info-icon {
+    width: var(--vw-48);
+    height: var(--vw-48);
+}
+
+
+.tel-div, .addr-div {
+    position: relative;
+}
+
+.modify-btn {
+    position: absolute;
+    right: 1%;
+    padding: 2%;
+    margin-top: 3%;
+    background-color: transparent;
+    color: var(--color-font-md);
+
+
+}
+
+.modify-icon {
+    opacity: 1;
+    width: var(--vw-32);
+    height: var(--vw-32);
+}
+
+.my-info label {
+    color: #444a52;
+    font-family: var(--font-md);
+    font-size: var(--font-size-14);
+    padding-left: var(--vw-12);
+    display: inline-block;
+    margin: 15px 0;
+
+}
+
+.pass-wrap {
+    margin: 70px;
+}
+
+.pass-wrap label {
+    color: #444a52;
+    font-family: var(--font-md);
+    font-size: var(--font-size-14);
+    display: block;
+    padding-left: var(--vw-64);
+
+}
+
+.pass-wrap input {
+    display: block;
+    margin: 15px;
+
+}
+
+.new-pass label {
+    position: relative;
+}
+
+input[type='text'] {
+    color: var(--color-font-md);
+    font-family: var(--font-reg);
+    font-size: 13px;
+    cursor: pointer;
+    background-color: var(--color-white);
+    border: none;
+    /*border: 1px solid var(--color-stroke);*/
+    border-radius: var(--size-32);
+    outline-color: var(--color-main);
+    padding: var(--vw-12);
+    width: 100%;
+}
+
+.my-info {
+    margin-top: 5%;
+    overflow-y: auto;
+
+}
+
+.toggle-title {
+    color: #444a52;
+    font-family: var(--font-md);
+    font-size: var(--font-size-14);
+    padding-left: var(--vw-12);
+}
+
+#modifyRes {
+    color: var(--color-main);
+    font-family: var(--font-reg);
+    font-size: var(--font-size-14);
+    text-align: center;
+    margin-top: var(--vh-24);
+}
+
+.modal-layer {
+    gap: 0;
+}
+.sign-btn{
+    margin-top: var(--vh-40);
+}

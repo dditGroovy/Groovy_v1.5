@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.job.JobMapper">
+    <resultMap id="jobDiaryMap" type="jobDiaryVO">
+        <result property="jobDiaryReportDate" column="JOB_DIARY_REPORT_DATE" />
+        <result property="jobDiarySbj" column="JOB_DIARY_SBJ" />
+        <result property="jobDiaryCn" column="JOB_DIARY_CN" />
+        <result property="jobDiaryWrtingEmplId" column="JOB_DIARY_WRTING_EMPL_ID" />
+        <result property="jobDiaryWrtingEmplNm" column="EMPL_NM"/>
+    </resultMap>
+
+    <resultMap id="jobMap" type="jobVO">
+        <result property="jobNo" column="JOB_NO"/>
+        <result property="jobRequstEmplId" column="JOB_REQUST_EMPL_ID"/>
+        <result property="jobRequstEmplNm" column="JOB_REQUST_EMPL_NM"/>
+        <result property="jobRequstEmplProfl" column="UPLOAD_FILE_STRE_NM"/>
+        <result property="jobSj" column="JOB_SJ"/>
+        <result property="jobCn" column="JOB_CN"/>
+        <result property="jobBeginDate" column="JOB_BEGIN_DATE"/>
+        <result property="jobClosDate" column="JOB_CLOS_DATE"/>
+        <result property="jobRequstDate" column="JOB_REQUST_DATE"/>
+        <result property="commonCodeDutyKind" column="COMMON_CODE_DUTY_KIND"/>
+        <collection property="jobProgressVOList" ofType="jobProgressVO">
+            <result column="JOB_RECPTN_EMPL_ID" property="jobRecptnEmplId"/>
+            <result column="JOB_RECPTN_EMPL_NM" property="jobRecptnEmplNm"/>
+            <result column="COMMON_CODE_DUTY_STTUS" property="commonCodeDutySttus"/>
+            <result column="COMMON_CODE_DUTY_PROGRS" property="commonCodeDutyProgrs"/>
+        </collection>
+    </resultMap>
+
+    <select id="getLeader" parameterType="String" resultType="String">
+        SELECT EMPL_ID
+        FROM EMPL
+        WHERE COMMON_CODE_DEPT = (SELECT COMMON_CODE_DEPT
+                                  FROM EMPL
+                                  WHERE EMPL_ID = #{emplId})
+          AND COMMON_CODE_CLSF = 'CLSF012'
+    </select>
+
+    <select id="getInfoById" parameterType="String" resultType="employeeVO"> --부서랑 직급
+    SELECT COMMON_CODE_DEPT,
+           COMMON_CODE_CLSF
+    FROM EMPL
+    WHERE EMPL_ID = #{emplId}
+    </select>
+
+    <insert id="insertDiary" parameterType="jobDiaryVO">
+        INSERT INTO JOB_DIARY (
+            JOB_DIARY_REPORT_DATE,
+            JOB_DIARY_WRTING_EMPL_ID,
+            JOB_DIARY_RECPTN_EMPL_ID,
+            JOB_DIARY_SBJ,
+            JOB_DIARY_CN
+        )
+        VALUES (
+                   TRUNC(SYSDATE),
+                   #{jobDiaryWrtingEmplId},
+                   #{jobDiaryRecptnEmplId},
+                   #{jobDiarySbj},
+                   #{jobDiaryCn}
+               )
+    </insert>
+
+    <select id="getDiaryByDept" parameterType="String" resultMap="jobDiaryMap">
+        SELECT JOB_DIARY_REPORT_DATE, EMPL_NM, JOB_DIARY_SBJ, JOB_DIARY_CN, JOB_DIARY_WRTING_EMPL_ID
+        FROM JOB_DIARY J, EMPL E
+        WHERE J.JOB_DIARY_WRTING_EMPL_ID = E.EMPL_ID
+          AND E.COMMON_CODE_DEPT = #{commonCodeDept}
+        ORDER BY JOB_DIARY_REPORT_DATE
+    </select>
+
+    <select id="getDiaryByInfo" parameterType="employeeVO" resultMap="jobDiaryMap">
+        SELECT JOB_DIARY_REPORT_DATE, EMPL_NM, JOB_DIARY_SBJ, JOB_DIARY_CN, JOB_DIARY_WRTING_EMPL_ID
+        FROM JOB_DIARY J, EMPL E
+        WHERE J.JOB_DIARY_WRTING_EMPL_ID = E.EMPL_ID
+          AND E.COMMON_CODE_DEPT = #{commonCodeDept}
+          AND E.EMPL_ID = #{emplId}
+        ORDER BY JOB_DIARY_REPORT_DATE
+    </select>
+
+    <select id="getDiaryByDateAndId" parameterType="String" resultMap="jobDiaryMap">
+        SELECT EMPL_NM, JOB_DIARY_SBJ, JOB_DIARY_CN
+        FROM JOB_DIARY J, EMPL E
+        WHERE J.JOB_DIARY_WRTING_EMPL_ID = E.EMPL_ID
+          AND E.EMPL_ID = #{jobDiaryWrtingEmplId}
+          and J.JOB_DIARY_REPORT_DATE = TO_DATE(#{jobDiaryReportDate}, 'YYYY-MM-DD')
+    </select>
+
+    <select id="getMaxJobNo" resultType="int">
+        SELECT COALESCE(MAX(JOB_NO), 0) FROM job
+    </select>
+
+    <insert id="insertJob" parameterType="jobVO">
+        INSERT INTO JOB (
+            JOB_NO,
+            JOB_REQUST_EMPL_ID,
+            JOB_SJ,
+            JOB_CN,
+            JOB_BEGIN_DATE,
+            JOB_CLOS_DATE,
+            JOB_REQUST_DATE,
+            COMMON_CODE_DUTY_KIND
+        )
+        VALUES (
+                   #{jobNo},
+                   #{jobRequstEmplId},
+                   #{jobSj},
+                   #{jobCn},
+                   #{jobBeginDate},
+                   #{jobClosDate},
+                   TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD'),
+                   #{commonCodeDutyKind}
+               )
+    </insert>
+
+    <insert id="insertJobProgress" parameterType="jobProgressVO">
+        INSERT INTO JOB_PROGRS (
+            JOB_NO,
+            JOB_RECPTN_EMPL_ID,
+            COMMON_CODE_DUTY_STTUS,
+            COMMON_CODE_DUTY_PROGRS
+        )
+        VALUES (
+                   #{jobNo},
+                   #{jobRecptnEmplId},
+                   #{commonCodeDutySttus},
+                   #{commonCodeDutyProgrs}
+               )
+    </insert>
+
+    <select id="getAllJobById" parameterType="String" resultType="jobVO">
+        SELECT J.JOB_NO,
+               J.JOB_REQUST_EMPL_ID,
+               J.JOB_SJ,
+               J.JOB_CN,
+               J.JOB_BEGIN_DATE,
+               J.JOB_CLOS_DATE,
+               J.JOB_REQUST_DATE,
+               J.COMMON_CODE_DUTY_KIND
+        FROM JOB J
+        WHERE J.JOB_REQUST_EMPL_ID = #{jobRequstEmplId}
+          AND J.JOB_NO NOT IN (
+            SELECT P.JOB_NO
+            FROM JOB_PROGRS P
+            WHERE P.JOB_RECPTN_EMPL_ID = #{jobRequstEmplId}
+        )
+        ORDER BY J.JOB_REQUST_DATE DESC
+    </select>
+
+    <select id="getJobByDateFilter" parameterType="map" resultType="jobVO">
+        SELECT J.JOB_NO,
+        J.JOB_REQUST_EMPL_ID,
+        J.JOB_SJ,
+        J.JOB_CN,
+        J.JOB_BEGIN_DATE,
+        J.JOB_CLOS_DATE,
+        J.JOB_REQUST_DATE,
+        J.COMMON_CODE_DUTY_KIND
+        FROM JOB J
+        WHERE J.JOB_REQUST_EMPL_ID = #{jobRequstEmplId}
+        AND J.JOB_NO NOT IN (
+        SELECT P.JOB_NO
+        FROM JOB_PROGRS P
+        WHERE P.JOB_RECPTN_EMPL_ID = #{jobRequstEmplId}
+        )
+        AND TO_CHAR(J.JOB_BEGIN_DATE, 'YYYY') = #{year}
+        <if test="month != null and month != ''">
+            AND TO_CHAR(J.JOB_BEGIN_DATE, 'MM') = #{month}
+        </if>
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+
+    <select id="getJobByNo" resultMap="jobMap" parameterType="int">
+        SELECT J.JOB_SJ,
+               J.JOB_CN,
+               J.JOB_BEGIN_DATE,
+               J.JOB_CLOS_DATE,
+               J.COMMON_CODE_DUTY_KIND,
+               P.JOB_RECPTN_EMPL_ID,
+               E.EMPL_NM AS JOB_RECPTN_EMPL_NM,
+               P.COMMON_CODE_DUTY_STTUS,
+               P.COMMON_CODE_DUTY_PROGRS
+        FROM JOB J,
+             JOB_PROGRS P,
+             EMPL E
+        WHERE J.JOB_NO = P.JOB_NO
+          AND P.JOB_RECPTN_EMPL_ID = E.EMPL_ID
+          AND J.JOB_NO = #{jobNo}
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+
+    <select id="getAllReceiveJobById" resultMap="jobMap" parameterType="String">
+        SELECT J.JOB_NO,
+               J.JOB_SJ,
+               J.JOB_REQUST_DATE,
+               E.EMPL_NM AS JOB_REQUST_EMPL_NM,
+               U.UPLOAD_FILE_STRE_NM
+        FROM JOB J,
+             JOB_PROGRS P,
+             EMPL E,
+             UPLOAD_FILE U
+        WHERE J.JOB_NO = P.JOB_NO
+          AND E.PROFL_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
+          AND J.JOB_REQUST_EMPL_ID = E.EMPL_ID
+          AND P.COMMON_CODE_DUTY_STTUS = 'DUTY020'
+          AND J.JOB_REQUST_EMPL_ID != #{jobRecptnEmplId}
+          AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+
+    <select id="getReceiveJobByNo" parameterType="int" resultMap="jobMap">
+        SELECT J.JOB_SJ,
+               J.JOB_CN,
+               J.JOB_BEGIN_DATE,
+               J.JOB_CLOS_DATE,
+               J.COMMON_CODE_DUTY_KIND,
+               E.EMPL_NM AS JOB_REQUST_EMPL_NM
+        FROM JOB J,
+             EMPL E
+        WHERE J.JOB_REQUST_EMPL_ID = E.EMPL_ID
+          AND J.JOB_NO = #{jobNo}
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+
+    <select id="getJobByNoAndId" parameterType="jobProgressVO" resultMap="jobMap">
+        SELECT J.JOB_SJ,
+               J.JOB_CN,
+               J.JOB_BEGIN_DATE,
+               J.JOB_CLOS_DATE,
+               J.COMMON_CODE_DUTY_KIND,
+               J.JOB_REQUST_EMPL_ID,
+               E.EMPL_NM AS JOB_REQUST_EMPL_NM,
+               P.COMMON_CODE_DUTY_PROGRS
+        FROM JOB J,
+             EMPL E,
+             JOB_PROGRS P
+        WHERE J.JOB_REQUST_EMPL_ID = E.EMPL_ID
+          AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
+          AND J.JOB_NO = P.JOB_NO
+          AND J.JOB_NO = #{jobNo}
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+
+    <update id="updateJobStatus" parameterType="jobProgressVO">
+        UPDATE JOB_PROGRS
+        SET COMMON_CODE_DUTY_STTUS = #{commonCodeDutySttus}
+        WHERE JOB_NO = #{jobNo}
+          AND JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
+    </update>
+
+    <update id="updateJob" parameterType="jobVO">
+        UPDATE JOB
+        SET JOB_SJ = #{jobSj},
+            JOB_CN = #{jobCn},
+            JOB_BEGIN_DATE = #{jobBeginDate},
+            JOB_CLOS_DATE = #{jobClosDate},
+            COMMON_CODE_DUTY_KIND = #{commonCodeDutyKind}
+        WHERE JOB_NO = #{jobNo}
+    </update>
+
+    <update id="updateJobProgress" parameterType="jobProgressVO">
+        UPDATE  JOB_PROGRS
+        SET COMMON_CODE_DUTY_PROGRS = #{commonCodeDutyProgrs}
+        WHERE JOB_NO = #{jobNo}
+          AND JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
+    </update>
+
+    <select id="getJobByDate" parameterType="map" resultMap="jobMap">
+        SELECT J.JOB_NO,
+               J.JOB_SJ,
+               J.JOB_CLOS_DATE,
+               J.COMMON_CODE_DUTY_KIND,
+               P.COMMON_CODE_DUTY_PROGRS
+        FROM JOB J,
+             JOB_PROGRS P
+        WHERE to_date(to_char(#{date}, 'yyyy-mm-dd'),'yyyy-mm-dd') BETWEEN JOB_BEGIN_DATE AND JOB_CLOS_DATE
+          AND J.JOB_NO = P.JOB_NO
+          AND COMMON_CODE_DUTY_STTUS = 'DUTY021'
+          AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+
+    <select id="getRequestYear" parameterType="String" resultType="String">
+        SELECT DISTINCT TO_CHAR((JOB_BEGIN_DATE), 'yyyy') AS YEAR
+        FROM JOB J, JOB_PROGRS P
+        WHERE J.JOB_NO = P.JOB_NO
+          AND P.JOB_RECPTN_EMPL_ID != J.JOB_REQUST_EMPL_ID
+          AND J.JOB_REQUST_EMPL_ID = #{jobRequestEmplId}
+    </select>
+
+    <select id="getRequestMonth" parameterType="map" resultType="String">
+        SELECT DISTINCT TO_CHAR((JOB_BEGIN_DATE), 'mm') AS MONTH
+        FROM JOB J, JOB_PROGRS P
+        WHERE J.JOB_NO = P.JOB_NO
+          AND P.JOB_RECPTN_EMPL_ID != J.JOB_REQUST_EMPL_ID
+          AND JOB_REQUST_EMPL_ID = #{jobRequestEmplId}
+          and TO_CHAR((JOB_BEGIN_DATE), 'yyyy') = #{year}
+    </select>
+
+    <select id="getReceiveJobToHome" parameterType="String" resultMap="jobMap">
+        SELECT
+        J.JOB_SJ,
+        J.JOB_BEGIN_DATE,
+        J.JOB_CLOS_DATE,
+        P.COMMON_CODE_DUTY_PROGRS
+        FROM JOB J,
+        JOB_PROGRS P,
+        EMPL E
+        WHERE ROWNUM <![CDATA[<=]]> 3
+        AND J.JOB_NO = P.JOB_NO
+        AND J.JOB_REQUST_EMPL_ID = E.EMPL_ID
+        AND P.COMMON_CODE_DUTY_STTUS = 'DUTY021'
+        AND J.JOB_REQUST_EMPL_ID != #{emplId}
+        AND P.JOB_RECPTN_EMPL_ID = #{emplId}
+        ORDER BY J.JOB_BEGIN_DATE
+    </select>
+</mapper>

@@ -1,0 +1,71 @@
+@import "../commonStyle.css";
+
+/* 공통   */
+.vacation-info-wrap {
+    height: calc((602/var(--vh))*100vh);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--vw-24);
+}
+.content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.myVation-wrap .btn {
+    width: calc((108/var(--vw))*100vw);
+    padding: var(--vh-12) 0;
+    text-align: center;
+    font-family: var(--font-reg);
+    font-size: var(--font-size-11);
+}
+.vacation-card {
+    height: 100%;
+    overflow-y: hidden;
+    padding: var(--vw-24);
+}
+.vacation-list {
+    position: relative;
+    width: 100%;
+    height: calc((480/1080)*100vh);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.vacation-list > li.vacation-list-item {
+    padding: var(--vh-24) var(--vw-24);
+    display: flex;
+    align-items: center;
+    gap: var(--vw-48);
+}
+.vacation-list li.vacation-list-item strong {
+    position: relative;
+    margin-right: 4px;
+}
+.vacation-list li.vacation-list-item strong::after {
+    content: "";
+    position: absolute;
+    right: calc(var(--vw-24)*-1);
+    top: 50%;
+    background: var(--color-font-row);
+    width: 1px;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+.no-list {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    align-self: center;
+}
+.member-profile {
+    width: var(--vw-48);
+    height: var(--vw-48);
+    border-radius: var(--size-50);
+    border: 1px solid var(--color-stroke)
+}

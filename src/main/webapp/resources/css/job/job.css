@@ -1,0 +1,467 @@
+@import "../commonStyle.css";
+
+.job-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-40);
+}
+.job-inner-top {
+    display: flex;
+    gap: var(--vw-24);
+    height: calc((276/var(--vh))*100vh);
+}
+.job-inner-top > section {
+    height: 100%;
+}
+.empl-profile {
+    width: var(--vw-32);
+    height: var(--vw-32);
+    border-radius: var(--size-50);
+    border: 1px solid var(--color-stroke);
+}
+/*  들어온 업무 요청   */
+#receive-job {
+    flex:1;
+}
+section .content-wrap {
+    height: 100%;
+    padding: var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.content-body {
+    height: 100%;
+}
+.content-body .job-list {
+    height: 80%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.no-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    align-self: center;
+}
+.list-item {
+    display: flex;
+}
+.list-item > .btn {
+    width: 100%;
+    height: var(--vh-56);
+    display: flex;
+    align-items: center;
+    gap: var(--vw-48);
+    border: none;
+}
+.receiveJob {
+    justify-content: flex-start;
+}
+.empl-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.empl-info .empl-name {
+    font-family: var(--font-b);
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+}
+.receive-job-detail {
+    display: flex;
+    gap: var(--vw-24);
+    align-items: center;
+    flex: 1;
+    justify-content: space-between;
+}
+.job-title {
+    font-size: var(--font-size-14);
+    font-family: var(--font-md);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+.receive-job-title {
+    width: 80%;
+}
+.job-date {
+    font-size: var(--font-size-11);
+    color: var(--color-font-md);
+}
+.receive-btn {
+    width: var(--vw-64);
+    height: 28px;
+    border-radius: var(--vw-32);
+    font-size: var(--font-size-11);
+    background: var(--color-white);
+}
+.jobReject {
+    border: 1px solid var(--color-font-md) !important;
+    color: var(--color-font-md);
+}
+.jobAgree {
+    border: 1px solid var(--color-main) !important;
+    color: var(--color-main);
+}
+.jobAgree:hover {
+    background: var(--color-main);
+    color: var(--color-white);
+}
+.receive-list-item .btn-wrap {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.list-item:hover {
+    background: var(--color-bg-grey);
+}
+/*  요청한 업무  */
+#request-job {
+    width: calc((500/var(--vw))*100vw);
+}
+#request-job .content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#request-job .content-header div {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.requestJob {
+    align-self: flex-end;
+    padding: var(--vh-12);
+    font-size: var(--font-size-11);
+    background: transparent !important;
+    border: 1px solid var(--color-main) !important;
+    color: var(--color-main) !important;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.requestJob:hover {
+    background: var(--color-main) !important;
+    color: white !important;;
+}
+.requestJob:hover .i-send-blue {
+    filter: invert(100%) sepia(97%) saturate(12%) hue-rotate(202deg) brightness(200%) contrast(106%)
+}
+.requestJobDetail {
+    width: 100%;
+    text-align: left;
+    justify-content: space-between;
+}
+.request-job-title {
+    width: calc((258/var(--vw))*100vw);
+}
+
+
+/*  모달  */
+
+.date > div {
+    flex: 1;
+}
+.receive-org-wrap {
+    display: flex;
+    gap: var(--vw-24);
+    align-items: center;
+}
+#orgBtn {
+    padding: var(--vh-12) var(--vw-24);
+}
+#receive {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/*  todo    */
+#todoBoard {
+    overflow-x: hidden;
+}
+/*.job-inner-bt {
+    position: absolute;
+    top: calc((516/var(--vh))*100vh);
+    overflow-x: hidden;
+}*/
+.todoBoardListWrapper {
+    display: flex;
+    gap: var(--vw-32);
+    width: 100%;
+    margin-left: -599px;
+}
+.todoBoardList {
+    width: calc((304/var(--vw))*100vw) !important;
+    background: var(--color-white);
+    overflow: hidden;
+}
+.list-header {
+    padding: var(--vh-24) var(--vw-32);
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.day {
+    font-size: var(--font-size-18);
+    font-family: var(--font-b);
+    color: white;
+}
+.addJob {
+    font-size: var(--font-size-24);
+    color: white;
+    font-family: var(--font-b);
+}
+.list-content {
+    min-height: calc((120/var(--vh))*100vh);
+    padding-bottom: var(--vh-24);
+    background: var(--color-white);
+    box-shadow: var(--clay-card);
+}
+.todoBoardList .list-content .no-list {
+    height: calc((96/var(--vh))*100vh);
+}
+.todoCard {
+    width: 100%;
+    padding: var(--vh-24) var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.todoCard-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.todoCard-title .todoName{
+    font-size: 14px;
+    color: var(--color-font-md);
+}
+.toDoClosDate {
+    font-size: 11px;
+    color: var(--color-font-md);
+}
+.dutyProgrs {
+    width: var(--vw-48);
+    padding: var(--vh-8) var(--vw-12);
+    font-size: 11px;
+    color: white;
+}
+.doing-progress {
+    background: var(--color-main);
+}
+.before-progress {
+    background: var(--color-font-row);
+}
+.done-progress {
+    background: var(--color-success);
+}
+.dutykind {
+    width: var(--vw-48);
+    padding: var(--vh-8) var(--vw-12);
+    border-width: 1px;
+    border-style: solid;
+    font-size: 11px;
+}
+.badge-duty-meeting {
+    color: #5a23ff;
+    border-color: #5a23ff;
+}
+.badge-personal-meeting {
+    color: #ff7023;
+    border-color: #ff7023;
+}
+.badge-team-meeting {
+    color: var(--color-main);
+    border-color: var(--color-main);
+}
+.badge-edu-meeting {
+    color: #6c2c00;
+    border-color: #6c2c00;
+}
+.badge-etc-meeting {
+    color: #ff23d3;
+    border-color: #ff23d3;
+}
+#receiveBox {
+    gap: 12px;
+}
+.state-list {
+    display: flex;
+    gap: 24px;
+}
+.state-list-item {
+    position: relative;
+}
+.state-list-item::after {
+    content: "";
+    position: absolute;
+    left: -70%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+}
+.state-list-wait::after {
+    background: var(--color-font-row);
+}
+.state-list-reject::after {
+    background: var(--color-error);
+}
+.state-list-agree::after {
+    background: var(--color-main);
+}
+.대기 {
+    border-radius: 8px;
+    background: var(--color-font-row);
+    padding: 10px;
+
+}
+
+.승인 {
+    border-radius: 8px;
+    background: var(--color-main);
+    padding: 10px;
+    color: white;
+}
+
+.거절 {
+    border-radius: 8px;
+    background: var(--color-error);
+    padding: 10px;
+    color: white;
+}
+.승인 > span {
+    color: white;
+}
+.거절 > span {
+    color: white;
+}
+.newJob .modal-footer .tab-new-job, .newJob .modal-footer .tab-new-request {
+    display: none;
+}
+.newJob .modal-footer .tab-new-job.on, .newJob .modal-footer .tab-new-request.on {
+    display: block;
+}
+/*  모달  */
+.newJob .tab-wrap {
+    width: calc((700/var(--vw))*100vw);
+    height: var(--vh-48);
+}
+.newJob .modal-option{
+    display: none;
+}
+.newJob .modal-option.on {
+    display: block;
+}
+.newJob .glider {
+    top: calc((4/var(--vh))*100vh);
+    width: calc((320/var(--vw))*100vw);
+    height: var(--vh-40);
+}
+.tab-wrap  #tabs input[name=tabs]#tab-new-job:checked ~ .glider {
+    transform: translateX(0);
+}
+.tab-wrap  #tabs input[name=tabs]#tab-new-request:checked ~ .glider {
+    transform: translateX(100%);
+}
+
+.request-list-wrap {
+    background: var(--color-bg-sky);
+    border-radius: 8px;
+    margin-top: -24px;
+    height: calc((168/var(--vh))*100vh);
+    overflow-y: auto;
+    margin-bottom: var(--vh-24);
+}
+.receiveJob {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: var(--vh-12) var(--vw-32);
+    gap: var(--vw-48);
+}
+.new-request .request-job-detail {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*  업무 일지   */
+#goWrite {
+    align-self: flex-end;
+}
+#inProgress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+    padding: var(--vh-24);
+    height: calc((718 / var(--vh)) * 100vh);
+}
+#inProgress .form td {
+    padding: 0;
+}
+.approval-form tbody tr td:not(:nth-child(1)) {
+    flex: 2;
+}
+
+.approval-form tbody tr td:nth-child(1) {
+    flex: 1;
+}
+
+.approval-form thead tr th:not(:nth-child(1)) {
+    flex: 2;
+}
+
+.approval-form thead tr th:nth-child(1) {
+    flex: 1;
+}
+#detail {
+    padding: var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+    align-items: center;
+    justify-content: center;
+}
+#detail .form {
+    width: 100%;
+}
+#detail .form th {
+    text-align: right;
+    padding: var(--vh-12) var(--vw-24);
+}
+#detail .form td {
+    padding: var(--vh-12) var(--vw-24);
+}
+.jobDiarySbj {
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vw-32);
+    outline-color: var(--color-main);
+}
+#detail .btn-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vw-24);
+    margin-top: var(--vh-24);
+}
+
+.detail-p {
+    width: 100%;
+}
+
+.input-text, .input-date {
+    outline: none;
+    border: none;
+    width: 100%;
+    background: rgba(0,0,0,0);
+}

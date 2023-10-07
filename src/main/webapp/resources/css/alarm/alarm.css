@@ -1,0 +1,240 @@
+@import "/resources/css/commonStyle.css";
+.alarmWrapper {
+    position: fixed;
+    right: calc(((344/var(--vw))*100vw)*-1);
+    top: 0;
+    width: calc((344/var(--vw))*100vw);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-64);
+    z-index: 999;
+    padding: calc((96/var(--vh))*100vh) var(--vw-48) 0;
+    background: var(--color-bg-alarmSide, linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.00) 100%));
+    backdrop-filter: blur(2px);
+    box-shadow: -5px 0px 68px rgba(225, 225, 225, 0.65);
+}
+.alarmWrapper.on {
+    right: 0;
+}
+.alarmWrapper .service-tab  {
+    position: absolute;
+    width: 24px;
+    height: 48px;
+    left: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: url("/resources/images/serviceBar.svg") 100% center / cover;
+}
+.alarmContainer {
+    height: calc((416/var(--vh))*100vh);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+#alarm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.alarm-title {
+    font-size: 14px;
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+}
+
+.alarm-textbox {
+}
+
+.setting {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+    padding: 0;
+}
+.alarm-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: calc((336/var(--vh))*100vh);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#allReadAlarm {
+    font-size: 11px;
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+.alarmListBox {
+    width: 100%;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid var(--color-stroke);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6.5px);
+}
+
+.alarmListBox .aTag {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: var(--vh-16);
+}
+.alarmListBox .aTag h1 {
+    font-size: 14px;
+    font-family: var(--font-md);
+}
+
+.alarmListBox .aTag p {
+    font-size: 11px;
+    white-space: nowrap;
+    word-break: break-all;
+    color: var(--color-font-md);
+    vertical-align: middle;
+    line-height: 1.2;
+}
+.alarmListBox .aTag p span {
+    font-size: 11px;
+    color: var(--color-font-high);
+    vertical-align: baseline;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15ch;
+    font-family: var(--font-sb);
+}
+.alarmListBox .readBtn {
+    background: transparent;
+    border: 1px solid transparent;
+    position: absolute;
+    top: var(--vh-16);
+    right: var(--vh-16);
+    padding: 0;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.no-memo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc((240/var(--vh))*100vh);
+    border-radius: 12px;
+    border: 1px dashed var(--color-font-md);
+}
+#addMemo {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--size-50);
+    background: var(--color-font-md);
+}
+#addMemo::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 24px;
+    height: 24px;
+    background: url("/resources/images/icon/add-white.svg");
+}
+.fixed-memo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transform: perspective(800px) rotateY(0deg);
+    transform-style: preserve-3d;
+    gap: var(--vh-24);
+}
+.fixed-memo.on {
+    transform: perspective(800px) rotateY(180deg);
+}
+.fixed-memo-list {
+    height: calc((240/var(--vh))*100vh);
+    padding: var(--vh-24);
+    border: 1px solid var(--color-white);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6.5px);
+}
+.fixed-memo .fixed-memo-list.back{
+    position: absolute;
+    left: 0;
+    top: var(--vh-40);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+    transform: rotateY(180deg);
+}
+.fixed-memo > * {
+    backface-visibility: hidden;
+}
+.memo-list-wrap {
+    display: flex;
+    flex-direction: column;
+    height: calc((136/var(--vh))*100vh);
+    gap: 8px;
+}
+.memo-list {
+    display: flex;
+    flex-direction: column;
+    height: calc((102/var(--vh))*100vh);;
+    gap: 8px;
+    overflow-y: auto;
+}
+#memoTitleData {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+}
+#memoTitleData .title, .memo-list-wrap .title {
+    font-size: 11px;
+    font-family: var(--font-sb);
+}
+.text {
+    font-size: 11px;
+}
+.memo-list .memoCn {
+    font-size: 11px;
+}
+#memo-header {
+    align-self: flex-end;
+}
+#settingMemo {
+    font-size: 11px;
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+#settingMemo .i-memo {
+    filter: invert(44%) sepia(30%) saturate(208%) hue-rotate(173deg) brightness(96%) contrast(86%);
+}
+.flip-memo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+}
+#memoDetailDataTitle {
+    font-size: 14px;
+    font-family: var(--font-sb);
+}
+#memoDetailDataContent {
+    font-size: 11px;
+    height: 80%;
+}
+#memoDetailDataDate{
+    font-size: 9px;
+    color:var(--color-font-md);
+}
+
+.none-alarm {
+    margin: auto;
+}

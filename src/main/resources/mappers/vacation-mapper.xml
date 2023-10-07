@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.vacation.VacationMapper">
+    <select id="loadVacationCnt" parameterType="string" resultType="vacationVO">
+        SELECT YRYC_EMP_ID,
+               YRYC_USE_CO,
+               YRYC_NOW_CO
+        FROM YRYC
+        WHERE YRYC_EMP_ID = #{emplId}
+    </select>
+
+    <select id="loadVacationRecord" parameterType="string" resultType="vacationUseVO">
+        SELECT Y.YRYC_USE_DTLS_SN,
+               Y.YRYC_USE_DTLS_BEGIN_DATE,
+               Y.YRYC_USE_DTLS_END_DATE,
+               Y.YRYC_USE_DTLS_RM,
+               Y.COMMON_CODE_YRYC_USE_KIND,
+               Y.COMMON_CODE_YRYC_USE_SE,
+               Y.COMMON_CODE_YRYC_STATE
+        FROM YRYC_USE_DTLS Y,
+             EMPL E
+        WHERE Y.YRYC_USE_DTLS_EMPL_ID = #{emplId}
+          AND Y.YRYC_USE_DTLS_EMPL_ID = E.EMPL_ID
+        ORDER BY YRYC_USE_DTLS_BEGIN_DATE DESC
+    </select>
+
+    <insert id="inputVacation" parameterType="vacationUseVO" useGeneratedKeys="true" keyProperty="generatedKey">
+        INSERT INTO YRYC_USE_DTLS( YRYC_USE_DTLS_SN
+        , YRYC_USE_DTLS_BEGIN_DATE
+        , YRYC_USE_DTLS_END_DATE
+        , YRYC_USE_DTLS_RM
+        , COMMON_CODE_YRYC_USE_KIND
+        , COMMON_CODE_YRYC_USE_SE
+        , YRYC_USE_DTLS_EMPL_ID
+        , COMMON_CODE_YRYC_STATE)
+        VALUES (YRYC_USE_DTLS_SEQ.nextval,
+        #{yrycUseDtlsBeginDate},
+        #{yrycUseDtlsEndDate},
+        #{yrycUseDtlsRm},
+        #{commonCodeYrycUseKind},
+        #{commonCodeYrycUseSe},
+        #{yrycUseDtlsEmplId},
+        'YRYC030')
+        <selectKey keyProperty="yrycUseDtlsSn" resultType="int" order="AFTER">
+            SELECT YRYC_USE_DTLS_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <select id="loadVacationDetail" parameterType="int" resultType="vacationUseVO">
+        SELECT YRYC_USE_DTLS_SN,
+               YRYC_USE_DTLS_BEGIN_DATE,
+               YRYC_USE_DTLS_END_DATE,
+               YRYC_USE_DTLS_RM,
+               COMMON_CODE_YRYC_USE_KIND,
+               COMMON_CODE_YRYC_USE_SE,
+               COMMON_CODE_YRYC_STATE
+        FROM YRYC_USE_DTLS
+        WHERE YRYC_USE_DTLS_SN = #{yrycUseDtlsSn}
+    </select>
+
+    <select id="getSeq" parameterType="String" resultType="String">
+        SELECT #{formatSanctnKnd} || '-' || TO_CHAR(SYSDATE, 'YYYY') || '-' || LPAD(
+                (SELECT TO_NUMBER(COUNT(*)) + 1
+                 FROM YRYC_USE_DTLS
+                 WHERE SUBSTR(YRYC_USE_DTLS_SN, 1, INSTR(YRYC_USE_DTLS_SN, '-') - 1) = #{formatSanctnKnd}), 4, '0'
+            ) AS elctrnSanctnEtprCode
+        FROM DUAL
+    </select>
+
+    <update id="modifyStatus" parameterType="map">
+        UPDATE YRYC_USE_DTLS
+        SET COMMON_CODE_YRYC_STATE = #{state}
+        WHERE YRYC_USE_DTLS_SN = #{approveId}
+    </update>
+
+    <select id="loadConfirmedVacation" parameterType="String" resultType="vacationUseVO">
+        SELECT Y.YRYC_USE_DTLS_BEGIN_DATE,
+               Y.YRYC_USE_DTLS_END_DATE,
+               Y.COMMON_CODE_YRYC_USE_KIND
+        FROM YRYC_USE_DTLS Y,
+             EMPL E
+        WHERE Y.YRYC_USE_DTLS_EMPL_ID = #{emplId}
+          AND Y.YRYC_USE_DTLS_EMPL_ID = E.EMPL_ID
+          AND Y.COMMON_CODE_YRYC_STATE = 'YRYC032'
+        ORDER BY YRYC_USE_DTLS_BEGIN_DATE DESC
+    </select>
+
+    <select id="loadTeamMemVacation" parameterType="String" resultType="vacationUseVO">
+        SELECT Y.YRYC_USE_DTLS_SN,
+               Y.YRYC_USE_DTLS_EMPL_ID,
+               Y.YRYC_USE_DTLS_BEGIN_DATE,
+               Y.YRYC_USE_DTLS_END_DATE,
+               Y.COMMON_CODE_YRYC_USE_KIND,
+               E.EMPL_NM              AS YRYC_USE_DTLS_EMPL_NM,
+               UF.UPLOAD_FILE_STRE_NM AS PROFILE_FILE_NAME
+        FROM YRYC_USE_DTLS Y
+                 JOIN EMPL E ON Y.YRYC_USE_DTLS_EMPL_ID = E.EMPL_ID
+                 JOIN UPLOAD_FILE UF ON E.PROFL_ETPR_CODE = UF.UPLOAD_FILE_ETPR_CODE
+        WHERE E.COMMON_CODE_DEPT = (SELECT E1.COMMON_CODE_DEPT FROM EMPL E1 WHERE E1.EMPL_ID = #{emplId})
+          AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') BETWEEN TO_CHAR(Y.YRYC_USE_DTLS_BEGIN_DATE, 'YYYY-MM-DD') AND TO_CHAR(Y.YRYC_USE_DTLS_END_DATE, 'YYYY-MM-DD')
+          AND Y.COMMON_CODE_YRYC_STATE = 'YRYC032'
+          AND Y.YRYC_USE_DTLS_EMPL_ID != #{emplId}
+        ORDER BY YRYC_USE_DTLS_BEGIN_DATE DESC
+    </select>
+
+    <select id="loadVacationBySn" parameterType="int" resultType="vacationUseVO">
+        SELECT YRYC_USE_DTLS_SN,
+               YRYC_USE_DTLS_BEGIN_DATE,
+               YRYC_USE_DTLS_END_DATE,
+               YRYC_USE_DTLS_RM,
+               COMMON_CODE_YRYC_USE_KIND,
+               COMMON_CODE_YRYC_USE_SE,
+               YRYC_USE_DTLS_EMPL_ID,
+               COMMON_CODE_YRYC_STATE
+        FROM YRYC_USE_DTLS
+        WHERE YRYC_USE_DTLS_SN = #{yrycUseDtlsSn}
+    </select>
+
+    <update id="modifyVacationCount" parameterType="vacationUseVO">
+        UPDATE YRYC
+        SET YRYC_USE_CO = YRYC_USE_CO +
+                          (SELECT CASE
+                                      WHEN COMMON_CODE_YRYC_USE_KIND = 'YRYC010' and
+                                           COMMON_CODE_YRYC_USE_SE = 'YRYC022'
+                                          THEN 1
+                                      WHEN COMMON_CODE_YRYC_USE_KIND = 'YRYC010' and
+                                           COMMON_CODE_YRYC_USE_SE IN ('YRYC020', 'YRYC021') THEN 0.5
+                                      ELSE 0
+                                      END
+                           FROM YRYC_USE_DTLS
+                           WHERE YRYC_USE_DTLS_EMPL_ID = #{yrycUseDtlsEmplId}
+                             AND COMMON_CODE_YRYC_USE_SE IN ('YRYC020', 'YRYC021', 'YRYC022')
+                             AND YRYC_USE_DTLS_SN = #{yrycUseDtlsSn}),
+            YRYC_NOW_CO = YRYC_NOW_CO -
+                          (SELECT CASE
+                                      WHEN COMMON_CODE_YRYC_USE_KIND = 'YRYC010' and
+                                           COMMON_CODE_YRYC_USE_SE = 'YRYC022'
+                                          THEN 1
+                                      WHEN COMMON_CODE_YRYC_USE_KIND = 'YRYC010' and
+                                           COMMON_CODE_YRYC_USE_SE IN ('YRYC020', 'YRYC021') THEN 0.5
+                                      ELSE 0
+                                      END
+                           FROM YRYC_USE_DTLS
+                           WHERE YRYC_USE_DTLS_EMPL_ID = #{yrycUseDtlsEmplId}
+                             AND COMMON_CODE_YRYC_USE_SE IN ('YRYC020', 'YRYC021', 'YRYC022')
+                             AND YRYC_USE_DTLS_SN = #{yrycUseDtlsSn})
+        WHERE YRYC_EMP_ID = #{yrycUseDtlsEmplId}
+    </update>
+
+    <select id="loadAllEmplVacation" resultType="vacationVO">
+        SELECT Y.YRYC_EMP_ID,
+               E.EMPL_NM,
+               (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = E.COMMON_CODE_DEPT) AS DEPT_NM,
+               (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = E.COMMON_CODE_CLSF) AS CLSF_NM,
+               E.EMPL_ENCPN,
+               Y.YRYC_NOW_CO
+        FROM YRYC Y, EMPL E
+        WHERE Y.YRYC_EMP_ID = E.EMPL_ID
+          AND E.COMMON_CODE_CLSF != 'CLSF010'
+        ORDER BY DEPT_NM , E.COMMON_CODE_CLSF
+    </select>
+
+    <update id="modifyYrycNowCo" parameterType="vacationVO">
+        UPDATE YRYC
+        SET YRYC_NOW_CO = ${yrycNowCo}
+        WHERE YRYC_EMP_ID = #{yrycEmpId}
+    </update>
+
+    <update id="modifyVacationOnNewYear">
+        UPDATE YRYC
+        SET YRYC_NOW_CO = (YRYC_NOW_CO + 15)
+        WHERE YRYC_EMP_ID
+                  IN (SELECT EMPL_ID
+                      FROM EMPL
+                      WHERE EXTRACT(YEAR FROM EMPL_ENCPN) <![CDATA[<]]> EXTRACT(YEAR FROM SYSDATE)
+              )
+    </update>
+    <update id="modifyRequest" parameterType="vacationUseVO">
+        UPDATE YRYC_USE_DTLS
+        SET COMMON_CODE_YRYC_USE_SE = #{commonCodeYrycUseSe},
+            COMMON_CODE_YRYC_USE_KIND = #{commonCodeYrycUseKind},
+            YRYC_USE_DTLS_BEGIN_DATE = #{yrycUseDtlsBeginDate},
+            YRYC_USE_DTLS_END_DATE = #{yrycUseDtlsEndDate},
+            YRYC_USE_DTLS_RM = #{yrycUseDtlsRm}
+        WHERE YRYC_USE_DTLS_SN = #{yrycUseDtlsSn}
+    </update>
+
+</mapper>
