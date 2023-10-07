@@ -259,7 +259,7 @@ function loadTeamNotiFnc() {
                 '<div class="notice-wrap">' +
                 '   <div class="notice-list-wrap">';
             data.forEach(item => {
-                code += `<div class="card card-df pd-32 accordion" id="${item.sntncEtprCode}">
+                code += `<div class="card card-df pd-24 accordion" id="${item.sntncEtprCode}">
                                 <input type="checkbox" id="accordion-${item.sntncEtprCode}"/>
                                 <label class="card-header" for="accordion-${item.sntncEtprCode}">
                                      <div class="accordion-header">

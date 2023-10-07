@@ -126,6 +126,7 @@
 
 /* ///// padding ///// */
 .pd-32 {padding: var(--vw-32);}
+.pd-24 {padding: var(--vw-24);}
 .pd-10 {padding: var(--vw-10);}
 /* ///// card ///// */
 .card-df {background-color: var(--color-white); box-shadow: var(--clay-card); border: 1px solid var(--color-stroke); border-radius: var(--vw-32)}

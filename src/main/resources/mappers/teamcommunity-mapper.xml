@@ -135,7 +135,7 @@
                 SYSDATE,
                 'SNTNC011')
     </insert>
-    <select id="loadTeamNoti" resultType="sntncVO">
+    <select id="loadTeamNoti" resultType="sntncVO" parameterType="String">
         SELECT
             S.SNTNC_ETPR_CODE,
             S.SNTNC_WRTING_EMPL_ID,
@@ -150,6 +150,7 @@
             FROM EMPL E1
             WHERE E1.EMPL_ID = #{emplId}
         )
+        ORDER BY S.SNTNC_WRTING_DATE DESC
     </select>
     <update id="modifyTeamNoti" parameterType="map">
         UPDATE SNTNC

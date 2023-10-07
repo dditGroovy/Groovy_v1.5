@@ -470,6 +470,11 @@ i.accordion-arrow.icon {
     width: 24px;
     height: 24px;
 }
+.notice-list-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
 .notice-list-wrap .btn-wrap {
     display: flex;
     align-items: center;
