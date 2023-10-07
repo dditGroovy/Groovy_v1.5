@@ -9,6 +9,10 @@
 <script src="/resources/fullcalendar/ko.js"></script>
 
 <style>
+	
+	.fc-theme-standard td {
+		height: 130px;	
+	}  
 
     .fc-event-time {
         display: none;
@@ -20,6 +24,7 @@
 	#calendar{
 		margin-top: var(--vh-40);
 	}
+}
 </style>
 
 <div class="content-container">
@@ -69,7 +74,8 @@
 					navLinks: true,
 					selectable: true,
 					events: datas,
-					locale: 'ko'
+					locale: 'ko',
+					dayMaxEvents: 4
 				});
 				calendar.render();
 			});
