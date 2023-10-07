@@ -83,28 +83,37 @@
                                     <th>상태</th>
                                     <th>근무시간</th>
                                 </tr>
-                                <c:forEach var="commuteVO" items="${commuteVOList}">
-                                    <c:set var="minutes" value="${commuteVO.dclzDailWorkTime}" />
-                                    <tr>
-                                        <td>${commuteVO.dclzWorkDe}</td>
-                                        <td>${commuteVO.dclzAttendTm}</td>
-                                        <td>${commuteVO.dclzLvffcTm}</td>
-                                        <td>${commuteVO.commonCodeLaborSttus}</td>
-                                        <c:choose>
-                                            <c:when test="${minutes >= 60}">
-                                                <c:set var="hours" value="${minutes / 60}" />
-                                                <fmt:formatNumber value="${hours}" pattern="00" var="formattedHours" />
-                                                <c:set var="remainMinutes" value="${minutes % 60}" />
-                                                <fmt:formatNumber value="${remainMinutes}" pattern="00" var="formattedMinutes" />
-                                                <td>${formattedHours}시간 ${formattedMinutes}분</td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <fmt:formatNumber value="${minutes}" pattern="00" var="formatMinutes" />
-                                                <td>00시간 ${formatMinutes}분</td>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </tr>
-                                </c:forEach>
+                                <c:choose>
+                                    <c:when test="${empty commuteVOList}">
+                                        <tr>
+                                            <td colspan="5">데이터가 없습니다.</td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="commuteVO" items="${commuteVOList}">
+                                            <c:set var="minutes" value="${commuteVO.dclzDailWorkTime}" />
+                                            <tr>
+                                                <td>${commuteVO.dclzWorkDe}</td>
+                                                <td>${commuteVO.dclzAttendTm}</td>
+                                                <td>${commuteVO.dclzLvffcTm}</td>
+                                                <td>${commuteVO.commonCodeLaborSttus}</td>
+                                                <c:choose>
+                                                    <c:when test="${minutes >= 60}">
+                                                        <c:set var="hours" value="${minutes / 60}" />
+                                                        <fmt:formatNumber value="${hours}" pattern="00" var="formattedHours" />
+                                                        <c:set var="remainMinutes" value="${minutes % 60}" />
+                                                        <fmt:formatNumber value="${remainMinutes}" pattern="00" var="formattedMinutes" />
+                                                        <td>${formattedHours}시간 ${formattedMinutes}분</td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <fmt:formatNumber value="${minutes}" pattern="00" var="formatMinutes" />
+                                                        <td>00시간 ${formatMinutes}분</td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
                             </table>
                         </div>
                     </div>
