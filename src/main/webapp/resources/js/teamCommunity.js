@@ -242,7 +242,9 @@ post.forEach((item) => {
 
         /*  댓글 불러오기 */
         if (target.classList.contains("loadAnswer")) {
-            !target.closest(".post-card").classList.contains(".post-card") ? target.closest(".post-card").classList.add("on") : target.closest(".post-card").classList.remove("on")
+            if(target.closest(".post-card")){
+                target.closest(".post-card").classList.toggle("on")
+            }
             loadAnswerFn(sntncEtprCode, item);
         }
     })
@@ -305,14 +307,18 @@ teamEnter.addEventListener("click", function (e) {
     if (target.classList.contains("accordion-header") || target.closest(".accordion-header")) {
         // 라벨 클릭 시 체크박스 체크/해제
         const label = target.closest('.card-header');
-        label.addEventListener('click', function () {
-            const checkbox = this.previousElementSibling;
+        if(label){
+            const checkbox = label.previousElementSibling;
             const checkboxes = document.querySelectorAll('input[id*="accordion"]');
-            checkboxes.forEach(item => {
-                item.checked = false;
-            })
-            checkbox.checked = !checkbox.checked;
-        });
+            if(checkbox.checked){
+                checkbox.checked = !checkbox.checked;
+            }else {
+                checkboxes.forEach(item => {
+                    item.checked = false;
+                })
+                checkbox.checked = !checkbox.checked;
+            }
+        }
     }
 
     if (target.classList.contains("notimodifyBtn")) {

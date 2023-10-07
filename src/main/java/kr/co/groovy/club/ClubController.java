@@ -16,20 +16,18 @@ import java.util.Map;
 @Controller
 public class ClubController {
     final ClubService service;
-    String emplId;
-
     public ClubController(ClubService service) {this.service = service;}
 
     @GetMapping("")
-    public String loadClub(Model model, Principal principal){
-        emplId = principal.getName();
+    public String loadClub(Model model){
         List<ClubVO> loadAllClub = service.loadAllClub("1");
         model.addAttribute("clubList",loadAllClub);
         return "common/club";
     }
     @ResponseBody
     @GetMapping("/{clbEtprCode}")
-    public List<ClubVO> loadClub(@PathVariable String clbEtprCode){
+    public List<ClubVO> loadClub(@PathVariable String clbEtprCode, Principal principal){
+        String emplId = principal.getName();
         Map<String, Object> map = new HashMap<>();
         map.put("clbEtprCode",clbEtprCode);
         map.put("clbMbrEmplId",emplId);
@@ -37,7 +35,8 @@ public class ClubController {
         return clubDetail;
     }
     @PostMapping("/inputClub")
-    public String inputClub(@RequestParam Map<String, Object> map){
+    public String inputClub(@RequestParam Map<String, Object> map, Principal principal){
+        String emplId = principal.getName();
         map.put("clbChirmnEmplId",emplId);
         map.put("clbMbrEmplId",emplId);
         service.inputClub(map);
@@ -45,14 +44,16 @@ public class ClubController {
     }
     @ResponseBody
     @PostMapping("/inputClubMbr")
-    public String inputClubMbr(@RequestBody Map<String, Object> map){
+    public String inputClubMbr(@RequestBody Map<String, Object> map, Principal principal){
+        String emplId = principal.getName();
         map.put("clbMbrEmplId",emplId);
         service.inputClubMbr(map);
         return "가입 성공~";
     }
     @ResponseBody
     @PutMapping("/updateClubMbrAct")
-    public int updateClubMbrAct(@RequestBody Map<String, Object> map){
+    public int updateClubMbrAct(@RequestBody Map<String, Object> map, Principal principal){
+        String emplId = principal.getName();
         map.put("clbMbrEmplId",emplId);
         return service.updateClubMbrAct(map);
     }

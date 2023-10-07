@@ -26,8 +26,6 @@ public class CommunityController {
     final
     String uploadPath;
 
-    String emplId;
-
     public CommunityController(CommunityService service, CommonService commonService, String uploadPath) {
         this.service = service;
         this.commonService = commonService;
@@ -36,7 +34,7 @@ public class CommunityController {
 
     @GetMapping("")
     public ModelAndView teamCommunity(Principal principal, ModelAndView mav) {
-        emplId = principal.getName();
+        String emplId = principal.getName();
         List<SntncVO> sntncList = service.loadPost(emplId);
         Map<String, Integer> recommendPostCnt = new HashMap<>();
         Map<String, Integer> recommendedEmpleChk = new HashMap<>();
@@ -65,7 +63,8 @@ public class CommunityController {
     }
 
     @PostMapping("/inputPost")
-    public String postWrite(String sntncCn, MultipartFile postFile) throws IOException {
+    public String postWrite(String sntncCn, MultipartFile postFile,Principal principal) throws IOException {
+        String emplId = principal.getName();
         try {
             SntncVO vo = new SntncVO();
             vo.setSntncWrtingEmplId(emplId);
@@ -79,7 +78,8 @@ public class CommunityController {
     }
     @ResponseBody
     @PutMapping("/modifyPost")
-    public String modifyPost(@RequestBody Map<String, Object> map){
+    public String modifyPost(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("sntncWrtingEmplId", emplId);
             int result = service.modifyPost(map);
@@ -92,7 +92,8 @@ public class CommunityController {
     /*  포스트 삭제 */
     @ResponseBody
     @DeleteMapping("/deletePost")
-    public String deletePost(@RequestBody Map<String, Object> map){
+    public String deletePost(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("sntncWrtingEmplId", emplId);
             service.deletePost(map);
@@ -106,7 +107,8 @@ public class CommunityController {
     /* 좋아요 구현 */
     @ResponseBody
     @PostMapping("/inputRecommend")
-    public int inputRecommend(RecommendVO vo){
+    public int inputRecommend(RecommendVO vo,Principal principal){
+        String emplId = principal.getName();
         try {
             vo.setRecomendEmplId(emplId);
             service.inputRecommend(vo);
@@ -121,7 +123,8 @@ public class CommunityController {
     }
     @ResponseBody
     @PostMapping("/deleteRecommend")
-    public int deleteRecommend(RecommendVO vo){
+    public int deleteRecommend(RecommendVO vo,Principal principal){
+        String emplId = principal.getName();
         try {
             vo.setRecomendEmplId(emplId);
             service.deleteRecommend(vo);
@@ -137,7 +140,8 @@ public class CommunityController {
 
     @ResponseBody
     @PostMapping("/inputAnswer")
-    public int inputAnswer(@RequestBody Map<String, Object> map){
+    public int inputAnswer(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("answerWrtingEmplId",emplId);
             String sntncEtprCode = (String) map.get("sntncEtprCode");
@@ -161,7 +165,8 @@ public class CommunityController {
 
     @ResponseBody
     @PostMapping("/inputTeamNoti")
-    public String inputTeamNoti(@RequestBody Map<String, Object> map){
+    public String inputTeamNoti(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("sntncWrtingEmplId",emplId);
             service.inputTeamNoti(map);
@@ -176,12 +181,14 @@ public class CommunityController {
 
     @ResponseBody
     @PostMapping("/loadTeamNoti")
-    public List<SntncVO> loadTeamNoti(){
+    public List<SntncVO> loadTeamNoti(Principal principal){
+        String emplId = principal.getName();
         return service.loadTeamNoti(emplId);
     }
     @ResponseBody
     @PutMapping("/modifyTeamNoti")
-    public String loadTeamNoti(@RequestBody Map<String, Object> map){
+    public String loadTeamNoti(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("sntncWrtingEmplId",emplId);
             service.modifyTeamNoti(map);
@@ -194,13 +201,15 @@ public class CommunityController {
 
     @ResponseBody
     @GetMapping("/loadAllRegistVote")
-    public List<VoteRegisterVO> loadAllRegistVote(){
+    public List<VoteRegisterVO> loadAllRegistVote(Principal principal){
+        String emplId = principal.getName();
         List<VoteRegisterVO> voteList = service.loadAllRegistVote(emplId);
         return voteList;
     }
     @ResponseBody
     @PostMapping("/inputVote")
-    public String inputVote(@RequestBody Map<String, Object> map){
+    public String inputVote(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("votePartcptnEmpId",emplId);
             service.inputVote(map);
@@ -213,7 +222,8 @@ public class CommunityController {
     }
     @ResponseBody
     @DeleteMapping("/deleteVote")
-    public String deleteVote(@RequestBody Map<String, Object> map){
+    public String deleteVote(@RequestBody Map<String, Object> map,Principal principal){
+        String emplId = principal.getName();
         try {
             map.put("votePartcptnEmpId",emplId);
             service.deleteVote(map);
@@ -226,7 +236,8 @@ public class CommunityController {
 
     @PostMapping("/inputVoteRegist")
     @ResponseBody
-    public String inputVoteRegist(VoteRegisterVO vo){
+    public String inputVoteRegist(VoteRegisterVO vo,Principal principal){
+        String emplId = principal.getName();
         try {
             vo.setVoteRegistEmpId(emplId);
             service.inputVoteRegist(vo);
