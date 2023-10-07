@@ -48,6 +48,7 @@ public class AlarmHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String msg = message.getPayload();
+        log.info("msg: {}", msg);
         if (msg != null) {
             String[] msgs = msg.split(",");
             String seq = msgs[0];
@@ -77,6 +78,7 @@ public class AlarmHandler extends TextWebSocketHandler {
                 String sendName = msgs[3];
                 String deptName = msgs[4];
                 String registId = msgs[5];
+
                 List<String> emplIdList = service.loadEmplByDept(deptName);
                 for (WebSocketSession webSocketSession : sessions) {
                     String userId = currentUserId(webSocketSession);

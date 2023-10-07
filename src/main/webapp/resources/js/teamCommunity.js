@@ -183,7 +183,7 @@ post.forEach((item) => {
                     contentType: "application/json",
                     dataType: "text",
                     success: function (data) {
-                        answerCnt.innerText = data;
+                        answerCnt.innerText = data + " Comments";
                         answerContent.value = "";
                         loadAnswerFn(sntncEtprCode, item);
 
@@ -196,6 +196,7 @@ post.forEach((item) => {
                                 let content = `<div class="alarmListBox">
                                                     <a href="${url}" class="aTag" data-seq="${maxNum}">
                                                         <div class="alarm-textbox">
+                                                            <h1>[팀 커뮤니티]</h1>
                                                             <p>[<span>${subject}</span>]에
                                                             ${emplNm}님이 댓글을 등록하셨습니다.</p>
                                                         </div>
@@ -467,7 +468,7 @@ insertNotice.addEventListener("click", () => {
                         data: alarmVO,
                         success: function () {
                             if (socket) {
-                                let msg = maxNum + ",teamNoti," + url + "," + emplNm + "," + emplDept;
+                                let msg = maxNum + ",teamNoti," + url + "," + emplNm + "," + emplDept  + "," + emplId;
                                 socket.send(msg);
                             }
                         },
