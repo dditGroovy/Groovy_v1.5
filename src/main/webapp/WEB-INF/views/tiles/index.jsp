@@ -47,7 +47,12 @@
 <script>
     const loading_page = document.getElementById("loading");
     window.onload = function(){
-        loading_page.style.display = 'none';
+        setTimeout(function() {
+            window.scrollTo(0, 0);
+            loading_page.style.display = 'none';
+            document.body.style.overflowY = 'auto';
+        }, 100);
+
     }
 </script>
 </body>
