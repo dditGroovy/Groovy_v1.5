@@ -9,27 +9,29 @@ import kr.co.groovy.enums.SanctionProgress;
 import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.*;
 
 @Slf4j
 @Service
 public class SanctionService {
     final SanctionMapper mapper;
     final WebApplicationContext context;
+    final String uploadPath;
 
 
-    public SanctionService(SanctionMapper mapper, WebApplicationContext context) {
+    public SanctionService(SanctionMapper mapper, WebApplicationContext context, String uploadPath) {
         this.mapper = mapper;
         this.context = context;
+        this.uploadPath = uploadPath;
     }
 
 
@@ -67,16 +69,16 @@ public class SanctionService {
 
     }
 
-    public SanctionFormatVO loadFormat(String format) {
+    public SanctionFormatVO loadFormat(String format) throws SQLException {
         return mapper.loadFormat(format);
     }
 
-    public String getSeq(String formatSanctnKnd) {
+    public String getSeq(String formatSanctnKnd) throws SQLException {
         return mapper.getSeq(formatSanctnKnd);
     }
 
 
-    public int getStatus(String elctrnSanctnDrftEmplId, String commonCodeSanctProgrs) {
+    public int getStatus(String elctrnSanctnDrftEmplId, String commonCodeSanctProgrs) throws SQLException {
         return mapper.getStatus(elctrnSanctnDrftEmplId, commonCodeSanctProgrs);
     }
 
@@ -88,7 +90,7 @@ public class SanctionService {
         return list;
     }
 
-    public List<SanctionVO> loadRequest(String emplId) {
+    public List<SanctionVO> loadRequest(String emplId) throws SQLException {
         List<SanctionVO> list = mapper.loadRequest(emplId);
         for (SanctionVO vo : list) {
             vo.setElctrnSanctnFormatCode(SanctionFormat.valueOf(vo.getElctrnSanctnFormatCode()).label());
@@ -98,7 +100,7 @@ public class SanctionService {
         return list;
     }
 
-    public void inputSanction(ParamMap requestData) {
+    public void inputSanction(ParamMap requestData) throws IOException {
         SanctionVO vo = new SanctionVO();
         String etprCode = requestData.getString("etprCode");
         String formatCode = requestData.getString("formatCode");
@@ -139,13 +141,19 @@ public class SanctionService {
         }
     }
 
-    private SanctionLineVO createSanctionLine(String etprCode, String approver, int index, List<String> approverList) {
+    private SanctionLineVO createSanctionLine(String etprCode, String approver, int index, List<String> approverList) throws IOException {
         SanctionLineVO lineVO = new SanctionLineVO();
         lineVO.setElctrnSanctnEtprCode(etprCode);
         lineVO.setElctrnSanctnemplId(approver);
         lineVO.setSanctnLineOrdr(String.valueOf(index + 1));
         lineVO.setCommonCodeSanctProgrs(index == 0 ? "SANCTN013" : "SANCTN014");
         lineVO.setElctrnSanctnFinalAt(index == approverList.size() - 1 ? "Y" : "N");
+
+        // 서명 파일 저장
+        String fileName = mapper.getSign(approver);
+        byte[] signImg = FileUtils.readFileToByteArray(new File(String.format("%s/sign/%s", uploadPath, fileName)));
+        String encodedString = Base64.getEncoder().encodeToString(signImg);
+        lineVO.setSanctnLineSign(encodedString);
         return lineVO;
     }
 

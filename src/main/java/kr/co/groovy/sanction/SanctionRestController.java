@@ -8,6 +8,8 @@ import kr.co.groovy.vo.SanctionVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +61,7 @@ public class SanctionRestController {
 
     /* 결재선 포함 결재 문서 내용 insert */
     @PostMapping("/sanction")
-    public void inputSanction(@RequestBody ParamMap requestData) {
+    public void inputSanction(@RequestBody ParamMap requestData) throws IOException {
         service.inputSanction(requestData);
     }
 
@@ -68,12 +70,12 @@ public class SanctionRestController {
      */
 
     @GetMapping("/status")
-    public String getStatus(String emplId, String progrs) {
+    public String getStatus(String emplId, String progrs) throws SQLException {
         return String.valueOf(service.getStatus(emplId, progrs));
     }
 
     @GetMapping("/request/{emplId}")
-    public List<SanctionVO> loadRequest(@PathVariable String emplId) {
+    public List<SanctionVO> loadRequest(@PathVariable String emplId) throws SQLException {
         return service.loadRequest(emplId);
     }
 
@@ -93,7 +95,7 @@ public class SanctionRestController {
      */
 
     @GetMapping("/line/{emplId}")
-    public List<EmployeeVO> loadAllLine(@PathVariable String emplId,  @RequestParam(required = false, defaultValue = "")  String keyword) {
+    public List<EmployeeVO> loadAllLine(@PathVariable String emplId, @RequestParam(required = false, defaultValue = "") String keyword) {
         return service.loadAllLine(emplId, keyword);
     }
 

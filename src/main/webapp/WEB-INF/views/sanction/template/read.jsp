@@ -87,7 +87,7 @@
                                                     <img src="${pageContext.request.contextPath}/resources/images/reject.png"/>
                                                 </c:when>
                                                 <c:when test="${lineVO.commonCodeSanctProgrs == '승인'}">
-                                                    <img src="/uploads/sign/${lineVO.uploadFileStreNm}"/>
+                                                    <img src="data:image/png;base64,${lineVO.sanctnLineSign}"/>
                                                 </c:when>
                                                 <c:otherwise>
                                                     ${lineVO.emplNm}

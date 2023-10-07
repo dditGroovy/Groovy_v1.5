@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Slf4j
@@ -70,7 +71,7 @@ public class SanctionController {
      * @param code 양식 코드
      */
     @GetMapping("/format/{kind}/{code}")
-    public String writeSanction(@PathVariable String kind, @PathVariable String code, Model model) {
+    public String writeSanction(@PathVariable String kind, @PathVariable String code, Model model) throws SQLException {
         String etprCode = service.getSeq(Department.valueOf(kind).label());
         SanctionFormatVO vo = service.loadFormat(code);
         model.addAttribute("format", vo);

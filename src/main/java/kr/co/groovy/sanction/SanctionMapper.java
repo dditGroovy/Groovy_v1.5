@@ -1,24 +1,23 @@
 package kr.co.groovy.sanction;
 
-import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface SanctionMapper {
 
-    SanctionFormatVO loadFormat(String format);
+    SanctionFormatVO loadFormat(String format) throws SQLException;
 
-    String getSeq(String formatSanctnKnd);
+    String getSeq(String formatSanctnKnd) throws SQLException;
 
-    int getStatus(@Param("elctrnSanctnDrftEmplId") String elctrnSanctnDrftEmplId, @Param("commonCodeSanctProgrs") String commonCodeSanctProgrs);
+    int getStatus(@Param("elctrnSanctnDrftEmplId") String elctrnSanctnDrftEmplId, @Param("commonCodeSanctProgrs") String commonCodeSanctProgrs) throws SQLException;
 
-    List<SanctionVO> loadRequest(@Param("elctrnSanctnDrftEmplId") String emplId);
+    List<SanctionVO> loadRequest(@Param("elctrnSanctnDrftEmplId") String emplId) throws SQLException;
 
     void inputSanction(SanctionVO vo);
 
@@ -37,6 +36,8 @@ public interface SanctionMapper {
     SanctionVO loadSanction(String elctrnSanctnEtprCode);
 
     UploadFileVO loadSanctionFile(String elctrnSanctnEtprCode);
+
+    String getSign(String emplId);
 
     /* */
 

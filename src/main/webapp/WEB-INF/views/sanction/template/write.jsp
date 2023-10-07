@@ -312,8 +312,8 @@
                         alarm();
                     }
                 },
-                error: function (xhr) {
-                    console.log("결재 업로드 실패");
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "n" + "message:" + request.responseText + "n" + "error:" + error);
                 }
             });
         }

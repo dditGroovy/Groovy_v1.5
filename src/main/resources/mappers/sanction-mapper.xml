@@ -130,6 +130,7 @@
                 #{elctrnSanctnFinalAt})
     </insert>
     <select id="getSign" parameterType="String" resultType="String">
+        /* kr.co.groovy.sanction.SanctionMapper 결재자 서명 이미지 불러오기 */
         SELECT U.UPLOAD_FILE_STRE_NM
         FROM EMPL E,
              UPLOAD_FILE U
@@ -163,6 +164,7 @@
         SELECT L.ELCTRN_SANCTN_ETPR_CODE,
                L.ELCTRN_SANCTNEMPL_ID,
                L.SANCTN_LINE_ORDR,
+               L.SANCTN_LINE_SIGN,
                L.SANCTN_LINE_RETURN_RESN,
                L.SANCTN_LINE_DATE,
                L.COMMON_CODE_SANCT_PROGRS,
@@ -198,6 +200,7 @@
                S.ELCTRN_SANCTN_SJ,
                S.ELCTRN_SANCTN_DC,
                S.ELCTRN_SANCTN_DRFT_EMPL_ID,
+               S.ELCTRN_SANCTN_DRFT_EMPL_SIGN,
                S.ELCTRN_SANCTN_RECOM_DATE,
                S.COMMON_CODE_SANCT_PROGRS,
                S.ELCTRN_SANCTN_FINAL_DATE,
