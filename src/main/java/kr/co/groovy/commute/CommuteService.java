@@ -2,6 +2,7 @@ package kr.co.groovy.commute;
 
 import kr.co.groovy.enums.LaborStatus;
 import kr.co.groovy.enums.VacationKind;
+import kr.co.groovy.schedule.ScheduleMapper;
 import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vacation.VacationMapper;
 import kr.co.groovy.vo.CommuteVO;
@@ -9,20 +10,22 @@ import kr.co.groovy.vo.VacationUseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
 public class CommuteService {
     final CommuteMapper commuteMapper;
     final VacationMapper vacationMapper;
+    final ScheduleMapper scheduleMapper;
 
-    public CommuteService(CommuteMapper commuteMapper, VacationMapper vacationMapper) {
+    public CommuteService(CommuteMapper commuteMapper, VacationMapper vacationMapper, ScheduleMapper scheduleMapper) {
         this.commuteMapper = commuteMapper;
         this.vacationMapper = vacationMapper;
+        this.scheduleMapper = scheduleMapper;
     }
 
     public CommuteVO getCommute(String dclzEmplId) {
@@ -57,15 +60,51 @@ public class CommuteService {
         return commuteMapper.getAllMonth(map);
     }
 
-    public List<CommuteVO> getCommuteByYearMonth(Map<String, Object> map) {
-        return commuteMapper.getCommuteByYearMonth(map);
+    public List<CommuteVO> getCommuteByYearMonth(String year, String month, String dclzEmplId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("year", year);
+        map.put("month", month);
+        map.put("dclzEmplId", dclzEmplId);
+        List<CommuteVO> commuteVOList = commuteMapper.getCommuteByYearMonth(map);
+        for (CommuteVO commuteVO : commuteVOList) {
+            commuteVO.setCommonCodeLaborSttus(LaborStatus.getLabelByValue(commuteVO.getCommonCodeLaborSttus()));
+        }
+        return commuteVOList;
+    }
+
+    public List<CommuteVO> getCommuteByCurrentMonth(String dclzEmplId) {
+        Map<String, Object> map = new HashMap<>();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String year = String.valueOf(currentDateTime.getYear());
+        String month = String.valueOf(currentDateTime.getMonthValue());
+        map.put("dclzEmplId", dclzEmplId);
+        map.put("year", year);
+        map.put("month", month);
+
+        List<CommuteVO> commuteVOList = commuteMapper.getCommuteByYearMonth(map);
+        for (CommuteVO commuteVO : commuteVOList) {
+            commuteVO.setCommonCodeLaborSttus(LaborStatus.getLabelByValue(commuteVO.getCommonCodeLaborSttus()));
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            try {
+                Date workDe = dateFormat.parse(commuteVO.getDclzWorkDe());
+                Date attend = dateFormat.parse(commuteVO.getDclzAttendTm());
+                Date leave = dateFormat.parse(commuteVO.getDclzLvffcTm());
+                commuteVO.setDclzWorkDe(dayFormat.format(workDe));
+                commuteVO.setDclzAttendTm(timeFormat.format(attend));
+                commuteVO.setDclzLvffcTm(timeFormat.format(leave));
+            } catch (ParseException e) {
+                System.err.println("날짜 파싱 오류: " + e.getMessage());
+            }
+        }
+        return commuteVOList;
     }
 
     public CommuteVO getAttend(String dclzEmplId) {
         return commuteMapper.getAttend(dclzEmplId);
     }
-
-    ;
 
     public int getMaxWeeklyWorkTimeByDay(CommuteVO commuteVO) {
         return commuteMapper.getMaxWeeklyWorkTimeByDay(commuteVO);
@@ -77,6 +116,7 @@ public class CommuteService {
         map.put("approveId", id);
         map.put("state", "YRYC032");
         vacationMapper.modifyStatus(map);
+        scheduleMapper.inputVacationEMPL();
 
         VacationUseVO vo = vacationMapper.loadVacationBySn(id);
         String vacationUse = vo.getCommonCodeYrycUseSe();

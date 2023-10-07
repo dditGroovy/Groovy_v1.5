@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec"
-           uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/commute/commute.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
@@ -72,6 +72,41 @@
                     </div>
                     <div class="content-body">
                         <div id="monthDiv"></div>
+                    </div>
+                    <div class="commute-box card-df">
+                        <div class="table-radius-box">
+                            <table class="commute-table form">
+                                <tr>
+                                    <th>날짜</th>
+                                    <th>출근시간</th>
+                                    <th>퇴근시간</th>
+                                    <th>상태</th>
+                                    <th>근무시간</th>
+                                </tr>
+                                <c:forEach var="commuteVO" items="${commuteVOList}">
+                                    <c:set var="minutes" value="${commuteVO.dclzDailWorkTime}" />
+                                    <tr>
+                                        <td>${commuteVO.dclzWorkDe}</td>
+                                        <td>${commuteVO.dclzAttendTm}</td>
+                                        <td>${commuteVO.dclzLvffcTm}</td>
+                                        <td>${commuteVO.commonCodeLaborSttus}</td>
+                                        <c:choose>
+                                            <c:when test="${minutes >= 60}">
+                                                <c:set var="hours" value="${minutes / 60}" />
+                                                <fmt:formatNumber value="${hours}" pattern="00" var="formattedHours" />
+                                                <c:set var="remainMinutes" value="${minutes % 60}" />
+                                                <fmt:formatNumber value="${remainMinutes}" pattern="00" var="formattedMinutes" />
+                                                <td>${formattedHours}시간 ${formattedMinutes}분</td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <fmt:formatNumber value="${minutes}" pattern="00" var="formatMinutes" />
+                                                <td>00시간 ${formatMinutes}분</td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
@@ -390,17 +425,17 @@
                         let time = changeMinuteToTime(rslt[i].dclzDailWorkTime);
 
                         let status = rslt[i].commonCodeLaborSttus;
-                        if (status == "LABOR_STTUS010") {
-                            status = "정상출근";
-                        } else if (status == "LABOR_STTUS012") {
-                            status = "지각";
-                        } else if (status == "LABOR_STTUS015") {
-                            status = "무단결근";
-                        } else if (status == "LABOR_STTUS011") {
-                            status = "연차";
-                        } else if (status == "LABOR_STTUS014") {
-                            status = "공가";
-                        }
+                        // if (status == "LABOR_STTUS010") {
+                        //     status = "정상출근";
+                        // } else if (status == "LABOR_STTUS012") {
+                        //     status = "지각";
+                        // } else if (status == "LABOR_STTUS015") {
+                        //     status = "무단결근";
+                        // } else if (status == "LABOR_STTUS011") {
+                        //     status = "연차";
+                        // } else if (status == "LABOR_STTUS014") {
+                        //     status = "공가";
+                        // }
 
                         code += `<tr>
                                         <td>\${afterDate}</td>

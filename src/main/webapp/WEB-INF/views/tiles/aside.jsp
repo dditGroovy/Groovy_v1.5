@@ -43,7 +43,7 @@
                 <ul>
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/home"><i class="icon i-home"></i>홈</a>
                     </li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/commute"><i
+                    <li class="nav-list"><a href="${pageContext.request.contextPath}/commute/main"><i
                             class="icon i-job"></i>출 · 퇴근</a></li>
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/vacation"><i
                             class="icon i-vacation"></i>휴가 · 급여</a></li>

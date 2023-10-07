@@ -17,4 +17,13 @@ public enum LaborStatus {
     public String getLabel() {
         return label;
     }
+
+    public static String getLabelByValue( String value ) {
+        for (LaborStatus laborStatus : values()) {
+            if (laborStatus.name().equals(value)) {
+                return laborStatus.getLabel();
+            }
+        }
+        return null;
+    }
 }

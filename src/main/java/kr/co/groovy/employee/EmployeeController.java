@@ -187,12 +187,6 @@ public class EmployeeController {
         return "incorrect";
     }
 
-
-    @GetMapping("/commute")
-    public String jobMain() {
-        return "employee/commute";
-    }
-
     /* 다시 매핑~ */
 
     @ResponseBody

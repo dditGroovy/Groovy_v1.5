@@ -71,6 +71,8 @@
     <select id="getCommuteByYearMonth" parameterType="String" resultType="commuteVO">
         SELECT
             DCLZ_WORK_DE,
+            DCLZ_ATTEND_TM,
+            DCLZ_LVFFC_TM,
             DCLZ_DAIL_WORK_TIME,
             COMMON_CODE_LABOR_STTUS
         FROM

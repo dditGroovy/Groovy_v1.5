@@ -154,12 +154,15 @@
     justify-content: space-between;
 }
 #monthDiv {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--vw-24);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--vw-16);
 }
+
 .month-btn {
-    height: calc((96/var(--vh))*100vh);
+    width: calc((106/1920) * 100vw);
+    height: var(--vh-32);
+    border-radius: 8px !important;
 }
 
 /*commuteTable*/
@@ -183,4 +186,21 @@
     background: var(--color-main);
     box-shadow: var(--clay-btn);
     color: white;
+}
+
+.commute-box {
+    padding: var(--vw-32);
+}
+
+.table-radius-box {
+    border-radius: var(--vw-24);
+    height: calc((360/1080)*100vh);
+    overflow: scroll;
+}
+
+.form {
+    width: 100% !important;
+}
+.form tr {
+    text-align: center;
 }
