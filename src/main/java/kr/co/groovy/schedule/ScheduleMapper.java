@@ -16,7 +16,7 @@ public interface ScheduleMapper {
     
     public int deleteSchedule(int schdulSn);
     
-    
-    
+    //휴가 중인 사원 캘린더에 등록
+    public int inputVacationEMPL();
 	
 }
