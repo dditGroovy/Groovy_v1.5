@@ -390,6 +390,7 @@
                         selectable: true,
                         events: datas,
                         locale: 'ko',
+                        dayMaxEvents: 1,
                         dayCellContent: function (e) {
                             e.dayNumberText = e.dayNumberText.replace('일', '');
                         }
