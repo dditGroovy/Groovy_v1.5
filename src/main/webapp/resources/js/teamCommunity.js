@@ -195,8 +195,8 @@ post.forEach((item) => {
                                 let url = '/teamCommunity';
                                 let content = `<div class="alarmListBox">
                                                     <a href="${url}" class="aTag" data-seq="${maxNum}">
+                                                        <h1>[팀 커뮤니티]</h1>
                                                         <div class="alarm-textbox">
-                                                            <h1>[팀 커뮤니티]</h1>
                                                             <p>[<span>${subject}</span>]에
                                                             ${emplNm}님이 댓글을 등록하셨습니다.</p>
                                                         </div>
@@ -211,22 +211,24 @@ post.forEach((item) => {
                                     "commonCodeNtcnKind": 'NTCN011'
                                 };
 
-                                //알림 생성 및 페이지 이동
-                                $.ajax({
-                                    type: 'post',
-                                    url: '/alarm/insertAlarmTarget',
-                                    data: alarmVO,
-                                    success: function (rslt) {
-                                        if (socket) {
-                                            //알람번호,카테고리,url,보낸사람이름,받는사람아이디
-                                            let msg = maxNum + ",answer," + url + "," + emplNm + "," + postWriterId + "," + subject;
-                                            socket.send(msg);
+                                if (emplId != postWriterId) {
+                                    //알림 생성 및 페이지 이동
+                                    $.ajax({
+                                        type: 'post',
+                                        url: '/alarm/insertAlarmTarget',
+                                        data: alarmVO,
+                                        success: function (rslt) {
+                                            if (socket) {
+                                                //알람번호,카테고리,url,보낸사람이름,받는사람아이디, 보낸사람아이디
+                                                let msg = maxNum + ",answer," + url + "," + emplNm + "," + postWriterId + "," + subject;
+                                                socket.send(msg);
+                                            }
+                                        },
+                                        error: function (xhr) {
+                                            console.log(xhr.status);
                                         }
-                                    },
-                                    error: function (xhr) {
-                                        console.log(xhr.status);
-                                    }
-                                });
+                                    });
+                                }
                             })
                             .catch(function (error) {
                                 console.log("최대 알람 번호 가져오기 오류:", error);
