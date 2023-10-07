@@ -158,6 +158,7 @@
 
             request.done(function (datas) {
                 datas.forEach((data) => {
+                	console.log(data)
                     startDate = new Date(data.start);
 
                     dataYear = new Date(data.end).getFullYear();
