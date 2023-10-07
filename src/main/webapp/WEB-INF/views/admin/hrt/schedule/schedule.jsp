@@ -5,6 +5,10 @@
 <link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
 
 <style>
+	.fc-theme-standard td {
+		height: 150px;	
+	}  
+
     #eventTitle {
         margin-left: 41px;
 
@@ -186,6 +190,7 @@
                     selectable: true,
                     events: datas,
                     locale: 'ko',
+                    dayMaxEvents: 4,
                     select: function (arg) {
                         Swal.fire({
                             title: '일정을 입력해주세요',
