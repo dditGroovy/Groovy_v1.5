@@ -22,7 +22,6 @@
                                 class="icon i-change"></i>내게 쓰기</a>
                     </div>
                 </div>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <div class="content-body">
                     <div class="mail-write-options">
                         <div class="mail-receive-wrap mail-write-option">
@@ -229,6 +228,8 @@
                 }
                 if (value) {
                     let newSpan = document.createElement('span');
+                    newSpan.classList.add("badge");
+                    newSpan.classList.add("class", "emplBadge");
                     newSpan.textContent = value + " ";
 
                     let newButton = document.createElement("button");
