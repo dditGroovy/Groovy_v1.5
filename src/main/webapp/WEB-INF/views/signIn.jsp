@@ -11,7 +11,16 @@
     <link rel="icon" type="image/svg+xml" href="${pageContext.request.contextPath}/resources/favicon.svg">
 </head>
 <body>
-
+<div id="loading">
+    <div class="loading-img-wrap">
+        <div class="loading-img img1"></div>
+        <div class="loading-img img2"></div>
+        <div class="loading-img img3"></div>
+        <div class="loading-img img4"></div>
+        <div class="loading-img img5"></div>
+        <div class="loading-img img6"></div>
+    </div>
+</div>
 <div class="container login">
     <h1 style="display: none">그루비 로그인</h1>
     <div class="logo-img"></div>
@@ -54,5 +63,11 @@
 <%--        });--%>
 <%--    });--%>
 <%--</script>--%>
+<script>
+    const loading_page = document.getElementById("loading");
+    window.onload = function(){
+        loading_page.style.display = 'none';
+    }
+</script>
 </body>
 </html>

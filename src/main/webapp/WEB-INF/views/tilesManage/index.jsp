@@ -27,11 +27,27 @@
 <%--    </script>--%>
 </head>
 <body>
+<div id="loading">
+    <div class="loading-img-wrap">
+        <div class="loading-img img1"></div>
+        <div class="loading-img img2"></div>
+        <div class="loading-img img3"></div>
+        <div class="loading-img img4"></div>
+        <div class="loading-img img5"></div>
+        <div class="loading-img img6"></div>
+    </div>
+</div>
     <div class="wrapper">
         <tiles:insertAttribute name="aside"/>
         <div class="container">
             <tiles:insertAttribute name="body"/>
         </div>
     </div>
+    <script>
+        const loading_page = document.getElementById("loading");
+        window.onload = function(){
+            loading_page.style.display = 'none';
+        }
+    </script>
 </body>
 </html>

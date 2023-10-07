@@ -635,3 +635,72 @@ input[name=tabs]:checked + label.tab {
     height: calc((350 / 1080) * 100vh) !important;
     overflow: hidden;
 }
+
+#loading {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-sky);
+    z-index: 9999999;
+}
+.loading-img-wrap {
+    display: flex;
+    gap: 4px;
+}
+.loading-img {
+    width: calc((80/var(--vw))*100vw);
+    height: calc((80/var(--vw))*100vw);
+    background-position: center;
+    background-size: cover;
+    animation: bounce .3s ease-in-out infinite alternate;
+    transform: translateY(0);
+}
+.loading-img.img1 {
+    animation-delay: .1s;
+}
+.loading-img.img2 {
+    animation-delay: .2s;
+}
+.loading-img.img3 {
+    animation-delay: .3s;
+}
+.loading-img.img4 {
+    animation-delay: .4s;
+}
+.loading-img.img5 {
+    animation-delay: .5s;
+}
+.loading-img.img6 {
+    animation-delay: .6s;
+}
+.img1 {
+    background-image: url("/resources/images/object/G.svg");
+}
+.img2 {
+    background-image: url("/resources/images/object/R.svg");
+
+}
+.img3 {
+    background-image: url("/resources/images/object/O.svg");
+
+}
+.img4 {
+    background-image: url("/resources/images/object/O-1.svg");
+
+}
+.img5 {
+    background-image: url("/resources/images/object/V.svg");
+}
+.img6 {
+    background-image: url("/resources/images/object/Y.svg");
+}
+@keyframes bounce {
+    100% {
+        transform: translateY(15px);
+    }
+}
