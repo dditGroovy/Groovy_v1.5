@@ -142,58 +142,78 @@
         {
             field: "emplId",
             headerName: "사번",
-            cellRenderer: linkCellRenderer
-            , cellStyle: {textAlign: "center"}
+            cellRenderer: linkCellRenderer,
+            cellStyle: {textAlign: "center"}
         },
         {field: "emplNm", headerName: "이름", cellStyle: {textAlign: "center"}},
         {field: "defaulWorkTime", headerName: "소정근무시간", cellStyle: {textAlign: "center"}},
         {field: "realWorkTime", headerName: "근무시간", cellStyle: {textAlign: "center"}},
         {field: "overWorkTime", headerName: "초과근무시간", cellStyle: {textAlign: "center"}},
         {field: "totalWorkTime", headerName: "근무인정시간", cellStyle: {textAlign: "center"}},
-        {field: "salaryBslry", headerName: "기본급", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
+        {
+            field: "salaryBslry",
+            headerName: "기본급",
+            valueFormatter: formatNumber,
+            cellClass: 'right-align',
+        },
         {
             field: "salaryOvtimeAllwnc",
             headerName: "초과근무수당",
-            cellStyle: {textAlign: "center"},
-            valueFormatter: formatNumber
+            valueFormatter: formatNumber,
+            cellClass: 'right-align',
         },
         {
             field: "salaryDtsmtPymntTotamt",
             headerName: "지급액계",
-            cellStyle: {textAlign: "center"},
+            cellClass: 'right-align',
+            valueFormatter: formatNumber,
+        },
+        {
+            field: "salaryDtsmtSisNp",
+            headerName: "국민연금",
+            cellClass: 'right-align',
+            valueFormatter: formatNumber,
+        },
+        {
+            field: "salaryDtsmtSisHi",
+            headerName: "건강보험",
+            cellClass: 'right-align',
             valueFormatter: formatNumber
         },
-        {field: "salaryDtsmtSisNp", headerName: "국민연금", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtSisHi", headerName: "건강보험", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtSisEi", headerName: "고용보험", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
+        {
+            field: "salaryDtsmtSisEi",
+            headerName: "고용보험",
+            cellClass: 'right-align',
+            valueFormatter: formatNumber
+        },
         {
             field: "salaryDtsmtSisWci",
             headerName: "산재보험",
-            cellStyle: {textAlign: "center"},
+            cellClass: 'right-align',
             valueFormatter: formatNumber
         },
         {
             field: "salaryDtsmtIncmtax",
             headerName: "소득세",
-            cellStyle: {textAlign: "center"},
+            cellClass: 'right-align',
             valueFormatter: formatNumber
         },
         {
             field: "salaryDtsmtLocalityIncmtax",
             headerName: "지방소득세",
-            cellStyle: {textAlign: "center"},
+            cellClass: 'right-align',
             valueFormatter: formatNumber
         },
         {
             field: "salaryDtsmtDdcTotamt",
             headerName: "공제액계",
-            cellStyle: {textAlign: "center"},
+            cellClass: 'right-align',
             valueFormatter: formatNumber
         },
         {
             field: "salaryDtsmtNetPay",
             headerName: "실수령액",
-            cellStyle: {textAlign: "center"},
+            type: 'rightAligned',
             valueFormatter: formatNumber
         },
     ];

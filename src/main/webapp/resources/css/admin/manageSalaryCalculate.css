@@ -110,3 +110,7 @@ ul {
 #monthDiv {
     margin-bottom: var(--vh-8);
 }
+
+.right-align {
+    justify-content: right !important;
+}
