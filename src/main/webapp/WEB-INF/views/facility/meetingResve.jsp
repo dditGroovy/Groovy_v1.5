@@ -3,47 +3,47 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/employee/reservation.css">
 
 <style>
-	.btn-out-sm {
-		width: 50px!important; 
-		height: var(--vh-32)!important; 
-		background-color: var(--color-white)!important; 
-		border-radius: var(--size-32)!important; 
-		border: 1px solid var(--color-main)!important;  
-		color: var(--color-main)!important; 
-		outline-color: var(--color-main)!important;
-	}
-	
-	.btn-out-sm:hover {
-		background-color: var(--color-main)!important; 
-		color: white!important;
-	}
-	
-	.btn-fill-wh-sm {
-	    width: 100%!important;
-	    height: var(--vh-64)!important;
-	    background-color: var(--color-white)!important;
-	    border-radius: var(--size-32)!important;
-	    border: 1px solid var(--color-stroke)!important;
-	    box-shadow: var(--clay-card)!important;
-	    outline-color: var(--color-main)!important;
-	    color: var(--color-main)!important;
-	}
-	
-	.submit-btn {
-   		width: 90%!important;
-    	margin-top: var(--vw-24)!important;
-    	font-size: var(--font-size-14)!important;
-    	
-	}
-	
-	.btn-on {
-	    background-color: var(--color-main)!important;
-	    border: 1px solid var(--color-stroke)!important;
-	    box-shadow: var(--clay-btn)!important;
-	    outline-color: var(--color-main)!important;
-	    color: white!important;
-	}
-	
+    .btn-out-sm {
+        width: 50px !important;
+        height: var(--vh-32) !important;
+        background-color: var(--color-white) !important;
+        border-radius: var(--size-32) !important;
+        border: 1px solid var(--color-main) !important;
+        color: var(--color-main) !important;
+        outline-color: var(--color-main) !important;
+    }
+
+    .btn-out-sm:hover {
+        background-color: var(--color-main) !important;
+        color: white !important;
+    }
+
+    .btn-fill-wh-sm {
+        width: 100% !important;
+        height: var(--vh-64) !important;
+        background-color: var(--color-white) !important;
+        border-radius: var(--size-32) !important;
+        border: 1px solid var(--color-stroke) !important;
+        box-shadow: var(--clay-card) !important;
+        outline-color: var(--color-main) !important;
+        color: var(--color-main) !important;
+    }
+
+    .submit-btn {
+        width: 90% !important;
+        margin-top: var(--vw-24) !important;
+        font-size: var(--font-size-14) !important;
+
+    }
+
+    .btn-on {
+        background-color: var(--color-main) !important;
+        border: 1px solid var(--color-stroke) !important;
+        box-shadow: var(--clay-btn) !important;
+        outline-color: var(--color-main) !important;
+        color: white !important;
+    }
+
 </style>
 
 <div class="content-container">
@@ -188,6 +188,7 @@
     // }
 
     const selectResveBeginTime = document.getElementById("selectResveBeginTime");
+
     function loadReservedList(room) {
         roomNo = $(room).find(".no").html();
         let xhr = new XMLHttpRequest();
@@ -247,7 +248,7 @@
                     tableStr += '<tr><td colspan="5">예약 내역이 없습니다.</td></tr>'
                 }
 
-                    tableStr += '</tbody></table>'
+                tableStr += '</tbody></table>'
                 document.querySelector("#myReserveList").innerHTML = tableStr;
 
             }
@@ -289,7 +290,7 @@
                 console.log("code: " + xhr.status);
                 console.log("message: " + xhr.responseText);
                 console.log("error: " + xhr.error);
-                if (xhr.responseText === "vhcleNo is null") {
+                if (xhr.responseText === "fcltyKind is null") {
                     Swal.fire({
                         text: '회의실을 선택해주세요',
                         showConfirmButton: false,
@@ -318,6 +319,14 @@
                 } else if (xhr.responseText === "end early than begin") {
                     Swal.fire({
                         text: '반납시간이 대여시간보다 이르게 선택되었습니다 다시 시도해주세요',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+
+                if (xhr.responseText === "triple same") {
+                    Swal.fire({
+                        text: '이미 동일한 예약이 존재합니다',
                         showConfirmButton: false,
                         timer: 1500
                     })

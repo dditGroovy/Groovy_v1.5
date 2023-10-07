@@ -19,6 +19,8 @@ public interface FacilityMapper {
 
     int deleteReservedByVhcleResveNo(int vhcleResveNo);
 
+    int getCountOfSameVehicleReservation(VehicleVO vehicleVO);
+
     List<FacilityVO> getRooms(String commonCodeFcltyKind);
 
     List<FacilityVO> getReservedRoomsByFcltyKind(String commonCodeFcltyKind);
@@ -26,6 +28,8 @@ public interface FacilityMapper {
     List<FacilityVO> getReservedRoomByFcltyResveEmplId(Map<String, String> map);
 
     int inputRestReservation(FacilityVO facilityVO);
+
+    int getCountOfSameReservation(FacilityVO facilityVO);
 
     int deleteReservedByFcltyResveSn(int fcltyResveSn);
 

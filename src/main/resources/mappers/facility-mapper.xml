@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.groovy.facility.FacilityMapper">
     <insert id="inputRestReservation" parameterType="facilityVO">
-        insert into FCLTY_RESVE( fclty_resve_sn
-                               , fclty_resve_begin_time
-                               , fclty_resve_end_time
-                               , fclty_resve_requst_matter
-                               , fclty_resve_empl_id
-                               , common_code_resve_at
-                               , common_code_fclty_kind)
-        values ( FCLTY_RESVE_SEQ.nextval
+        INSERT INTO FCLTY_RESVE( FCLTY_RESVE_SN
+                               , FCLTY_RESVE_BEGIN_TIME
+                               , FCLTY_RESVE_END_TIME
+                               , FCLTY_RESVE_REQUST_MATTER
+                               , FCLTY_RESVE_EMPL_ID
+                               , COMMON_CODE_RESVE_AT
+                               , COMMON_CODE_FCLTY_KIND)
+        VALUES ( FCLTY_RESVE_SEQ.NEXTVAL
                , #{fcltyResveBeginTime}
                , #{fcltyResveEndTime}
                , #{fcltyResveRequstMatter}
@@ -19,45 +19,45 @@
     </insert>
 
     <delete id="deleteReservedByFcltyResveSn" parameterType="int">
-        delete
-        from FCLTY_RESVE
-        where FCLTY_RESVE_SN = #{fcltyResveSn}
+        DELETE
+        FROM FCLTY_RESVE
+        WHERE FCLTY_RESVE_SN = #{fcltyResveSn}
     </delete>
 
     <select id="getRooms" resultType="facilityVO" parameterType="String">
-        select COMMON_CODE_FCLTY_KIND, FCLTY_PSNCPA
-        from fclty
-        where COMMON_CODE_FCLTY_KIND like #{commonCodeFcltyKind}
+        SELECT COMMON_CODE_FCLTY_KIND, FCLTY_PSNCPA
+        FROM FCLTY
+        WHERE COMMON_CODE_FCLTY_KIND LIKE #{commonCodeFcltyKind}
     </select>
 
     <select id="getReservedRoomsByFcltyKind" resultType="facilityVO" parameterType="String">
-        select f.COMMON_CODE_FCLTY_KIND
-             , f.FCLTY_PSNCPA
-             , fr.FCLTY_RESVE_SN
-             , fr.FCLTY_RESVE_BEGIN_TIME
-             , fr.FCLTY_RESVE_END_TIME
-             , fr.FCLTY_RESVE_REQUST_MATTER
-             , fr.FCLTY_RESVE_EMPL_ID
-             , fr.COMMON_CODE_RESVE_AT
-        from FCLTY f
-                 inner join FCLTY_RESVE fr on f.COMMON_CODE_FCLTY_KIND = fr.COMMON_CODE_FCLTY_KIND
-        where TRUNC(fr.FCLTY_RESVE_BEGIN_TIME) = TRUNC(sysdate)
-          and f.COMMON_CODE_FCLTY_KIND = #{commonCodeFcltyKind}
+        SELECT F.COMMON_CODE_FCLTY_KIND
+             , F.FCLTY_PSNCPA
+             , FR.FCLTY_RESVE_SN
+             , FR.FCLTY_RESVE_BEGIN_TIME
+             , FR.FCLTY_RESVE_END_TIME
+             , FR.FCLTY_RESVE_REQUST_MATTER
+             , FR.FCLTY_RESVE_EMPL_ID
+             , FR.COMMON_CODE_RESVE_AT
+        FROM FCLTY F
+                 INNER JOIN FCLTY_RESVE FR ON F.COMMON_CODE_FCLTY_KIND = FR.COMMON_CODE_FCLTY_KIND
+        WHERE TRUNC(FR.FCLTY_RESVE_BEGIN_TIME) = TRUNC(SYSDATE)
+          AND F.COMMON_CODE_FCLTY_KIND = #{commonCodeFcltyKind}
     </select>
 
     <select id="getReservedRoomByFcltyResveEmplId" resultType="facilityVO" parameterType="Map">
-        select f.COMMON_CODE_FCLTY_KIND
-             , fr.FCLTY_RESVE_SN
-             , fr.FCLTY_RESVE_BEGIN_TIME
-             , fr.FCLTY_RESVE_END_TIME
-             , fr.FCLTY_RESVE_EMPL_ID
-             , fr.COMMON_CODE_RESVE_AT
-             , fr.FCLTY_RESVE_REQUST_MATTER
-        from FCLTY f
-                 inner join FCLTY_RESVE fr on f.COMMON_CODE_FCLTY_KIND = fr.COMMON_CODE_FCLTY_KIND
-        where TRUNC(fr.FCLTY_RESVE_BEGIN_TIME) = TRUNC(sysdate)
-          and fr.FCLTY_RESVE_EMPL_ID = #{fcltyResveEmplId}
-          and f.COMMON_CODE_FCLTY_KIND like #{fcltyKind}
+        SELECT F.COMMON_CODE_FCLTY_KIND
+             , FR.FCLTY_RESVE_SN
+             , FR.FCLTY_RESVE_BEGIN_TIME
+             , FR.FCLTY_RESVE_END_TIME
+             , FR.FCLTY_RESVE_EMPL_ID
+             , FR.COMMON_CODE_RESVE_AT
+             , FR.FCLTY_RESVE_REQUST_MATTER
+        FROM FCLTY F
+                 INNER JOIN FCLTY_RESVE FR ON F.COMMON_CODE_FCLTY_KIND = FR.COMMON_CODE_FCLTY_KIND
+        WHERE TRUNC(FR.FCLTY_RESVE_BEGIN_TIME) = TRUNC(SYSDATE)
+          AND FR.FCLTY_RESVE_EMPL_ID = #{fcltyResveEmplId}
+          AND F.COMMON_CODE_FCLTY_KIND LIKE #{fcltyKind}
     </select>
 
     <select id="getFixturesByFcltyKind" resultType="facilityVO" parameterType="String">
@@ -70,5 +70,13 @@
         WHERE FC.COMMON_CODE_FCLTY_KIND = #{commonCodeFcltyKind}
     </select>
 
-
+    <select id="getCountOfSameReservation" resultType="int" parameterType="facilityVO">
+        SELECT COUNT(COMMON_CODE_FCLTY_KIND)
+        FROM FCLTY_RESVE
+        WHERE COMMON_CODE_FCLTY_KIND = #{commonCodeFcltyKind}
+          AND FCLTY_RESVE_BEGIN_TIME = #{fcltyResveBeginTime}
+          AND FCLTY_RESVE_END_TIME = #{fcltyResveEndTime}
+          AND FCLTY_RESVE_EMPL_ID = #{fcltyResveEmplId}
+          AND COMMON_CODE_RESVE_AT = #{commonCodeResveAt}
+    </select>
 </mapper>

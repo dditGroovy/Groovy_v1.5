@@ -1,5 +1,6 @@
 package kr.co.groovy.facility;
 
+import com.amazonaws.services.ec2.model.LocalGateway;
 import kr.co.groovy.enums.Facility;
 import kr.co.groovy.vo.FacilityVO;
 import kr.co.groovy.vo.VehicleVO;
@@ -73,23 +74,27 @@ public class FacilityController {
 
     @PostMapping("/vehicle")
     @ResponseBody
-    public String inputVehicleReservation(Principal vhcleResveEmplId, @RequestBody VehicleVO vo) {
-        if (vo.getVhcleNo() == null || vo.getVhcleNo() == "") {
-            return "vhcleNo is null";
-        } else if (vo.getVhcleResveBeginTime() == null) {
-            return "beginTime is null";
-        } else if (vo.getVhcleResveEndTime() == null) {
-            return "endTime is null";
-        }
+    public String inputVehicleReservation(Principal principal, @RequestBody VehicleVO vo) {
+        vo.setVhcleResveEmplId(principal.getName());
+        if (service.getCountOfSameVehicleReservation(vo) == 0) {
+            if (vo.getVhcleNo() == null || vo.getVhcleNo() == "") {
+                return "vhcleNo is null";
+            } else if (vo.getVhcleResveBeginTime() == null) {
+                return "beginTime is null";
+            } else if (vo.getVhcleResveEndTime() == null) {
+                return "endTime is null";
+            }
 
-        if (vo.getVhcleResveBeginTime().equals(vo.getVhcleResveEndTime())) {
-            return "same time";
-        } else if (vo.getVhcleResveBeginTime().after(vo.getVhcleResveEndTime())) {
-            return "end early than begin";
+            if (vo.getVhcleResveBeginTime().equals(vo.getVhcleResveEndTime())) {
+                return "same time";
+            } else if (vo.getVhcleResveBeginTime().after(vo.getVhcleResveEndTime())) {
+                return "end early than begin";
+            } else {
+                int count = service.inputVehicleReservation(vo);
+                return String.valueOf(count);
+            }
         } else {
-            vo.setVhcleResveEmplId(vhcleResveEmplId.getName());
-            int count = service.inputVehicleReservation(vo);
-            return String.valueOf(count);
+            return "triple same";
         }
     }
 
@@ -132,21 +137,25 @@ public class FacilityController {
     public String inputRestReservation(Principal fcltyResveEmplId, @RequestBody FacilityVO vo) {
         vo.setCommonCodeFcltyKind(Facility.getValueByLabel(vo.getCommonCodeFcltyKind()));
         vo.setFcltyResveEmplId(fcltyResveEmplId.getName());
-        if (vo.getCommonCodeFcltyKind() == null || vo.getCommonCodeFcltyKind() == "") {
-            return "fcltyKind is null";
-        } else if (vo.getFcltyResveBeginTime() == null) {
-            return "beginTime is null";
-        } else if (vo.getFcltyResveEndTime() == null) {
-            return "endTime is null";
-        }
+        if (service.getCountOfSameReservation(vo) == 0) {
+            if (vo.getCommonCodeFcltyKind() == null || vo.getCommonCodeFcltyKind() == "") {
+                return "fcltyKind is null";
+            } else if (vo.getFcltyResveBeginTime() == null) {
+                return "beginTime is null";
+            } else if (vo.getFcltyResveEndTime() == null) {
+                return "endTime is null";
+            }
 
-        if (vo.getFcltyResveBeginTime().equals(vo.getFcltyResveEndTime())) {
-            return "same time";
-        } else if (vo.getFcltyResveBeginTime().after(vo.getFcltyResveEndTime())) {
-            return "end early than begin";
+            if (vo.getFcltyResveBeginTime().equals(vo.getFcltyResveEndTime())) {
+                return "same time";
+            } else if (vo.getFcltyResveBeginTime().after(vo.getFcltyResveEndTime())) {
+                return "end early than begin";
+            } else {
+                int count = service.inputRestReservation(vo);
+                return String.valueOf(count);
+            }
         } else {
-            int count = service.inputRestReservation(vo);
-            return String.valueOf(count);
+            return "triple same";
         }
     }
 }

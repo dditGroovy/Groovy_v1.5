@@ -61,4 +61,12 @@
           AND TRUNC(VHCLE_RESVE_BEGIN_TIME) = TRUNC(SYSDATE)
     </select>
 
+    <select id="getCountOfSameVehicleReservation" resultType="int" parameterType="vehicleVO">
+        SELECT COUNT(VHCLE_NO)
+        FROM VHCLE_RESVE
+        WHERE VHCLE_NO = #{vhcleNo}
+          AND VHCLE_RESVE_BEGIN_TIME = #{vhcleResveBeginTime}
+          AND VHCLE_RESVE_END_TIME = #{vhcleResveEndTime}
+          AND VHCLE_RESVE_EMPL_ID = #{vhcleResveEmplId}
+    </select>
 </mapper>

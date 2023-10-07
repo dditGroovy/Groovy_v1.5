@@ -267,6 +267,14 @@
                         timer: 1500
                     })
                 }
+
+                if (xhr.responseText === "triple same") {
+                    Swal.fire({
+                        text: '이미 동일한 예약이 존재합니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
             }
         });
     }

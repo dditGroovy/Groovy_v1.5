@@ -42,6 +42,10 @@ public class FacilityService {
         return mapper.deleteReservedByVhcleResveNo(vhcleResveNo);
     }
 
+    public int getCountOfSameVehicleReservation(VehicleVO vehicleVO){
+        return mapper.getCountOfSameVehicleReservation(vehicleVO);
+    }
+
     public List<FacilityVO> getRooms(String commonCodeFcltyKind) {
         List<FacilityVO> restRooms = mapper.getRooms(commonCodeFcltyKind);
         setCommonCodeToFacility(restRooms);
@@ -80,6 +84,10 @@ public class FacilityService {
 
     public int inputRestReservation(FacilityVO facilityVO) {
         return mapper.inputRestReservation(facilityVO);
+    }
+
+    public int getCountOfSameReservation(FacilityVO facilityVO) {
+        return mapper.getCountOfSameReservation(facilityVO);
     }
 
     public int deleteReservedByFcltyResveSn(int fcltyResveSn) {
