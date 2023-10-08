@@ -73,7 +73,7 @@
                         <td>
                             <div class="obtt-inner">
                                 <p class="approval-person">
-                                    <img src="data:image/png;base64,${sanction.elctrnSanctnDrftEmplSign}">
+                                    <img src="data:image/png;base64,${sanction.drftSignImg}">
                                 </p>
                                 <span class="approval-date">${sanction.elctrnSanctnRecomDate}</span>
                             </div>
@@ -87,7 +87,7 @@
                                                 <img src="${pageContext.request.contextPath}/resources/images/reject.png"/>
                                             </c:when>
                                             <c:when test="${lineVO.commonCodeSanctProgrs == '승인'}">
-                                                <img src="data:image/png;base64,${lineVO.sanctnLineSign}">
+                                                <img src="data:image/png;base64,${lineVO.signImg}">
                                             </c:when>
                                             <c:otherwise>
                                                 ${lineVO.emplNm}

@@ -176,6 +176,11 @@ public class SanctionService {
     public SanctionVO loadSanction(String elctrnSanctnEtprCode) throws SQLException {
         SanctionVO sanctionVO = mapper.loadSanction(elctrnSanctnEtprCode);
         if (sanctionVO != null) {
+            byte[] imageData = sanctionVO.getElctrnSanctnDrftEmplSign();
+            if (imageData != null) {
+                String base64ImageData = Base64.getEncoder().encodeToString(imageData);
+                sanctionVO.setDrftSignImg(base64ImageData);
+            }
             sanctionVO.setElctrnSanctnFormatCode(SanctionFormat.valueOf(sanctionVO.getElctrnSanctnFormatCode()).label());
             sanctionVO.setCommonCodeSanctProgrs(SanctionProgress.valueOf(sanctionVO.getCommonCodeSanctProgrs()).label());
             sanctionVO.setCommonCodeDept(Department.valueOf(sanctionVO.getCommonCodeDept()).label());
@@ -186,6 +191,11 @@ public class SanctionService {
         List<SanctionLineVO> lineList = mapper.loadLine(elctrnSanctnEtprCode);
         if (lineList != null) {
             for (SanctionLineVO lineVO : lineList) {
+                byte[] imageData = lineVO.getSanctnLineSign();
+                if (imageData != null) {
+                    String base64ImageData = Base64.getEncoder().encodeToString(imageData);
+                    lineVO.setSignImg(base64ImageData);
+                }
                 lineVO.setCommonCodeSanctProgrs(SanctionProgress.valueOf(lineVO.getCommonCodeSanctProgrs()).label());
                 lineVO.setCommonCodeDept(Department.valueOf(lineVO.getCommonCodeDept()).label());
                 lineVO.setCommonCodeClsf(ClassOfPosition.valueOf(lineVO.getCommonCodeClsf()).label());

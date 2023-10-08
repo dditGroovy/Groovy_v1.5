@@ -30,4 +30,5 @@ public class SanctionLineVO {
     private String uploadFileStreNm; // 서명 파일
     private String commonCodeDept; // 부서
     private String commonCodeClsf; // 직급
+    private String signImg;
 }

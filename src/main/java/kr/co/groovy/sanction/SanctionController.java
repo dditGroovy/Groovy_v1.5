@@ -52,6 +52,7 @@ public class SanctionController {
     public String loadSanction(@PathVariable String sanctionNo, Model model) throws SQLException {
         SanctionVO sanction = service.loadSanction(sanctionNo);
         model.addAttribute("sanction", sanction);
+        log.info(sanction.toString());
         return "sanction/template/read";
     }
     @GetMapping("/format/{kind}/{code}")

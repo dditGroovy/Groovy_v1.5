@@ -37,4 +37,5 @@ public class SanctionVO {
     List<SanctionLineVO> lineList;
     List<ReferenceVO> refrnList;
     UploadFileVO file;
+    private String drftSignImg;
 }
