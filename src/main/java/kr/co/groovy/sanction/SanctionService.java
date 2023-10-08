@@ -10,6 +10,7 @@ import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -172,6 +176,17 @@ public class SanctionService {
         }
         return lineVO;
     }
+
+    public String blobToString(Blob blob) throws Exception {
+        if (blob != null) {
+            try (InputStream inputStream = blob.getBinaryStream()) {
+                byte[] bytes = IOUtils.toByteArray(inputStream);
+                return new String(bytes, StandardCharsets.UTF_8);
+            }
+        }
+        return null;
+    }
+
 
     public SanctionVO loadSanction(String elctrnSanctnEtprCode) throws SQLException {
         SanctionVO sanctionVO = mapper.loadSanction(elctrnSanctnEtprCode);
