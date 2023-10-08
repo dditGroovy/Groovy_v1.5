@@ -368,7 +368,7 @@
                 reader.readAsDataURL(file);
             } else {
                 Swal.fire({
-                    text: '허용되지 않은 파일 형식입니다',
+                    text: '허용되지 않은 파일 확장자입니다',
                     showConfirmButton: false,
                     timer: 1500
                 })

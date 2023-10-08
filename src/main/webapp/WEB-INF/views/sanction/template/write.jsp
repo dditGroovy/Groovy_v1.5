@@ -61,7 +61,7 @@
             <div class="file-box">
                 <p class="file-name">이곳에 파일을 끌어놓으세요. <label for="selectFile" class="select-file"> 직접 선택</label></p>
                 <input type="file" id="sanctionFile"/>
-                <input type="file" id="selectFile" hidden="hidden"/>
+                <input type="file" id="selectFile" name="selectFile" hidden="hidden"/>
 
             </div>
         </div>
@@ -70,6 +70,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+        $('input[type="file"]').change(function () {
+            isFileInputExtensionValid('selectFile',getDefaultExtension);
+        });
+
         const today = new Date();
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -448,6 +453,19 @@
                     showConfirmButton: false,
                     timer: 1500
                 })
+                return false;
+            }
+            // 파일 확장자 유효성 검사
+            const allowedExtensions = getDefaultExtension();
+            const fileName = data.files[0].name;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(fileExtension)) {
+                Swal.fire({
+                    text: '올바른 파일 형식이 아닙니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 return false;
             }
             return true;

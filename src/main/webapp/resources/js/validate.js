@@ -89,3 +89,34 @@ function validatePassword(password) {
     }
     return true;
 }
+
+
+function isFileInputExtensionValid(inputName, validExtensions) {
+    const inputElements = $(`input[name='${inputName}']`);
+    let isValid = true;
+
+    inputElements.each(function () {
+        const fileName = $(this).val().toLowerCase();
+        const fileExtension = fileName.split('.').pop();
+
+        if (!validExtensions().includes(fileExtension)) {
+            Swal.fire({
+                text: '올바른 파일 형식이 아닙니다.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            $(this).val(""); // 파일 선택 취소
+            isValid = false;
+        }
+    });
+
+    return isValid;
+}
+
+function getImgExtension() {
+    return ['jpg', 'jpeg', 'png'];
+}
+
+function getDefaultExtension() {
+    return ['jpg', 'jpeg', 'png', 'hwp', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf'];
+}

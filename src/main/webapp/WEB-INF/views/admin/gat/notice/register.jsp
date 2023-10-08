@@ -2,6 +2,8 @@
 		   uri="http://www.springframework.org/security/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <script src="/resources/ckeditor/ckeditor.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+
 <link rel="stylesheet"
 	  href="/resources/css/admin/manageNoticeRegister.css">
 <div class="content-container">
@@ -52,6 +54,10 @@
 <script>
 	let editor = CKEDITOR.replace("noti-content");
 	let maxNum;
+
+	$('input[type="file"]').change(function () {
+		isFileInputExtensionValid('notiFiles',getDefaultExtension);
+	});
 
 	$("#submitBtn").on("click", function () {
 		let form = $('#uploadForm')[0];
