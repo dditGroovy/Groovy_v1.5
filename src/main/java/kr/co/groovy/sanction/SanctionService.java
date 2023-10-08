@@ -125,7 +125,9 @@ public class SanctionService {
         }
 
         String fileName = mapper.getSign(writer);
-        byte[] signImg = FileUtils.readFileToByteArray(new File(String.format("%s/sign/%s", uploadPath, fileName)));
+        File file = new File(String.format("%s/sign/%s", uploadPath, fileName));
+        log.info(file + "");
+        byte[] signImg = FileUtils.readFileToByteArray(file);
         String encodedString = Base64.getEncoder().encodeToString(signImg);
         vo.setElctrnSanctnDrftEmplSign(encodedString.getBytes());
         mapper.inputSanction(vo);
@@ -177,23 +179,12 @@ public class SanctionService {
         return lineVO;
     }
 
-    public String blobToString(Blob blob) throws Exception {
-        if (blob != null) {
-            try (InputStream inputStream = blob.getBinaryStream()) {
-                byte[] bytes = IOUtils.toByteArray(inputStream);
-                return new String(bytes, StandardCharsets.UTF_8);
-            }
-        }
-        return null;
-    }
-
-
     public SanctionVO loadSanction(String elctrnSanctnEtprCode) throws SQLException {
         SanctionVO sanctionVO = mapper.loadSanction(elctrnSanctnEtprCode);
         if (sanctionVO != null) {
             byte[] imageData = sanctionVO.getElctrnSanctnDrftEmplSign();
             if (imageData != null) {
-                String base64ImageData = Base64.getEncoder().encodeToString(imageData);
+                String base64ImageData = new String(imageData);
                 sanctionVO.setDrftSignImg(base64ImageData);
             }
             sanctionVO.setElctrnSanctnFormatCode(SanctionFormat.valueOf(sanctionVO.getElctrnSanctnFormatCode()).label());
@@ -208,7 +199,7 @@ public class SanctionService {
             for (SanctionLineVO lineVO : lineList) {
                 byte[] imageData = lineVO.getSanctnLineSign();
                 if (imageData != null) {
-                    String base64ImageData = Base64.getEncoder().encodeToString(imageData);
+                    String base64ImageData = new String(imageData);
                     lineVO.setSignImg(base64ImageData);
                 }
                 lineVO.setCommonCodeSanctProgrs(SanctionProgress.valueOf(lineVO.getCommonCodeSanctProgrs()).label());

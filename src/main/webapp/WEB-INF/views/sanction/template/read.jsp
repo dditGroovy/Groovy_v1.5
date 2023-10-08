@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/sanction.css">
 <style>
     .container {
@@ -73,7 +75,8 @@
                         <td>
                             <div class="obtt-inner">
                                 <p class="approval-person">
-                                    <img src="${sanction.drftSignImg}">
+                                    <img src="data:image/unknown;base64,${sanction.drftSignImg}" alt="signImg">
+
                                 </p>
                                 <span class="approval-date">${sanction.elctrnSanctnRecomDate}</span>
                             </div>
@@ -84,10 +87,10 @@
                                     <p class="approval-person" id="${lineVO.elctrnSanctnemplId}">
                                         <c:choose>
                                             <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
-                                                <img src="${pageContext.request.contextPath}/resources/images/reject.png"/>
+                                                <img src="${pageContext.request.contextPath}/resources/images/reject.png" alt="signImg"/>
                                             </c:when>
                                             <c:when test="${lineVO.commonCodeSanctProgrs == '승인'}">
-                                                <img src="${lineVO.signImg}">
+                                                <img src="data:image/unknown;base64,${lineVO.signImg}" alt="signImg">
                                             </c:when>
                                             <c:otherwise>
                                                 ${lineVO.emplNm}
@@ -101,7 +104,7 @@
                     </tr>
                 </table>
             </div>
-            <c:if test="${sanction.refrnList!=null}">
+            <c:if test="${not empty sanction.refrnList}">
                 <div id="refer">
                     <table id="refer-line" class="line-table">
                         <tr id="referOtt" class="ott">
@@ -123,13 +126,13 @@
                 ${sanction.elctrnSanctnDc}
         </div>
     </div>
-    <c:if test="${sanction.file!=null}">
+    <c:if test="${not empty sanction.file}">
         <div class="form-file">
             <div class="file-label form-label">
                 첨부 파일
             </div>
             <c:choose>
-                <c:when test="${sanction.file != null}">
+                <c:when test="${not empty sanction.file}">
                     <p class="file-content form-out-content"><a
                             href="/file/download/sanction?uploadFileSn=${sanction.file.uploadFileSn}">${sanction.file.uploadFileOrginlNm}</a>
                         <fmt:formatNumber value="${sanction.file.uploadFileSize / 1024.0}"

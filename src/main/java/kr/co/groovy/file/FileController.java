@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -64,6 +65,53 @@ public class FileController {
             log.info("파일 다운로드 실패");
         }
     }
+
+    @GetMapping("/download")
+    public void fileDownloadWithToken(@RequestParam("dir") String dir,
+                                      @RequestParam("token") String token,
+                                      HttpServletResponse resp, Principal principal) throws Exception {
+        try {
+            log.info(token);
+            String[] tokenParts = token.split("_");
+
+            int uploadFileSn = Integer.parseInt(tokenParts[0]);
+            String sessionId = tokenParts[1];
+
+            if (!principal.getName().equals(sessionId)) {
+                log.info("유효하지 않은 sessionID");
+                return;
+            }
+
+            UploadFileVO vo = service.downloadFile(uploadFileSn);
+            String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
+            String filePath = uploadPath + "/" + dir;
+            String fileName = vo.getUploadFileStreNm();
+
+            File file = new File(filePath, fileName);
+            if (!file.isFile()) {
+                log.info("파일 없음");
+                return;
+            }
+
+            resp.setContentType("application/octet-stream");
+            resp.setHeader("Content-Disposition", "attachment; filename=\"" + originalName + "\"");
+            resp.setHeader("Content-Transfer-Encoding", "binary");
+            resp.setContentLength((int) file.length());
+
+            FileInputStream inputStream = new FileInputStream(file);
+            OutputStream outputStream = resp.getOutputStream();
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            log.info("파일 다운로드 실패");
+        }
+    }
+
 
     @GetMapping("/download/salary")
     public void fileDownloadByDate(@RequestParam String date, @RequestParam String data,
