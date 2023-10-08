@@ -19,45 +19,44 @@ public interface SanctionMapper {
 
     List<SanctionVO> loadRequest(@Param("elctrnSanctnDrftEmplId") String emplId) throws SQLException;
 
-    void inputSanction(SanctionVO vo);
+    void inputSanction(SanctionVO vo) throws SQLException;
 
-    void inputLine(SanctionLineVO vo);
+    void inputLine(SanctionLineVO vo) throws SQLException;
 
-    void inputRefrn(ReferenceVO vo);
+    void inputRefrn(ReferenceVO vo) throws SQLException;
 
     /* 결재 문서 불러오기 */
 
-    List<SanctionLineVO> loadAwaiting(@Param("emplId") String emplId);
+    List<SanctionLineVO> loadAwaiting(@Param("emplId") String emplId) throws SQLException;
 
-    List<SanctionLineVO> loadLine(String elctrnSanctnEtprCode);
+    List<SanctionLineVO> loadLine(String elctrnSanctnEtprCode) throws SQLException;
 
-    List<ReferenceVO> loadRefrn(String elctrnSanctnEtprCode);
+    List<ReferenceVO> loadRefrn(String elctrnSanctnEtprCode) throws SQLException;
 
-    SanctionVO loadSanction(String elctrnSanctnEtprCode);
+    SanctionVO loadSanction(String elctrnSanctnEtprCode) throws SQLException;
 
-    UploadFileVO loadSanctionFile(String elctrnSanctnEtprCode);
+    UploadFileVO loadSanctionFile(String elctrnSanctnEtprCode) throws SQLException;
 
-    String getSign(String emplId);
+    String getSign(String emplId) throws SQLException;
 
     /* */
 
-    void approve(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
+    void approve(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode) throws SQLException;
 
-    void finalApprove(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
+    void finalApprove(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode) throws SQLException;
 
-    void reject(Map<String, Object> map);
+    void reject(Map<String, Object> map) throws SQLException;
+    void collect(String elctrnSanctnEtprCode) throws SQLException;
 
-    void collect(String elctrnSanctnEtprCode);
+    List<EmployeeVO> loadAllLine(@Param("depCode") String depCode, @Param("emplId") String emplId, @Param("keyword") String keyword) throws SQLException;
 
-    List<EmployeeVO> loadAllLine(@Param("depCode") String depCode, @Param("emplId") String emplId, @Param("keyword") String keyword);
+    List<SanctionVO> loadReference(String emplId) throws SQLException;
 
-    List<SanctionVO> loadReference(String emplId);
+    void inputBookmark(SanctionBookmarkVO vo) throws SQLException;
 
-    void inputBookmark(SanctionBookmarkVO vo);
+    List<SanctionBookmarkVO> loadBookmark(String emplId) throws SQLException;
 
-    List<SanctionBookmarkVO> loadBookmark(String emplId);
+    void deleteBookmark(String sanctionLineBookmarkSn) throws SQLException;
 
-    void deleteBookmark(String sanctionLineBookmarkSn);
-
-    List<SanctionVO> loadSanctionList(String dept);
+    List<SanctionVO> loadSanctionList(String dept) throws SQLException;
 }

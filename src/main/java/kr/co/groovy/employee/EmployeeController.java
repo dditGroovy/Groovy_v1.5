@@ -1,6 +1,7 @@
 package kr.co.groovy.employee;
 
 import kr.co.groovy.security.CustomUser;
+import kr.co.groovy.utils.PasswordUtils;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import kr.co.groovy.vo.PageVO;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +28,12 @@ public class EmployeeController {
     final EmployeeService service;
     final
     BCryptPasswordEncoder encoder;
+    final PasswordUtils passwordUtil;
 
-    public EmployeeController(EmployeeService service, BCryptPasswordEncoder encoder) {
+    public EmployeeController(EmployeeService service, BCryptPasswordEncoder encoder, PasswordUtils passwordUtil) {
         this.service = service;
         this.encoder = encoder;
+        this.passwordUtil = passwordUtil;
     }
 
 
@@ -40,10 +44,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/signInFail")
-    public ModelAndView signInFail(ModelAndView mav, String exception) {
-        mav.addObject("message", exception);
-        mav.setViewName("signIn");
-        return mav;
+    public String signInFail(Model model, String exception) {
+        model.addAttribute("message", exception);
+        return "signIn";
     }
 
     @GetMapping("/findPassword")
@@ -87,10 +90,10 @@ public class EmployeeController {
         return "main/home";
     }
 
-    @GetMapping("/myInfo")
-    public String myInfo() {
-        return "employee/myInfo";
-    }
+//    @GetMapping("/myInfo")
+//    public String myInfo() {
+//        return "employee/myInfo";
+//    }
 
     @GetMapping("/confirm")
     public String confirmPassword() {
@@ -166,6 +169,7 @@ public class EmployeeController {
     public void modifyEmp(EmployeeVO vo) {
         service.modifyEmp(vo);
     }
+
     @PostMapping("/modifyInfo")
     @ResponseBody
     public void modifyInfo(EmployeeVO vo) {
@@ -207,17 +211,13 @@ public class EmployeeController {
 
     }
 
-    @PostMapping("/confirm/{currentPage}")
-    @ResponseBody
-    public String confirmPassword(Authentication auth, @RequestBody Map<String, String> map, @PathVariable String currentPage) {
-        String password = map.get("password");
-        log.info(password);
-        CustomUser user = (CustomUser) auth.getPrincipal();
-        String emplPassword = user.getEmployeeVO().getEmplPassword();
-        if (encoder.matches(password, emplPassword)) {
-            return "correct";
+    @PostMapping("/confirm/info")
+    public String confirmPassword(String password, RedirectAttributes redirectAttributes) {
+        if (passwordUtil.isCurrentUserPasswordValid(password)) {
+            return "employee/myInfo";
         } else {
-            return "incorrect";
+            redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/employee/confirm/info";
         }
     }
 }

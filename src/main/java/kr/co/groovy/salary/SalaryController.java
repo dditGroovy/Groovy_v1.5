@@ -1,11 +1,13 @@
 package kr.co.groovy.salary;
 
+import kr.co.groovy.utils.PasswordUtils;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -21,10 +23,12 @@ public class SalaryController {
     SalaryService salaryService;
     final
     PasswordEncoder encoder;
+    final PasswordUtils passwordUtil;
 
-    public SalaryController(SalaryService salaryService, PasswordEncoder encoder) {
+    public SalaryController(SalaryService salaryService, PasswordEncoder encoder, PasswordUtils passwordUtil) {
         this.salaryService = salaryService;
         this.encoder = encoder;
+        this.passwordUtil = passwordUtil;
     }
 
     // 인사팀의 사원 연봉, 수당 및 세율 관리
@@ -58,15 +62,26 @@ public class SalaryController {
         return salaryService.loadTariff(year);
     }
 
+    @GetMapping("/confirm/{page}")
+    public String getConfirmPassword(@PathVariable String page, Model model) {
+        model.addAttribute("page", page);
+        return "employee/confirmPassword";
 
-    @GetMapping("/paystub")
-    public String loadPaystub(Principal principal, Model model) {
-        String emplId = principal.getName();
-        PaystubVO recentPaystub = salaryService.loadRecentPaystub(emplId);
-        List<Integer> years = salaryService.loadYearsForSortPaystub(emplId);
-        model.addAttribute("paystub", recentPaystub);
-        model.addAttribute("years", years);
-        return "employee/mySalary";
+    }
+
+    @PostMapping("/confirm/paystub")
+    public String loadPaystub(String password, Principal principal, Model model, RedirectAttributes redirectAttributes) {
+        if (passwordUtil.isCurrentUserPasswordValid(password)) {
+            String emplId = principal.getName();
+            PaystubVO recentPaystub = salaryService.loadRecentPaystub(emplId);
+            List<Integer> years = salaryService.loadYearsForSortPaystub(emplId);
+            model.addAttribute("paystub", recentPaystub);
+            model.addAttribute("years", years);
+            return "employee/mySalary";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/salary/confirm/salary";
+        }
     }
 
     @GetMapping("/dstmtForm")
@@ -165,7 +180,6 @@ public class SalaryController {
     public String sentEmail(Principal principal, @RequestParam Map<String, String> map) throws Exception {
         return salaryService.sentEmails(principal, map.get("data"), map.get("date"));
     }
-
 
 
 }

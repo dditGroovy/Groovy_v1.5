@@ -6,6 +6,7 @@ import kr.co.groovy.vo.SanctionBookmarkVO;
 import kr.co.groovy.vo.SanctionLineVO;
 import kr.co.groovy.vo.SanctionVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,22 +30,22 @@ public class SanctionRestController {
      */
 
     @PutMapping("/approval/{emplId}/{etprCode}")
-    public void approve(@PathVariable String emplId, @PathVariable String etprCode) {
+    public void approve(@PathVariable String emplId, @PathVariable String etprCode) throws SQLException {
         service.approve(emplId, etprCode);
     }
 
     @PutMapping("/final/approval/{emplId}/{etprCode}")
-    public void finalApprove(@PathVariable String emplId, @PathVariable String etprCode) {
+    public void finalApprove(@PathVariable String emplId, @PathVariable String etprCode) throws SQLException {
         service.finalApprove(emplId, etprCode);
     }
 
     @PutMapping("/reject")
-    public void reject(@RequestBody Map<String, Object> map) {
+    public void reject(@RequestBody Map<String, Object> map) throws SQLException {
         service.reject(map);
     }
 
     @PutMapping("/collect/{etprCode}")
-    public void collect(@PathVariable String etprCode) {
+    public void collect(@PathVariable String etprCode) throws SQLException {
         service.collect(etprCode);
     }
 
@@ -61,7 +62,7 @@ public class SanctionRestController {
 
     /* 결재선 포함 결재 문서 내용 insert */
     @PostMapping("/sanction")
-    public void inputSanction(@RequestBody ParamMap requestData) throws IOException {
+    public void inputSanction(@RequestBody ParamMap requestData) throws IOException, SQLException {
         service.inputSanction(requestData);
     }
 
@@ -80,12 +81,12 @@ public class SanctionRestController {
     }
 
     @GetMapping("/awaiting/{emplId}")
-    public List<SanctionLineVO> loadAwaiting(@PathVariable String emplId) {
+    public List<SanctionLineVO> loadAwaiting(@PathVariable String emplId) throws SQLException {
         return service.loadAwaiting(emplId);
     }
 
     @GetMapping("/reference/{emplId}")
-    public List<SanctionVO> loadReference(@PathVariable String emplId) {
+    public List<SanctionVO> loadReference(@PathVariable String emplId) throws SQLException {
         return service.loadReference(emplId);
     }
 
@@ -95,22 +96,22 @@ public class SanctionRestController {
      */
 
     @GetMapping("/line/{emplId}")
-    public List<EmployeeVO> loadAllLine(@PathVariable String emplId, @RequestParam(required = false, defaultValue = "") String keyword) {
+    public List<EmployeeVO> loadAllLine(@PathVariable String emplId, @RequestParam(required = false, defaultValue = "") String keyword) throws SQLException {
         return service.loadAllLine(emplId, keyword);
     }
 
     @PostMapping("/bookmark")
-    public void inputBookmark(@RequestBody SanctionBookmarkVO vo) {
+    public void inputBookmark(@RequestBody SanctionBookmarkVO vo) throws SQLException {
         service.inputBookmark(vo);
     }
 
     @GetMapping("/bookmark/{emplId}")
-    public List<Map<String, String>> loadBookmark(@PathVariable String emplId) {
+    public List<Map<String, String>> loadBookmark(@PathVariable String emplId) throws SQLException {
         return service.loadBookmark(emplId);
     }
 
     @DeleteMapping("/bookmark/{sn}")
-    public void deleteBookmark(@PathVariable String sn) {
+    public void deleteBookmark(@PathVariable String sn) throws SQLException {
         service.deleteBookmark(sn);
     }
 

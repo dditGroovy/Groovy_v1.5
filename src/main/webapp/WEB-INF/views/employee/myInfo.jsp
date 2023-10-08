@@ -7,7 +7,7 @@
     <div class="content-container">
 
         <header id="tab-header">
-            <h1><a href="${pageContext.request.contextPath}/employee/myInfo" class="on">내 정보 관리</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/employee/confirm/info" class="on">내 정보 관리</a></h1>
         </header>
 
 

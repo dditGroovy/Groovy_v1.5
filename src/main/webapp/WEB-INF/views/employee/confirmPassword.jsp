@@ -38,7 +38,7 @@
         </c:if>
         <c:if test="${page == 'salary'}">
             <h1><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></h1>
-            <h1><a href="${pageContext.request.contextPath}/employee/confirm/salary" class="on">내 급여</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/salary/confirm/salary" class="on">내 급여</a></h1>
             <h1><a href="${pageContext.request.contextPath}/vacation/request">휴가 기록</a></h1>
         </c:if>
         <c:if test="${page == 'email'}">
@@ -55,55 +55,41 @@
             </p>
         </div>
         <div class="form-container">
-            <form action="${pageContext.request.contextPath}/email/all" method="post" id="emailForm">
+            <form action="${pageContext.request.contextPath}/employee/confirm/${page}" method="post" id="form">
                 <input type="password" id="password" name="password" placeholder="PASSWORD"
                        class="userPw btn-free-white input-l"/>
+                <button type="submit" class="btn-free-blue checkBtn btn">확인</button>
             </form>
-            <button type="button" class="btn-free-blue checkBtn btn">확인</button>
         </div>
         <div id="modifyRes" class="main-desc">
+            <c:if test="${not empty error}">
+                ${error}
+            </c:if>
         </div>
     </main>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
 
 <script>
-    let currentPage = '${page}';
-    let urlMappings = {
-        'info': '${pageContext.request.contextPath}/employee/myInfo',
-        'salary': '${pageContext.request.contextPath}/salary/paystub'
-    };
-    let url = urlMappings[currentPage];
-
-    $("button").click(checkPassword);
     document.querySelector("input").addEventListener('keyup', function (event) {
         if (event.key === 'Enter') {
-            checkPassword();
+            document.querySelector("#form").submit();
         }
     });
 
-    function checkPassword() {
-        let password = $("#password").val();
-        $.ajax({
-            url: `/employee/confirm/\${currentPage}`,
-            type: "post",
-            data: JSON.stringify({"password": password}),
-            contentType: "application/json",
-            success: function (result) {
-                if (result === 'correct') {
-                    if (currentPage != "email") {
-                        window.location.href = url;
-                    } else {
-                        document.querySelector("#emailForm").submit();
-                    }
-                } else {
-                    $("#modifyRes").html('비밀번호가 일치하지 않습니다.')
-                    $("#password").val("")
-                }
-            },
-            error: function (xhr) {
-                $("#modifyRes").html('오류로 인하여 비밀번호를 확인할 수 없습니다.')
-            }
-        });
+
+    function setActionUrl() {
+        let currentPage = '${page}';
+        let urlMappings = {
+            'info': '${pageContext.request.contextPath}/employee/confirm/info',
+            'salary': '${pageContext.request.contextPath}/salary/confirm/paystub',
+            'email': '${pageContext.request.contextPath}/email/all',
+        };
+
+        let url = urlMappings[currentPage];
+        let form = document.querySelector("#form");
+        form.action = url;
     }
+
+    setActionUrl();
+
 </script>

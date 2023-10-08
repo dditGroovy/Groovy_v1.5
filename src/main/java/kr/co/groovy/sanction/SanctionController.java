@@ -31,7 +31,6 @@ public class SanctionController {
     @GetMapping("/template")
     public String getTemplate() {
         return "sanction/template/write";
-
     }
 
     @GetMapping("/box")
@@ -50,26 +49,11 @@ public class SanctionController {
     }
 
     @GetMapping("/read/{sanctionNo}")
-    public String loadSanction(@PathVariable String sanctionNo, Model model) {
-        List<SanctionLineVO> lineList = service.loadLine(sanctionNo);
-        List<ReferenceVO> refrnList = service.loadRefrn(sanctionNo);
+    public String loadSanction(@PathVariable String sanctionNo, Model model) throws SQLException {
         SanctionVO sanction = service.loadSanction(sanctionNo);
-        UploadFileVO file = service.loadSanctionFile(sanctionNo);
-        model.addAttribute("lineList", lineList);
-        model.addAttribute("refrnList", refrnList);
         model.addAttribute("sanction", sanction);
-        if (file != null) {
-            model.addAttribute("file", file);
-        }
         return "sanction/template/read";
     }
-
-    /**
-     * 양식 불러오기
-     *
-     * @param kind 양식 종류(부서)
-     * @param code 양식 코드
-     */
     @GetMapping("/format/{kind}/{code}")
     public String writeSanction(@PathVariable String kind, @PathVariable String code, Model model) throws SQLException {
         String etprCode = service.getSeq(Department.valueOf(kind).label());
@@ -87,7 +71,7 @@ public class SanctionController {
      * @return 인사의 sanction.jsp 를 공유함
      */
     @GetMapping("/admin/{dept}")
-    public String loadSanctionList(Model model, @PathVariable String dept) {
+    public String loadSanctionList(Model model, @PathVariable String dept) throws SQLException {
         List<SanctionVO> list = service.loadSanctionList(dept);
         model.addAttribute("sanctionList", list);
         return "admin/hrt/employee/sanction";

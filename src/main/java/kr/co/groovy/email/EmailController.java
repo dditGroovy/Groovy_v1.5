@@ -1,6 +1,7 @@
 package kr.co.groovy.email;
 
 import kr.co.groovy.employee.EmployeeService;
+import kr.co.groovy.utils.PasswordUtils;
 import kr.co.groovy.vo.EmailVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.PageVO;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.AuthenticationFailedException;
 import javax.servlet.http.Cookie;
@@ -29,7 +31,10 @@ import java.util.Map;
 public class EmailController {
     private final EmailService emailService;
     private final EmployeeService employeeService;
+    private final PasswordUtils passwordUtil;
+
     private String password;
+
 
     @GetMapping("/all")
     public String getMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) throws Exception {
@@ -55,33 +60,25 @@ public class EmailController {
             return "email/allList";
         } catch (AuthenticationFailedException e) {
             e.printStackTrace();
-            return "redirect:/signOut";
+            return "redirect:/home";
         }
+
     }
 
     @PostMapping("/all")
-    public String getAllMailsGet(HttpServletRequest request, HttpServletResponse response, Principal principal, EmailVO emailVO, Model model, @RequestParam String password, PageVO pageVO) throws Exception {
-        this.password = password;
+    public String getAllMailsGet(HttpServletRequest request, HttpServletResponse response, Principal principal, EmailVO emailVO, Model model, @RequestParam String password, PageVO pageVO, RedirectAttributes redirectAttributes) throws Exception {
+        if (passwordUtil.isCurrentUserPasswordValid(password)) {
+            this.password = password;
 
-        Cookie[] cookies = request.getCookies();
-        boolean emailCookieExists = false;
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("email")) {
-                    emailCookieExists = true;
-                    break;
-                }
-            }
-        }
-
-        if (!emailCookieExists) {
             Cookie emailCookie = new Cookie("email", "groovy-email");
             emailCookie.setPath("/");
             response.addCookie(emailCookie);
-        }
+            return "redirect:/email/all";
 
-        return "redirect:/email/all";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/employee/confirm/email";
+        }
     }
 
     @GetMapping("/inbox")

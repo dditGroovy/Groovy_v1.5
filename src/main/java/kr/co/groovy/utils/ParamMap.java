@@ -37,13 +37,11 @@ public class ParamMap extends HashMap<String, Object> {
         return (T) object;
     }
 
-    // ParamMap을 JSON 문자열로 직렬화
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 
-    // JSON 문자열을 ParamMap으로 역직렬화
     public static ParamMap fromJson(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, ParamMap.class);
