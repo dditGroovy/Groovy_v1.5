@@ -65,3 +65,7 @@
     height: var(--vh-48);
     box-shadow: var(--clay-card);
 }
+
+.right-align {
+    justify-content: right !important;
+}

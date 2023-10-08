@@ -282,7 +282,7 @@
             {field: "cprCardResveClosDate", headerName: "사용 마감 일자", width: 130},
             {field: "cprCardUseLoca", headerName: "사용처"},
             {field: "cprCardUsePurps", headerName: "사용 목적"},
-            {field: "cprCardUseExpectAmount", headerName: "사용 예상 금액", width: 150},
+            {field: "cprCardUseExpectAmount", headerName: "사용 예상 금액", width: 150, cellClass: 'right-align'},
             {field: "cprCardResveEmplIdAndName", headerName: "사원명(사번)", width: 150},
             {field: "assign", headerName: "카드 지정", cellRenderer: ClassComp},
             {field: "cprCardResveEmplId", headerName: "사번", hide: true}

@@ -133,7 +133,7 @@
         {field: "cprCardResveClosDate", headerName: "사용 마감 일자"},
         {field: "cprCardUseLoca", headerName: "사용처"},
         {field: "cprCardUsePurps", headerName: "사용 목적"},
-        {field: "cprCardUseExpectAmount", headerName: "사용 예상 금액"},
+        {field: "cprCardUseExpectAmount", headerName: "사용 예상 금액", cellClass: 'right-align'},
         {field: "cprCardResveEmplIdAndName", headerName: "사원명(사번)"},
         {field: "cprCardResveRturnAt", headerName: "반납 여부", hide: true},
         {field: "cardReturnChk", headerName: "카드 반납", cellRenderer: ClassComp},

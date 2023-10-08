@@ -267,5 +267,8 @@
     border: 1px solid var(--color-font-md);
     color: var(--color-font-md);
     width: calc((64 / 1920) * 100vw);
+}
 
+.right-align {
+    justify-content: right !important;
 }
