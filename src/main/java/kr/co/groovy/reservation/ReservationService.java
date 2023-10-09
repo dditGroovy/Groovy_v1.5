@@ -162,4 +162,7 @@ public class ReservationService {
         return todayResve;
     }
 
+    public int deleteVehicle(String vhcleNo) {
+        return mapper.deleteVehicle(vhcleNo);
+    }
 }

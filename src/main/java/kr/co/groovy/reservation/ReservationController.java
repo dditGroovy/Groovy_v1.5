@@ -59,6 +59,13 @@ public class ReservationController {
         return String.valueOf(service.modifyReturnAt(vhcleResveNo));
     }
 
+    @DeleteMapping("/deleteVehicle")
+    @ResponseBody
+    public int deleteVehicle(@RequestBody String vhcleNo) {
+        return service.deleteVehicle(vhcleNo);
+    }
+
+
     /* 회의실, 휴게실 예약 */
     @GetMapping("/manageRoom")
     public String getAllReservedRooms(Model model) {
@@ -126,4 +133,5 @@ public class ReservationController {
         model.addAttribute("reservedRooms", reservedRooms);
         return "admin/gat/room/list";
     }
+
 }

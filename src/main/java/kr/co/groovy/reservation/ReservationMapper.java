@@ -37,4 +37,5 @@ public interface ReservationMapper {
     //휴게실 구분코드
     public List<FacilityVO> getRetiringRoom(String commonCodeFcltyKind);
 
+    int deleteVehicle(String vhcleNo);
 }

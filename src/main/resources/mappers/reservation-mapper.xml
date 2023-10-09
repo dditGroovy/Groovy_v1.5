@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.groovy.reservation.ReservationMapper">
+    <delete id="deleteVehicle" parameterType="String">
+        DELETE
+        FROM VHCLE
+        WHERE VHCLE_NO = #{vhcleNo}
+    </delete>
+
     <select id="getTodayReservedVehicles" resultType="vehicleVO">
         SELECT V.VHCLE_NO
              , V.VHCLE_VHCTY

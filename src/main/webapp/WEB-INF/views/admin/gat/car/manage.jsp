@@ -15,9 +15,11 @@
                 <c:set var="reservedList" value="${todayReservedVehicles}"/>
                 <c:set var="listSize" value="${fn:length(reservedList)}"/>
                 <p class="current-resve">
-                    <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</a>
+                    <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="font-18 font-md"><span
+                            class="font-md font-36 count">${listSize}</span>건</a>
                 </p>
-                <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="font-11 font-md more">더보기 <i class="icon i-arr-rt"></i></a>
+                <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="font-11 font-md more">더보기 <i
+                        class="icon i-arr-rt"></i></a>
             </div>
             <div class="content">
                 <div class="table-container">
@@ -79,19 +81,22 @@
                     <p class="font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</p>
                 </div>
                 <div class="btnWrap">
-                    <button class="btn btn-fill-bl-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/reserve/inputVehicle'">차량 등록 +</button>
+                    <button class="btn btn-fill-bl-sm font-18 font-md"
+                            onclick="location.href='${pageContext.request.contextPath}/reserve/inputVehicle'">차량 등록 +
+                    </button>
                 </div>
             </div>
             <div class="content">
                 <ul>
                     <c:forEach var="vehicle" items="${allVehicles}">
-                        <li>
+                        <li class="oneCar">
                             <div class="card card-df carInfo">
                                 <ul class="car-list">
                                     <li class="carInfoList">
                                         <i class="icon-car"></i>
                                         <h4 class="font font-sb font-24 vehicle-type">${vehicle.vhcleVhcty}</h4>
-                                        <span class="font font-reg font-18">${vehicle.vhcleNo}</span>
+                                        <span class="font font-reg font-18 car-no"
+                                              data-id="${vehicle.vhcleNo}">${vehicle.vhcleNo}</span>
                                     </li>
                                     <li class="carInfoList">
                                         <h5 class="font font-sb font-18 vehicle-personnel">정원</h5>
@@ -102,6 +107,11 @@
                                         <h5 class="font font-sb font-18 hipass">하이패스</h5>
                                         <span class="line">|</span>
                                         <span class="font font-reg font-18">${vehicle.commonCodeHipassAsnAt}</span>
+                                    </li>
+                                </ul>
+                                <ul class="car-list">
+                                    <li class="carInfoList">
+                                        <button class="delete-car">삭제</button>
                                     </li>
                                 </ul>
                             </div>
@@ -130,4 +140,35 @@
         }
         xhr.send(vhcleResveNo);
     }
+
+    let deleteCarArr = document.querySelectorAll(".delete-car");
+    deleteCarArr.forEach(function (deleteCar) {
+        deleteCar.addEventListener("click", function () {
+            let vhcleNo = deleteCar.closest(".carInfo").querySelector(".car-no").getAttribute("data-id");
+            Swal.fire({
+                text: "정말 차량을 삭제하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#5796F3FF',
+                cancelButtonColor: '#e1e1e1',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(vhcleNo);
+                    $.ajax({
+                        url: '/reserve/deleteVehicle',
+                        data: vhcleNo,
+                        type: 'delete',
+                        success: function (result) {
+                            console.log(result)
+                            if (result === 1) {
+                                location.href = "/reserve/manageVehicle";
+                            }
+                        }
+                    })
+                }
+            })
+
+        });
+    })
 </script>
