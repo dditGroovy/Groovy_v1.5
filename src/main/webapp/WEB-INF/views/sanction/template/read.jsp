@@ -21,146 +21,151 @@
 </style>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
-    <div class="content-wrapper">
-        <div class="content-header">
-            <div class="form-header">
-                <div class="btn-wrap">
-                    <a href="#" class="btn" id="downBtn" onclick="downloadAsPDF()"><i class="icon i-down"></i></a>
-                    <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
-                        <button type="button" onclick="collect()" class="btn btn-free-white" id="collectBtn">회수</button>
-                    </c:if>
-                    <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
-                        <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
+    <div class="pdf-wrap">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="form-header">
+                    <div class="btn-wrap">
+                        <a href="#" class="btn" id="downBtn" onclick="downloadAsPDF()"><i class="icon i-down"></i></a>
+                        <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
+                            <button type="button" onclick="collect()" class="btn btn-free-white" id="collectBtn">회수
+                            </button>
+                        </c:if>
+                        <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
+                            <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'N')}">
-                            <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})" id="approveBtn"
-                                    class="btn btn-fill-wh-sm sanctionBtn">승인
-                            </button>
-                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-fill-wh-sm sanctionBtn rejectBtn" data-name="reject">반려
-                            </button>
-                        </c:if>
-                        <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
+                                <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})" id="approveBtn"
+                                        class="btn btn-fill-wh-sm sanctionBtn">승인
+                                </button>
+                                <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
+                                        class="btn btn-fill-wh-sm sanctionBtn rejectBtn" data-name="reject">반려
+                                </button>
+                            </c:if>
+                            <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'Y')}">
-                            <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-fill-wh-sm sanctionBtn" id="finalApproveBtn">최종승인
-                            </button>
-                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-fill-wh-sm sanctionBtn rejectBtn" data-name="reject">반려
-                            </button>
-                        </c:if>
-                    </c:forEach>
+                                <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})"
+                                        class="btn btn-fill-wh-sm sanctionBtn" id="finalApproveBtn">최종승인
+                                </button>
+                                <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
+                                        class="btn btn-fill-wh-sm sanctionBtn rejectBtn" data-name="reject">반려
+                                </button>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div class="formTitle">
+                    <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
                 </div>
             </div>
-            <br/>
-            <br/>
-            <div class="formTitle">
-                <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
-            </div>
-        </div>
-        <div class="line-wrap">
-            <div class="approval">
-                <table id="approval-line" class="line-table">
-                    <tr id="applovalOtt" class="ott">
-                        <th rowspan="2" class="sanctionTh">결재</th>
-                        <th>기안</th>
-                        <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
-                            <th>${lineVO.emplNm} ${lineVO.commonCodeClsf}</th>
-                        </c:forEach>
-                    </tr>
-                    <tr id="applovalObtt" class="obtt">
-                        <td>
-                            <div class="obtt-inner">
-                                <p class="approval-person">
-                                    <img src="data:image/unknown;base64,${sanction.drftSignImg}" alt="signImg">
-
-                                </p>
-                                <span class="approval-date">${sanction.elctrnSanctnRecomDate}</span>
-                            </div>
-                        </td>
-                        <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
+            <div class="line-wrap">
+                <div class="approval">
+                    <table id="approval-line" class="line-table">
+                        <tr id="applovalOtt" class="ott">
+                            <th rowspan="2" class="sanctionTh">결재</th>
+                            <th>기안</th>
+                            <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
+                                <th>${lineVO.emplNm} ${lineVO.commonCodeClsf}</th>
+                            </c:forEach>
+                        </tr>
+                        <tr id="applovalObtt" class="obtt">
                             <td>
                                 <div class="obtt-inner">
-                                    <p class="approval-person" id="${lineVO.elctrnSanctnemplId}">
-                                        <c:choose>
-                                            <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
-                                                <img src="${pageContext.request.contextPath}/resources/images/reject.png" alt="signImg"/>
-                                            </c:when>
-                                            <c:when test="${lineVO.commonCodeSanctProgrs == '승인'}">
-                                                <img src="data:image/unknown;base64,${lineVO.signImg}" alt="signImg">
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${lineVO.emplNm}
-                                            </c:otherwise>
-                                        </c:choose>
+                                    <p class="approval-person">
+                                        <img src="data:image/unknown;base64,${sanction.drftSignImg}" alt="signImg">
+
                                     </p>
-                                    <span class="approval-date">${lineVO.sanctnLineDate}</span>
+                                    <span class="approval-date">${sanction.elctrnSanctnRecomDate}</span>
                                 </div>
                             </td>
-                        </c:forEach>
-                    </tr>
-                </table>
-            </div>
-            <c:if test="${not empty sanction.refrnList}">
-                <div id="refer">
-                    <table id="refer-line" class="line-table">
-                        <tr id="referOtt" class="ott">
-                            <th class="sanctionTh">참조</th>
-                            <c:forEach var="refrnVO" items="${sanction.refrnList}" varStatus="stat">
-                                <td>${refrnVO.emplNm}</td>
+                            <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
+                                <td>
+                                    <div class="obtt-inner">
+                                        <p class="approval-person" id="${lineVO.elctrnSanctnemplId}">
+                                            <c:choose>
+                                                <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
+                                                    <img src="${pageContext.request.contextPath}/resources/images/reject.png"
+                                                         alt="signImg"/>
+                                                </c:when>
+                                                <c:when test="${lineVO.commonCodeSanctProgrs == '승인'}">
+                                                    <img src="data:image/unknown;base64,${lineVO.signImg}"
+                                                         alt="signImg">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${lineVO.emplNm}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </p>
+                                        <span class="approval-date">${lineVO.sanctnLineDate}</span>
+                                    </div>
+                                </td>
                             </c:forEach>
                         </tr>
                     </table>
                 </div>
-            </c:if>
-        </div>
-    </div>
-    <div class="content-body">
-
-    </div>
-    <div id="formCard">
-        <div class="formContent">
-                ${sanction.elctrnSanctnDc}
-        </div>
-    </div>
-    <c:if test="${not empty sanction.file}">
-        <div class="form-file">
-            <div class="file-label form-label">
-                첨부 파일
+                <c:if test="${not empty sanction.refrnList}">
+                    <div id="refer">
+                        <table id="refer-line" class="line-table">
+                            <tr id="referOtt" class="ott">
+                                <th class="sanctionTh">참조</th>
+                                <c:forEach var="refrnVO" items="${sanction.refrnList}" varStatus="stat">
+                                    <td>${refrnVO.emplNm}</td>
+                                </c:forEach>
+                            </tr>
+                        </table>
+                    </div>
+                </c:if>
             </div>
-            <c:choose>
-                <c:when test="${not empty sanction.file}">
-                    <p class="file-content form-out-content"><a
-                            href="/file/download/sanction?uploadFileSn=${sanction.file.uploadFileSn}">${sanction.file.uploadFileOrginlNm}</a>
-                        <fmt:formatNumber value="${sanction.file.uploadFileSize / 1024.0}"
-                                          type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
-                </c:when>
-                <c:otherwise>
-                    <p class="file-content form-out-content">파일 없음</p>
-                </c:otherwise>
-            </c:choose>
         </div>
-    </c:if>
-    <div id="returnResn">
-        <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
-            <c:if test="${lineVO.sanctnLineReturnResn != null }">
-                <div class="form-label">
-                    반려 사유
+        <div class="content-body">
+
+        </div>
+        <div id="formCard">
+            <div class="formContent">
+                    ${sanction.elctrnSanctnDc}
+            </div>
+        </div>
+        <c:if test="${not empty sanction.file}">
+            <div class="form-file">
+                <div class="file-label form-label">
+                    첨부 파일
                 </div>
-                <p class="file-content form-out-content">${lineVO.sanctnLineReturnResn}</p>
-            </c:if>
-        </c:forEach>
+                <c:choose>
+                    <c:when test="${not empty sanction.file}">
+                        <p class="file-content form-out-content"><a
+                                href="/file/download/sanction?uploadFileSn=${sanction.file.uploadFileSn}">${sanction.file.uploadFileOrginlNm}</a>
+                            <fmt:formatNumber value="${sanction.file.uploadFileSize / 1024.0}"
+                                              type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="file-content form-out-content">파일 없음</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </c:if>
+        <div id="returnResn">
+            <c:forEach var="lineVO" items="${sanction.lineList}" varStatus="stat">
+                <c:if test="${lineVO.sanctnLineReturnResn != null }">
+                    <div class="form-label">
+                        반려 사유
+                    </div>
+                    <p class="file-content form-out-content">${lineVO.sanctnLineReturnResn}</p>
+                </c:if>
+            </c:forEach>
+        </div>
+
+
+        <br><br>
+        <div class="btn-wrap close-btn-wrap">
+            <button type="button" id="closeBtn" onclick="closeWindow()" class="btn btn-free-white sanctionBtn">닫기
+            </button>
+        </div>
     </div>
-
-
-    <br><br>
-    <div class="btn-wrap close-btn-wrap">
-        <button type="button" id="closeBtn" onclick="closeWindow()" class="btn btn-free-white sanctionBtn">닫기</button>
-    </div>
-
     <!-- 모달창 -->
     <div id="modal" class="modal-dim">
         <div class="dim-bg"></div>
@@ -210,7 +215,7 @@
         window.jsPDF = window.jspdf.jsPDF;
 
         function downloadAsPDF() {
-            let element = document.querySelector(".content-wrapper");
+            let element = document.querySelector(".pdf-wrap");
             let options = {
                 ignoreElements: (element) => {
                     return element.classList.contains("btn"); // 버튼 제외

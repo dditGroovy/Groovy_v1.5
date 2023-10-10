@@ -351,6 +351,7 @@ i.icon {
 .formTitle .main-title {
     font-size: 24px;
     margin-top: 20px;
+    text-align: center;
 }
 
 .content-header {

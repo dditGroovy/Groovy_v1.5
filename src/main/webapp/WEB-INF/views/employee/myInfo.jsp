@@ -94,7 +94,7 @@
                     </div>
                     <div class="info-body">
                         <form action="#" id="alertForm">
-                            <div class="box-toggle" style="margin-top: 3%">
+                            <div class="box-toggle" style="margin-top: var(--vh-16)">
                                 <p class="toggle-title  font-14 ">업무 요청</p>
                                 <label class="toggle" for="dutyRequest">
                                     <input type="checkbox" id="dutyRequest" name="dutyRequest"
@@ -159,7 +159,7 @@
                                     <span class="slider"></span>
                                 </label>
                             </div>
-                            <div class="box-toggle">
+                            <div class="box-toggle" style="border: none">
                                 <p class="toggle-title font-14">전자 결재 결과</p>
                                 <label class="toggle" for="electronSanctionResult">
                                     <input type="checkbox" id="electronSanctionResult" name="electronSanctionResult"

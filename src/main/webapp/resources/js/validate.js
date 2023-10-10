@@ -118,5 +118,5 @@ function getImgExtension() {
 }
 
 function getDefaultExtension() {
-    return ['jpg', 'jpeg', 'png', 'hwp', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf'];
+    return ['jpg', 'jpeg', 'png', 'hwp', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'txt'];
 }

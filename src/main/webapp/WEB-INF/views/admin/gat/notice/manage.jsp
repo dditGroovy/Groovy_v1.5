@@ -3,7 +3,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <link rel="stylesheet" href="/resources/css/admin/manageNotice.css">
-
+<style>
+	.noti-title {
+		justify-content: left !important;
+		width: 100% !important;
+	}
+</style>
 <div class="content-container">
 	<header id="tab-header">
 	    <h1><a href="${pageContext.request.contextPath}/notice/manage" class="on">공지사항 관리</a></h1>
@@ -100,7 +105,7 @@
         {
             field: "notiTitle", headerName: "제목", cellRenderer: ClassLink, getQuickFilterText: (params) => {
                 return params.data.notiTitle
-            } , width: 600,cellStyle: {textAlign: "center"}
+            } , width: 600,cellClass: 'noti-title'
         },
         {field: "chk", headerName: " ", cellRenderer: ClassBtn, width: 200,cellStyle: {textAlign: "center"}},
         {field: "notiEtprCode", headerName: "notiEtprCode", hide: true},
@@ -143,5 +148,3 @@
         modal.style.display = "none";
     })*/
 </script>
-<%--노출 : NOTI020--%>
-<%--비노출 : NOTI021--%>
