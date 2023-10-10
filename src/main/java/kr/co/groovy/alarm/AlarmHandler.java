@@ -104,7 +104,6 @@ public class AlarmHandler extends TextWebSocketHandler {
                 String sendName = msgs[3];
                 String receiveId = msgs[4];
                 String subject = msgs[5];
-                String registId = msgs[6];
                 WebSocketSession receiveSession = userSessionMap.get(receiveId);
                 NotificationVO noticeAt = service.getNoticeAt(currentUserId(receiveSession));
                 if (receiveSession != null && receiveSession.isOpen() && noticeAt.getAnswer().equals("NTCN_AT010")) {
