@@ -207,6 +207,11 @@
         endTime: new Date("${isoFormattedEndTime}")
     });
 	console.log(rowData.pop().endTime);
+	
+    //이 콘솔 로그는 지우면 안됨 콘솔로그 추가하니까 안나오던 값이 나왔음
+    //원인은 아직 확인이 안됨 좀더 분석해봐야 할듯
+    console.log(rowData);
+    
     </c:forEach>
 
     // ag-Grid 초기화
