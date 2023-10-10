@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -29,14 +30,14 @@ public class SanctionRestController {
      * 전자 결재 승인 처리
      */
 
-    @PutMapping("/approval/{emplId}/{etprCode}")
-    public void approve(@PathVariable String emplId, @PathVariable String etprCode) throws SQLException {
-        service.approve(emplId, etprCode);
+    @PutMapping("/approval/{etprCode}")
+    public void approve(Principal principal, @PathVariable String etprCode) throws SQLException {
+        service.approve(principal.getName(), etprCode);
     }
 
-    @PutMapping("/final/approval/{emplId}/{etprCode}")
-    public void finalApprove(@PathVariable String emplId, @PathVariable String etprCode) throws SQLException {
-        service.finalApprove(emplId, etprCode);
+    @PutMapping("/final/approval/{etprCode}")
+    public void finalApprove(Principal principal,  @PathVariable String etprCode) throws SQLException {
+        service.finalApprove(principal.getName(), etprCode);
     }
 
     @PutMapping("/reject")
@@ -71,23 +72,23 @@ public class SanctionRestController {
      */
 
     @GetMapping("/status")
-    public String getStatus(String emplId, String progrs) throws SQLException {
-        return String.valueOf(service.getStatus(emplId, progrs));
+    public String getStatus(Principal principal, String progrs) throws SQLException {
+        return String.valueOf(service.getStatus(principal.getName(), progrs));
     }
 
-    @GetMapping("/request/{emplId}")
-    public List<SanctionVO> loadRequest(@PathVariable String emplId) throws SQLException {
-        return service.loadRequest(emplId);
+    @GetMapping("/request")
+    public List<SanctionVO> loadRequest(Principal principal) throws SQLException {
+        return service.loadRequest(principal.getName());
     }
 
-    @GetMapping("/awaiting/{emplId}")
-    public List<SanctionLineVO> loadAwaiting(@PathVariable String emplId) throws SQLException {
-        return service.loadAwaiting(emplId);
+    @GetMapping("/awaiting")
+    public List<SanctionLineVO> loadAwaiting(Principal principal) throws SQLException {
+        return service.loadAwaiting(principal.getName());
     }
 
-    @GetMapping("/reference/{emplId}")
-    public List<SanctionVO> loadReference(@PathVariable String emplId) throws SQLException {
-        return service.loadReference(emplId);
+    @GetMapping("/reference")
+    public List<SanctionVO> loadReference(Principal principal) throws SQLException {
+        return service.loadReference(principal.getName());
     }
 
 
@@ -95,9 +96,9 @@ public class SanctionRestController {
      * 결재선 지정 및 즐겨찾기
      */
 
-    @GetMapping("/line/{emplId}")
-    public List<EmployeeVO> loadAllLine(@PathVariable String emplId, @RequestParam(required = false, defaultValue = "") String keyword) throws SQLException {
-        return service.loadAllLine(emplId, keyword);
+    @GetMapping("/line")
+    public List<EmployeeVO> loadAllLine(Principal principal, @RequestParam(required = false, defaultValue = "") String keyword) throws SQLException {
+        return service.loadAllLine(principal.getName(), keyword);
     }
 
     @PostMapping("/bookmark")
@@ -105,9 +106,9 @@ public class SanctionRestController {
         service.inputBookmark(vo);
     }
 
-    @GetMapping("/bookmark/{emplId}")
-    public List<Map<String, String>> loadBookmark(@PathVariable String emplId) throws SQLException {
-        return service.loadBookmark(emplId);
+    @GetMapping("/bookmark")
+    public List<Map<String, String>> loadBookmark(Principal principal) throws SQLException {
+        return service.loadBookmark(principal.getName());
     }
 
     @DeleteMapping("/bookmark/{sn}")

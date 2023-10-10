@@ -42,7 +42,7 @@
             function loadRequest(){
                 $.ajax({
                     type: "GET",
-                    url: `/sanction/api/request/\${emplId}`,
+                    url: `/sanction/api/request`,
                     success: function (res) {
                         let code = "<table class='form approval-form'>";
                         code += `<thead><tr><th class="sticky-th">문서번호</th><th class="sticky-th">상태</th><th class="sticky-th">결재양식</th><th class="sticky-th">제목</th><th class="sticky-th">기안일시</th></tr></thead><tbody>`;
@@ -76,7 +76,7 @@
             */
             $("#approve").on("click", function () {
                 $.ajax({
-                    url: `/sanction/api/awaiting/\${emplId}`,
+                    url: `/sanction/api/awaiting`,
                     type: 'GET',
                     success: function (res) {
 
@@ -108,7 +108,7 @@
             */
             $("#reference").on("click", function () {
                 $.ajax({
-                    url: `/sanction/api/reference/\${emplId}`,
+                    url: `/sanction/api/reference`,
                     type: 'GET',
                     success: function (res) {
                         let code = "<table class='form approval-form'>";

@@ -91,7 +91,6 @@
                     url: "/sanction/api/status",
                     type: "GET",
                     data: {
-                        emplId: "${CustomUser.employeeVO.emplId}",
                         progrs: commonCodeSanctProgrsValues[index]
                     },
                     success: function (data) {

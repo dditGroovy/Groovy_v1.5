@@ -220,7 +220,7 @@
         function loadOrgLine() {
             keyword = document.querySelector("#searchLine").value;
             $.ajax({
-                url: `/sanction/api/line/\${emplId}?keyword=\${keyword}`,
+                url: `/sanction/api/line?keyword=\${keyword}`,
                 method: 'GET',
                 contentType: "application/json;charset=utf-8",
                 dataType: 'json',
@@ -278,7 +278,7 @@
         // 저장된 결재선 불러오기
         function loadLine() {
             $.ajax({
-                url: `/sanction/api/bookmark/\${emplId}`,
+                url: `/sanction/api/bookmark`,
                 type: "GET",
                 success: function (lines) {
                     let result = "";

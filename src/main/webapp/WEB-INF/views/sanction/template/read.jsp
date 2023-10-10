@@ -273,7 +273,7 @@
 
 
             $.ajax({
-                url: `/sanction/api/approval/\${id}/\${etprCode}`,
+                url: `/sanction/api/approval/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg();
@@ -324,7 +324,7 @@
         /* 최종 승인 처리 */
         function finalApprove(id) {
             $.ajax({
-                url: `/sanction/api/final/approval/\${id}/\${etprCode}`,
+                url: `/sanction/api/final/approval/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg();
