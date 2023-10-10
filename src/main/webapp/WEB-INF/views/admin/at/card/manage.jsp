@@ -127,12 +127,6 @@
     </div>
 
     <script>
-        window.onload = function () {
-            // 모든 요소가 로딩된 후에 실행할 코드
-            var script = document.createElement('script');
-            script.src = '/resources/js/modal.js';
-            document.head.appendChild(script);
-        };
         const cardListDiv = $("#cardList");
         const registerCardBtn = $("#registerCardBtn");
         const saveCardInfoBtn = $("#saveCardInfoBtn");
@@ -357,7 +351,6 @@
                 }
             })
         })
-
         function loadAllCard() {
             $.ajax({
                 url: "/card/loadAllCard",
@@ -572,5 +565,5 @@
     </script>
 </div>
 
-<%--<script src="/resources/js/modal.js"></script>--%>
+<script src="/resources/js/modal.js"></script>
 

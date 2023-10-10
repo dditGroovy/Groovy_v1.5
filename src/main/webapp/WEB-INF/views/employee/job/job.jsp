@@ -267,7 +267,7 @@
                                 ~
                                 <div class="data-box input-l modal-input">
                                     <p class="receive-close"></p>
-                                </div>간
+                                </div>
                             </div>
                         </li>
                         <li class="form-data-list">
