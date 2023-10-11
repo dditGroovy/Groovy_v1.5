@@ -374,7 +374,7 @@ public class EmailService {
         int port = 995;
         String emailAddr = employeeVO.getEmplEmail();
         if (employeeVO.getEmplEmail().contains("noreply")) {
-            password = "zwhfanbijftbggwx@1";
+            password = "groovy40@dditfinal";
             host = "pop.daum.net";
         } else if (employeeVO.getEmplEmail().contains("daum.net")) {
             password = this.password;
@@ -461,7 +461,7 @@ public class EmailService {
         if (emplEmail.contains("naver.com")) {
             mailSender = naverMailSender(emplEmail, password);
         } else if (emplEmail.contains("noreply")) {
-            mailSender = daumMailSender(emplEmail, "zwhfanbijftbggwx@1");
+            mailSender = daumMailSender(emplEmail, "groovy40@dditfinal");
         } else if (emplEmail.contains("daum.net")) {
             mailSender = daumMailSender(emplEmail, password);
         }

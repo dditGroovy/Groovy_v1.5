@@ -20,9 +20,7 @@
                UPLOAD_FILE_SIZE,
                UPLOAD_FILE_RGSDE
         FROM UPLOAD_FILE
-        WHERE UPLOAD_FILE_ETPR_CODE LIKE 'SD-AT%'
-          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
-          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE 'SD-AT-' ||  #{date} || '-' || #{emplId}
     </select>
 
     <insert id="uploadFile" parameterType="uploadFileVO">

@@ -57,7 +57,6 @@
                         type: "post",
                         success: function (result) {
                             if (result == "success") {
-                                alert("");
                                 Swal.fire({
                                     text: '비밀번호가 초기화 되었습니다 로그인 화면으로 이동합니다',
                                     showConfirmButton: false,
