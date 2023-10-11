@@ -153,23 +153,23 @@
 
         destroy() {}
     }
+    
     const getString = function (param) {
         const str = "${param}";
         return str;
     };
+    
     const StringRenderer = function (params) {
         return getString(params.value);
     };
+    
     function onQuickFilterChanged() {
         gridOptions.api.setQuickFilter(document.getElementById('quickFilter').value);
     }
+    
     const columnDefs = [
         {field: "fcltyResveSn", headerName: "순번", cellRenderer: returnValue, width: 100,cellStyle: {textAlign: "center"}},
-        {
-            field: "commonCodeFcltyKindParent", headerName: "시설 종류 구분", getQuickFilterText: (params) => {
-                return params.value
-            }, width: 150, cellStyle: {textAlign: "center"}
-        },
+        {field: "commonCodeFcltyKindParent", headerName: "시설 종류 구분", getQuickFilterText: (params) => {return params.value}, width: 150, cellStyle: {textAlign: "center"}},
         {field: "commonCodeFcltyKind", headerName: "시설 이름", width: 150, cellStyle: {textAlign: "center"}},
         {field: "fcltyResveBeginTime", headerName: "시작 시간", width: 150, cellStyle: {textAlign: "center"}},
         {field: "fcltyResveEndTime", headerName: "끝 시간", width: 150, cellStyle: {textAlign: "center"}},
@@ -177,23 +177,28 @@
         {field: "fcltyResveRequstMatter", headerName: "요청사항", width: 200, cellStyle: {textAlign: "center"}},
         {field: "chk", headerName: " ", cellRenderer: ClassBtn, width: 150, cellStyle: {textAlign: "center"}},
     ];
-    let count=0;
-    const rowData = [];
-    <c:forEach items="${toDayList}" var="room">
-    count++;
-    <c:set var="beginTime" value="${room.fcltyResveBeginTime}"/>
-    <fmt:formatDate var="fBeginTime" value="${beginTime}" pattern="HH:mm"/>
-    <c:set var="endTime" value="${room.fcltyResveEndTime}"/>
-    <fmt:formatDate var="fEndTime" value="${endTime}" pattern="HH:mm"/>
-    //요청사항이 null이여도 출력되게 바꾸었음
-    <c:set var="requestMatter" value="${room.fcltyResveRequstMatter}"/>
-    <c:if test="${empty requestMatter}">
-    <c:set var="requestMatter" value=""/>
-    </c:if>
     
-    <c:set var="isoFormattedEndTime">
-		<fmt:formatDate value="${room.fcltyResveEndTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
-	</c:set>
+    const rowData = [];
+    let count=0;
+    
+    <c:forEach items="${toDayList}" var="room">
+    
+    	count++;
+    	<c:set var="beginTime" value="${room.fcltyResveBeginTime}"/>
+    		<fmt:formatDate var="fBeginTime" value="${beginTime}" pattern="HH:mm"/>
+    	<c:set var="endTime" value="${room.fcltyResveEndTime}"/>
+    		<fmt:formatDate var="fEndTime" value="${endTime}" pattern="HH:mm"/>
+    	
+    		//요청사항이 null이여도 출력되게 바꾸었음
+    	<c:set var="requestMatter" value="${room.fcltyResveRequstMatter}"/>
+    	
+    	<c:if test="${empty requestMatter}">
+    		<c:set var="requestMatter" value=""/>
+    	</c:if>
+    
+    	<c:set var="isoFormattedEndTime">
+			<fmt:formatDate value="${room.fcltyResveEndTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+		</c:set>
 
     rowData.push({
         fcltyResveSn: count,
@@ -206,11 +211,11 @@
         chk:"${room.fcltyResveSn}",
         endTime: new Date("${isoFormattedEndTime}")
     });
-	console.log(rowData.pop().endTime);
 	
-    //이 콘솔 로그는 지우면 안됨 콘솔로그 추가하니까 안나오던 값이 나왔음
-    //원인은 아직 확인이 안됨 좀더 분석해봐야 할듯
-    console.log(rowData);
+    //이 콘솔 로그가 원인임, rowData,pop().endTime으로 재설정해서,
+    //기존의 endTime을 rowData배열에서 배열에 추가된 데이터를 삭제한 다음 끝 시간 (endTime)을 출력하게 되어
+    //aggrid가 정상적인 출력이 안되었음
+    //console.log(rowData.pop().endTime);
     
     </c:forEach>
 
