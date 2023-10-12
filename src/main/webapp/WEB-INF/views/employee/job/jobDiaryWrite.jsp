@@ -13,7 +13,7 @@
                     <table class="form">
                         <tr>
                             <th>제목</th>
-                            <td><input type="text" name="jobDiarySbj" placeholder="제목을 입력해주세요." required class="jobDiarySbj" /></td>
+                            <td style="display: flex; gap: var(--vw-12)"><input type="text" name="jobDiarySbj" placeholder="제목을 입력해주세요." required class="jobDiarySbj" /><button type="button" class="btn-autofill write-autofill">+</button></td>
                         </tr>
                         <tr>
                             <th>등록일</th>
@@ -59,4 +59,18 @@
         editor.showNotification('This field is required.', 'warning');
         evt.cancel();
     });
+
+    document.querySelector(".write-autofill").addEventListener("click", () => {
+        document.querySelector(".jobDiarySbj").value = "[23-10-17] 신짱구 업무 일지";
+        CKEDITOR.instances.editor.setData(`<p><strong>[ 2023-10-12 ]</strong></p>
+                                            <p>- 오늘 한 일</p>
+                                            <p>1) 신입사원 교육</p>
+                                            <p>2) 총무팀과의 프로젝트 회의</p>
+                                            <p>3) 보고서 제출 및 관련 업무 결재</p>
+                                            <p>- 내일 할 일:</p>
+                                            <p>워크샵 숙소 예약</p>
+                                            `);
+    });
+
+
 </script>
