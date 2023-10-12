@@ -13,7 +13,7 @@
                     <table class="form">
                         <tr>
                             <th>제목</th>
-                            <td style="display: flex; gap: var(--vw-12)"><input type="text" name="jobDiarySbj" placeholder="제목을 입력해주세요." required class="jobDiarySbj" /><button type="button" class="btn-autofill write-autofill">+</button></td>
+                            <td style="display: flex; gap: var(--vw-12)"><input type="text" name="jobDiarySbj" placeholder="제목을 입력해주세요." required class="jobDiarySbj" /><button type="button" class="btn btn-free-white btn-autofill write-autofill">+</button></td>
                         </tr>
                         <tr>
                             <th>등록일</th>

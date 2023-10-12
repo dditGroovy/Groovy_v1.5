@@ -601,8 +601,8 @@ document.querySelector(".request-autofill").addEventListener("click", () => {
 });
 
 document.querySelector(".new-autofill").addEventListener("click", () => {
-    document.querySelector("#sj").value = "탕비실 비품 주문 부탁드립니다.";
-    document.querySelector("#cn").value = "커피 원두랑 간식 채워주세요. ^^";
+    document.querySelector("#sj").value = "휴가 결재 올리기";
+    document.querySelector("#cn").value = "청첩장💌파일 첨부(조누루팀장,봉미선부장)";
     document.querySelector("#date-begin").value = "2023-10-17";
     document.querySelector("#date-close").value = "2023-10-17";
     document.querySelector("#personalData").checked = "true";

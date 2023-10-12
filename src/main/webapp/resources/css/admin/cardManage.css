@@ -272,3 +272,10 @@
 .right-align {
     justify-content: right !important;
 }
+
+#newCardNm {
+    border: none;
+    width: 100%;
+    outline: none;
+
+}
