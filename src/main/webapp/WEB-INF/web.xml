@@ -60,6 +60,14 @@
         <error-code>403</error-code>
         <location>/WEB-INF/views/security/403.jsp</location>
     </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/security/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/security/500.jsp</location>
+    </error-page>
     <!-- 한글 처리 -> request.setCharacterEncoding("UTF-8") 안 해도 됨! -->
     <filter>
         <filter-name>encodingFilter</filter-name>

@@ -39,13 +39,21 @@
                 <div class="btn-wrap">
                     <div class="error"></div>
                     <button type="button" class="btn btn-free-blue input-l" id="submitBtn">비밀번호 설정하기</button>
+                    <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
                 </div>
             </form>
         </div>
     </main>
 </div>
 <script src="/resources/js/validate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script>
+
+    // autofill
+    $("#autofill").on("click",function (){
+        $("input[type='password']").val("groovy40@dditfinal");
+    })
     document.addEventListener("DOMContentLoaded", function() {
         const passwordField = document.getElementById("empPass");
         const passwordConfirmField = document.getElementById("passwordchk");
