@@ -21,6 +21,9 @@
                         <a href="${pageContext.request.contextPath}/email/sendMine" class="send-mine"><i
                                 class="icon i-change"></i>내게 쓰기</a>
                     </div>
+                    <div>
+                        <button class="btn-autofill" type="button">+</button>
+                    </div>
                 </div>
                 <div class="content-body">
                     <div class="mail-write-options">
@@ -279,18 +282,17 @@
                                 }
                                 if (orgBtn.getAttribute("id") === "orgBtnTo") {
                                     str += `<span data-id=\${empl.emplId} class="badge emplBadge">
-                                            \${empl.emplNm}
-                                            <button type="button" class="close-empl btn">x</button>
-                                        </span>
-                                            <input type="hidden" name="emplIdToArr" value="\${empl.emplId}">`;
+                                                \${empl.emplNm}
+                                                <button type="button" class="close-empl btn">x</button>
+                                                <input type="hidden" name="emplIdToArr" value="\${empl.emplId}">
+                                            </span>`;
                                 } else if (orgBtn.getAttribute("id") === "orgBtnCc") {
                                     str += `<span data-id=\${empl.emplId} class="badge emplBadge">
-                                            \${empl.emplNm}
-                                            <button type="button" class="close-empl btn">x</button>
-                                            <input type="hidden" name="emplIdCcArr" value="\${empl.emplId}">
-                                        </span>`;
+                                                \${empl.emplNm}
+                                                <button type="button" class="close-empl btn">x</button>
+                                                <input type="hidden" name="emplIdCcArr" value="\${empl.emplId}">
+                                            </span>`;
                                 }
-
                             }
                         });
                         receive.insertAdjacentHTML("afterend", str);
@@ -384,4 +386,9 @@
         document.querySelector("#file" + num).remove();
         filesArr[num].is_delete = true;
     }
+
+    document.querySelector(".btn-autofill").addEventListener("click", function () {
+        document.querySelector("#emailFromSj").value = "[인사팀] 등본, 가족관계증명서, 졸업증명서 보내주시기 바랍니다.";
+        CKEDITOR.instances.editor.setData("<p>3개월 이내 발급한 등본과 가족관계 증명서, 졸업증명서 압축한 후 답장 부탁드립니다.</p>");
+    });
 </script>
