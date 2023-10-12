@@ -1,2 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h1>접근 권한 없음</h1>
+<style>
+    .container {
+        padding: 0 !important;
+    }
+</style>
+<div class="content-container" style="height: 100vh; display: flex; align-items: center;  justify-content: center; " >
+    <img src="/resources/images/object/error500.png" alt="500 에러">
+</div>
