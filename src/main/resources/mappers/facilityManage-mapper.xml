@@ -76,7 +76,7 @@
 </select>
 
 <!-- 오늘 예약 현황 조회 -->
-<select id="findTodayResve" resultType="facilityVO" >
+<select id="findTodayResve" resultType="facilityVOMap" >
     SELECT 
         A.COMMON_CODE_FCLTY_KIND AS COMMON_CODE_FCLTY_KIND,
         C.COMMON_NAME AS COMMON_NAME,
