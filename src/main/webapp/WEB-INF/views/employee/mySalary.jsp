@@ -161,18 +161,17 @@
                 code = "";
                 $.each(result, function (idx, obj) {
                     let date = new Date(obj.salaryDtsmtIssuDate);
-                    let months = date.getMonth(); // 기준 달보다 1 작음
-                    let formatedDate = date.getFullYear() + "년 " +
-                        (months < 9 ? "0" : "") + (months + 1) + "월 " +
-                        (date.getDate() < 10 ? "0" : "") + date.getDate() + "일";
-                    let paymentDate = date.getFullYear() + "-" +
-                        (months < 9 ? "0" : "") + (months + 1) + "-" +
-                        (date.getDate() < 10 ? "0" : "") + date.getDate();
+                    let paymentYear = date.getFullYear();
+                    let month = date.getMonth();
+                    let paymentMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+                    let paymentDay = date.getDate().toString().padStart(2, '0');
+                    let formatedDate = `\${paymentYear}년 \${paymentMonth}월 \${paymentDay}일`;
+                    let paymentDate = `\${paymentYear}-\${paymentMonth}-\${paymentDay}`;
                     let netPay = obj.salaryDtsmtNetPay.toLocaleString();
                     code += `
                          <li><a href="/salary/paystub/detail/\${paymentDate}" class="payStub-item">
                             <div class="item-wrap">
-                                <strong>\${months}월</strong>
+                                <strong>\${month}월</strong>
                                 <span>\${formatedDate} 지급</span>
                             </div>
                             <div class="item-wrap">
@@ -196,7 +195,6 @@
 
     $("#hideAmount").on("click", function () {
         let isChecked = $(this).prop("checked");
-
         $.ajax({
             url: "/salary/paystub/saveCheckboxState",
             type: "post",
@@ -204,7 +202,6 @@
             success: function (result) {
             },
             error: function (xhr) {
-
             }
         });
     });
