@@ -24,7 +24,7 @@
                     <select name="notiCtgryIconFileStreNm" id="noti-category" class="selectBox">
                         <option value="important.png">중요</option>
                         <option value="notice.png">공지</option>
-                        <option value="event.png">행사</option>
+                        <option value="event.png" class="wedding">행사</option>
                         <option value="obituary.png">부고</option>
                     </select>
                 </div>
@@ -57,9 +57,15 @@
     // 자동채우기
     let editor = CKEDITOR.replace("noti-content");
     $("#autofill").on("click", function () {
+		$(".wedding").prop("selected", true)
         $("#noti-title").val("인사팀 신짱구 사원 결혼식 안내");
-		let pTag = "<p>내용</p>"
-		$(".cke_show_borders").html(pTag)
+		editor.setData(`
+                        <p>기쁜 소식을 전달해 드립니다🎉</p>
+                        <p>10월 21일 토요일에 인사팀 신짱구 사원이 한 신부의 신랑이 됩니다.</p>
+                        <p>새 출발을 하는 신짱구 사원의 앞으로의 모든 나날에 사랑이 깃들도록</p>
+                        <p>함께 축복해 주시길 바랍니다!</p>
+                        <p>자세한 시간과 장소는 첨부한 파일을 참고해 주세요🙌</p>
+                        `);
     })
     let maxNum;
 

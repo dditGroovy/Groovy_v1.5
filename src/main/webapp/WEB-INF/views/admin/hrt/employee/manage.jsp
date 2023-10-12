@@ -213,7 +213,7 @@
 <script>
     // Autofill
     $("#autofill").on("click", function () {
-        $("input[name='emplNm']").val("신짱아");
+        $("input[name='emplNm']").val("맹구");
         $("input[name='emplPassword']").val("groovy40@dditfinal");
         $("input[name='emplTelno']").val("010-8890-0345");
         $("input[name='emplBrthdy']").val("2020-05-03");

@@ -20,6 +20,10 @@
     .notice-content {
         display: none;
     }
+
+    .cke_editable {
+        font-size: var(--font-size-36) !important;
+    }
 </style>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>

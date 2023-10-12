@@ -35,6 +35,10 @@
                 <div class="checkboxWrap">
                     <input type="checkbox" name="remember-me" id="rememberId" class="checkBox"/>
                     <label for="rememberId" class="checkBoxLabel">아이디 기억하기</label>
+                    <button type="button" id="autofill1" class="btn btn-free-white btn-autofill">+</button>
+                    <button type="button" id="autofill2" class="btn btn-free-white btn-autofill">+</button>
+                    <button type="button" id="autofill3" class="btn btn-free-white btn-autofill">+</button>
+
                 </div>
                 <div class="find-id-pw"><a href="${pageContext.request.contextPath}/employee/findPassword" class="font-14 color-font-row">비밀번호를 잊으셨나요?</a></div>
 
@@ -64,6 +68,24 @@
 <%--    });--%>
 <%--</script>--%>
 <script>
+
+    // 짱구
+    $("#autofill1").on("click",function (){
+        $("input[name='emplId']").val("202309008");
+        $("input[name='emplPassword']").val("groovy40@dditfinal");
+    })
+    // 봉미선
+    $("#autofill2").on("click",function (){
+        $("input[name='emplId']").val("201808001");
+        $("input[name='emplPassword']").val("groovy40@dditfinal");
+    })
+    // 나미리
+    $("#autofill3").on("click",function (){
+        $("input[name='emplId']").val("201808002");
+        $("input[name='emplPassword']").val("groovy40@dditfinal");
+    })
+
+
     const loading_page = document.getElementById("loading");
     window.onload = function(){
         setTimeout(function() {
