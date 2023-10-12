@@ -19,6 +19,7 @@
         <div class="dim-bg"></div>
         <div class="modal-layer card-df sm registerCard">
             <div class="modal-top register-top">
+                <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
                 <div class="modal-title register-title"><i class="icon-card"></i>카드 등록</div>
                 <button type="button" class="modal-close btn close">
                     <i class="icon i-close close">X</i>
@@ -560,6 +561,12 @@
 
         document.querySelector(".info-close").addEventListener("click", () => {
             document.querySelector(".btn-info-wrapper").style.display = "none";
+        })
+
+        $("#autofill").on("click", function() {
+            $("#cardName").val("총무팀 카드");
+            $("#cardNo").val("5738492048314713");
+            $("#cardCom").val("삼성카드");
         })
 
     </script>
