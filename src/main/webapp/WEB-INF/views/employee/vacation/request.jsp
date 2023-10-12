@@ -32,6 +32,7 @@
                     <i class="icon i-close close">X</i>
                 </button>
             </div>
+
             <div class="modal-container">
                 <form action="${pageContext.request.contextPath}/vacation/request" method="post"
                       id="vacationRequestForm">
@@ -42,10 +43,10 @@
                             <tr>
                                 <th>휴가 구분</th>
                                 <td>
-                                    <input type="radio" name="commonCodeYrycUseKind" value="YRYC010">
+                                    <input type="radio" name="commonCodeYrycUseKind" value="YRYC010" >
                                     <label for="vacation1">연차</label>
 
-                                    <input type="radio" name="commonCodeYrycUseKind" value="YRYC011">
+                                    <input type="radio" name="commonCodeYrycUseKind" value="YRYC011" class="wedding">
                                     <label for="vacation2">공가</label>
                                 </td>
                             </tr>
@@ -56,7 +57,7 @@
                                     <label for="morning">오전 반차</label>
                                     <input type="radio" name="commonCodeYrycUseSe" value="YRYC021">
                                     <label for="afternoon">오후 반차</label>
-                                    <input type="radio" name="commonCodeYrycUseSe" value="YRYC022">
+                                    <input type="radio" name="commonCodeYrycUseSe" value="YRYC022" class="allDay">
                                     <label for="allDay">종일</label>
                                 </td>
                             </tr>
@@ -70,8 +71,7 @@
                             <tr>
                                 <th>내용</th>
                                 <td>
-                                <textarea name="yrycUseDtlsRm" cols="30" rows="10"
-                                ></textarea>
+                                <textarea name="yrycUseDtlsRm" cols="30" rows="10"></textarea>
                                 </td>
                             </tr>
                         </table>
@@ -81,6 +81,7 @@
             <div class="modal-footer btn-wrapper">
                 <button type="submit" class="btn btn-fill-bl-sm" id="requestCard">확인</button>
                 <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+                <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
             </div>
         </div>
 
@@ -172,6 +173,14 @@
     <script src="${pageContext.request.contextPath}/resources/js/sanction.js"></script>
     <script>
 
+        // autofill
+        $("#autofill").on("click",function (){
+            $(".wedding").prop("checked", true);
+            $(".allDay").prop("checked", true);
+            $("input[name='yrycUseDtlsBeginDate']").val("2023-10-21");
+            $("input[name='yrycUseDtlsEndDate']").val("2023-10-27");
+            $("textarea[name='yrycUseDtlsRm']").val("결혼합니다.");
+        })
 
         $(document).ready(function () {
             loadRecord()

@@ -18,6 +18,7 @@
                     <div class="accordion-wrap">
                         <div class="que" onclick="accordion(this);">
                             <p class="font-md font-18 color-font-md">1. 기본 정보 입력</p>
+
                             <i class="icon i-arr-bt"></i>
                         </div>
                         <div class="anw">
@@ -38,7 +39,8 @@
 
                                 <div class="accordion-row">
                                     <label>휴대폰 번호</label><br/>
-                                    <input type="text" name="emplTelno" id="emplTel" placeholder="휴대폰 번호 입력" required><br/>
+                                    <input type="text" name="emplTelno" id="emplTel" placeholder="휴대폰 번호 입력"
+                                           required><br/>
                                 </div>
                                 <div class="accordion-row">
                                     <label>생년월일</label><br/>
@@ -47,13 +49,17 @@
                                 <div class="accordion-row">
                                     <label class="checkBoxLabel">최종학력</label><br/>
                                     <div class="radioBox">
-                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu1" value="LAST_ACDMCR010" checked>
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu1"
+                                               value="LAST_ACDMCR010" checked>
                                         <label for="empEdu1">고졸</label>
-                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu2" value="LAST_ACDMCR011">
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu2"
+                                               value="LAST_ACDMCR011">
                                         <label for="empEdu2">학사</label>
-                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu3" value="LAST_ACDMCR012">
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu3"
+                                               value="LAST_ACDMCR012">
                                         <label for="empEdu3">석사</label>
-                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu4" value="LAST_ACDMCR013">
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu4"
+                                               value="LAST_ACDMCR013">
                                         <label for="empEdu3">박사</label><br/>
                                     </div>
                                 </div>
@@ -90,7 +96,7 @@
                                         <option value="DEPT012">영업팀</option>
                                         <option value="DEPT013">홍보팀</option>
                                         <option value="DEPT014">총무팀</option>
-<%--                                        <option value="DEPT015">경영자</option>--%>
+                                        <%--                                        <option value="DEPT015">경영자</option>--%>
                                     </select>
                                 </div>
                             </div>
@@ -109,8 +115,8 @@
                                     <label for="empPos5" class="radioLabel">팀장</label>
                                     <input type="radio" name="commonCodeClsf" id="empPos6" value="CLSF011">
                                     <label for="empPos6" class="radioLabel">부장</label>
-<%--                                    <input type="radio" name="commonCodeClsf" id="empPos7" value="CLSF010">--%>
-<%--                                    <label for="empPos7" class="radioLabel">대표이사</label>--%>
+                                    <%--                                    <input type="radio" name="commonCodeClsf" id="empPos7" value="CLSF010">--%>
+                                    <%--                                    <label for="empPos7" class="radioLabel">대표이사</label>--%>
                                 </div>
                             </div>
                             <div class="accordion-row">
@@ -120,12 +126,14 @@
                             <div class="accordion-flex">
                                 <div class="accordion-row">
                                     <label>사원번호</label>
-                                    <button id="generateId" type="button" class="btn btn-free-blue empBtn">사원 번호 생성</button>
+                                    <button id="generateId" type="button" class="btn btn-free-blue empBtn">사원 번호 생성
+                                    </button>
                                     <input type="text" name="emplId" id="emplId" required readonly>
                                 </div>
                                 <div class="accordion-row">
                                     <label>이메일</label><br/>
-                                    <input type="email" name="emplEmail" id="emplEmail" placeholder="이메일 입력" required><br/>
+                                    <input type="email" name="emplEmail" id="emplEmail" placeholder="이메일 입력"
+                                           required><br/>
                                 </div>
                             </div>
                         </div>
@@ -149,6 +157,8 @@
                     <div class="modal-footer btn-wrapper">
                         <button type="reset" class="btn btn-fill-wh-sm close">취소</button>
                         <button type="submit" id="insert" class="btn btn-fill-bl-sm">등록</button>
+                        <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
+
                     </div>
                 </div>
             </form>
@@ -183,7 +193,8 @@
                     </div>
                     <div class="search btn-fill-wh-lg">
                         <i class="icon i-search"></i>
-                        <input type="text" name="searchName" id="findInput" class="search-input font-reg font-14" placeholder="이름, 사번">
+                        <input type="text" name="searchName" id="findInput" class="search-input font-reg font-14"
+                               placeholder="이름, 사번">
                         <button type="button" id="findEmp" class="btn-search btn-flat btn">검색</button>
                     </div>
                 </div>
@@ -200,12 +211,25 @@
     <div id="pagination"></div>
 </div>
 <script>
+    // Autofill
+    $("#autofill").on("click", function () {
+        $("input[name='emplNm']").val("신짱아");
+        $("input[name='emplPassword']").val("groovy40@dditfinal");
+        $("input[name='emplTelno']").val("010-8890-0345");
+        $("input[name='emplBrthdy']").val("2020-05-03");
+        $("#empEdu2").prop("checked", true);
+        $("input[name='emplZip']").val("34908");
+        $("input[name='emplAdres']").val("대전광역시 중구 계룡로 846");
+        $("input[name='emplDetailAdres']").val("4층");
+    })
+
     let page = `${pageVO.page}`;
     let depCode = `${pageVO.depCode}`;
     let emplNm = `${pageVO.emplNm}`;
     let sortBy = `${pageVO.sortBy}`;
     let ques = document.querySelectorAll(".que");
     let anws = document.querySelectorAll(".anw");
+
     function queZero() {
         anws[0].style.maxHeight = anws[0].scrollHeight + "px";
         anws[1].style.maxHeight = "0px";
@@ -225,7 +249,7 @@
     })
     let telInput = $("#emplTel")
     telInput.on('input', function () {
-        let telno =  telInput.val().replace(/-/g, '');
+        let telno = telInput.val().replace(/-/g, '');
 
         if (telno.length >= 4) {
             telno = telno.slice(0, 3) + '-' + telno.slice(3);
@@ -238,6 +262,7 @@
         }
         telInput.val(telno);
     });
+
     function accordion(element) {
         var content = element.nextElementSibling;
 
@@ -247,7 +272,7 @@
             content.style.maxHeight = "0px";
         } else {
             let anws = document.querySelectorAll(".anw");
-            anws.forEach( anw => {
+            anws.forEach(anw => {
                 anw.style.maxHeight = "0px";
             });
             content.style.maxHeight = content.scrollHeight + "px";
@@ -359,7 +384,7 @@
                                                </a>
                                              </li>
                                 `;
-                        for (let i = pager.startNum; i <= pager.lastNum ; i++) {
+                        for (let i = pager.startNum; i <= pager.lastNum; i++) {
                             if (i != 0) {
                                 pCode += `
                                         <li class="page-item \${pager.page==i? 'active':''}">
@@ -391,6 +416,7 @@
                 }
             });
         }
+
         /*사원 목록 불러오기 */
         function getEmpList() {
             $.ajax({
@@ -434,7 +460,7 @@
                                                </a>
                                              </li>
                                 `;
-                        for (let i = pager.startNum; i <= pager.lastNum ; i++) {
+                        for (let i = pager.startNum; i <= pager.lastNum; i++) {
                             pCode += `
                                         <li class="page-item \${pager.page==i? 'active':''}">
                                             <a class="page-link page-num" href="./manageEmp?page=\${i}">\${i}</a>

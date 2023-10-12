@@ -59,6 +59,8 @@
                 <input type="password" id="password" name="password" placeholder="PASSWORD"
                        class="userPw btn-free-white input-l"/>
                 <button type="submit" class="btn-free-blue checkBtn btn">확인</button>
+                <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
+
             </form>
         </div>
         <div id="modifyRes" class="main-desc">
@@ -70,6 +72,10 @@
 </div>
 
 <script>
+    $("#autofill").on("click",function (){
+        $("input[name='password']").val("groovy40@dditfinal");
+    })
+
     document.querySelector("input").addEventListener('keyup', function (event) {
         if (event.key === 'Enter') {
             document.querySelector("#form").submit();

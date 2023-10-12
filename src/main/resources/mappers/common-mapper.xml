@@ -47,15 +47,18 @@
     <select id="loadNotice" resultType="noticeVO">
         SELECT NOTI_ETPR_CODE,
                NOTI_TITLE,
-               NOTI_CONTENT,
                NOTI_DATE,
-               NOTI_RDCNT,
                NOTI_CTGRY_ICON_FILE_STRE_NM,
                COMMON_CODE_NOTI_KIND
-        FROM NOTI
+        FROM (SELECT NOTI_ETPR_CODE,
+                     NOTI_TITLE,
+                     NOTI_DATE,
+                     NOTI_CTGRY_ICON_FILE_STRE_NM,
+                     COMMON_CODE_NOTI_KIND
+              FROM NOTI
+              WHERE COMMON_CODE_NOTI_KIND = 'NOTI020'
+              ORDER BY NOTI_DATE DESC)
         WHERE ROWNUM &lt;= 2
-          AND COMMON_CODE_NOTI_KIND = 'NOTI020'
-        ORDER BY NOTI_DATE DESC
     </select>
     <select id="loadSanction" parameterType="String" resultType="sanctionVO">
         SELECT ELCTRN_SANCTN_SJ,
