@@ -78,6 +78,7 @@
             </form>
         </div>
         <div class="modal-footer btn-wrapper">
+            <button type="button" class="btn btn-free-white btn-autofill" onclick="autoFill()">+</button>
             <button type="button" class="btn btn-fill-wh-sm close">취소</button>
             <button id="proposalBtn" class="btn btn-fill-bl-sm">제안하기</button>
         </div>
@@ -265,4 +266,19 @@
             return false;
         }
     })
+    /* autoFill */
+    function autoFill(){
+        let clbKind = document.querySelector("#clbKind");
+        let clbNm = document.querySelector("#clbNm");
+        let clbDc = document.querySelector("#clbDc");
+        let clbPsncpa = document.querySelector("#clbPsncpa");
+
+        clbKind.value = "커피";
+        clbNm.value = "CUP OF EXPERIENCE";
+        clbDc.value = "커피를 좋아하는 사람들의 모입입니다 : ) \n커피에 대한 생각과 바리스타 자격증 함께 준비해요 🙆‍♂️ ";
+        clbPsncpa.value = 8;
+    }
+
+
+
 </script>
