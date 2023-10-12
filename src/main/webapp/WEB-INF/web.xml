@@ -68,6 +68,10 @@
         <error-code>500</error-code>
         <location>/WEB-INF/views/security/500.jsp</location>
     </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/WEB-INF/views/security/401.jsp</location>
+    </error-page>
     <!-- 한글 처리 -> request.setCharacterEncoding("UTF-8") 안 해도 됨! -->
     <filter>
         <filter-name>encodingFilter</filter-name>
