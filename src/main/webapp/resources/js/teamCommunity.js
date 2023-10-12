@@ -723,3 +723,67 @@ serviceBtn.forEach(item => {
         item.classList.add("on");
     })
 })
+
+const inputPostForm = document.querySelector("#inputPostForm");
+inputPostForm.addEventListener("submit",e=>{
+    e.preventDefault();
+})
+
+const sntncCnVal = document.querySelector("#sntncCn").value;
+document.querySelector("#insertPostBtn").addEventListener("click",()=>{
+    if(sntncCnVal == ""){
+        Swal.fire({
+            text: '포스트 내용을 입력해주세요!',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return;
+    }else {
+        inputPostForm.submit();
+    }
+
+})
+
+/*  autoFill    */
+function autoFill(cate){
+    if(cate == "post"){
+        let text = "여러분~~ 짱구씨 결혼 전에 회식하려는데 투표해주세요~~~";
+        document.querySelector("#sntncCn").value = text;
+        return;
+    }
+    if(cate == "vote"){
+        let textArr = ["소고기","피자","회","불참"]
+        document.querySelector("#voteRegistTitle").value = "짱구씨 결혼 전 회식 메뉴~";
+        for(let i = 0; i < 4; i++){
+            const newDiv = document.createElement("div");
+            newDiv.classList = "option";
+
+            const newInput = document.createElement("input");
+            const optionBody = document.querySelector(".option-body");
+
+            newInput.type = "text";
+            newInput.id = "voteOptionContents" + i;
+            newInput.name = `voteOptionContents`;
+            newInput.classList.add("input-l");
+            newInput.classList.add("modal-input");
+            newInput.value = textArr[i];
+            const newBtn = document.createElement("button");
+            newBtn.type = "button";
+            newBtn.classList = "optiondelete btn";
+
+            newBtn.innerHTML = '<i class="icon i-close"></i>';
+            newDiv.append(newInput);
+            newDiv.append(newBtn);
+            optionBody.append(newDiv);
+
+            num = 4;
+        }
+        document.querySelector("#voteOptionContents0").value = "삼겹살";
+        voteRegistEndDate.value = "2023-10-17";
+    }
+    if(cate == "noti"){
+        notisntncSj.value = "10월 17일 신짱구 결혼";
+        notisntncCn.value = "10월 17일 신짱구 사원 결혼합니다. \n자세한 사항은 포스트 청첩장 확인"
+    }
+}
+

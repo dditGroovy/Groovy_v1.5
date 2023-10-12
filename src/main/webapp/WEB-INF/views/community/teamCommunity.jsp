@@ -58,7 +58,7 @@
                                 <div class="post-card-header">
                                     <h3 class="card-title"><i class="icon i-idea i-3d"></i>포스트 등록</h3>
                                 </div>
-                                <form action="${pageContext.request.contextPath}/teamCommunity/inputPost" method="post"  enctype="multipart/form-data">
+                                <form action="${pageContext.request.contextPath}/teamCommunity/inputPost" method="post" onsubmit="return false;"  enctype="multipart/form-data" id="inputPostForm">
                                     <div class="post-card-body">
                                             <div class="content-wrap">
                                                <textarea name="sntncCn" id="sntncCn" class="input-l"></textarea>
@@ -74,7 +74,8 @@
                                             <p id="originName"></p>
                                         </div>
                                         <div class="btn-wrap">
-                                            <button id="insertPostBtn" class="btn btn-free-blue">등록</button>
+                                            <button type="button" class="btn btn-free-white btn-autofill" onclick="autoFill('post')">+</button>
+                                            <button type="button" id="insertPostBtn" class="btn btn-free-blue">등록</button>
                                         </div>
                                     </div>
                                 </form>
@@ -227,7 +228,8 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-wrap">
-                    <button id="cancel" class="btn btn-fill-wh-sm">취소</button>
+                    <button type="button" class="btn btn-free-white btn-autofill" onclick="autoFill('vote')">+</button>
+                    <button id="cancel" class="btn btn-fill-wh-sm close">취소</button>
                     <button id="inputVoteRegisterBtn" class="btn btn-fill-bl-sm">등록</button>
                 </div>
             </div>
@@ -253,6 +255,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-wrap">
+                    <button type="button" class="btn btn-free-white btn-autofill" onclick="autoFill('noti')">+</button>
                     <button class="close btn btn-fill-wh-sm">취소</button>
                     <button id="insertNotice" class="btn btn-fill-bl-sm">등록</button>
                     <button id="modifyNotice" class="btn btn-fill-bl-sm" style="display:none;">수정</button>
