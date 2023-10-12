@@ -6,6 +6,7 @@
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/employee/commute" class="on">메모장</a></h1>
         <h2 class="main-desc">나만의 메모 공간 &#x1F4AD;</h2>
+        <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
     </header>
     <main>
         <div class="main-inner">
@@ -52,6 +53,12 @@
     </main>
 </div>
 <script>
+	$("#autofill").on("click", function() {
+	    $("#memoSj").val("10월 21일 쨍구 사원 결혼");
+	    $("#memoCn").val("결혼식 끝나고 미리 팀장이랑 카페 가기");
+	})
+
+
     const inputMemoBtn = document.querySelector("#inputMemoBtn");
     const memoLists = document.querySelector("#memoLists");
     let flug = true;
