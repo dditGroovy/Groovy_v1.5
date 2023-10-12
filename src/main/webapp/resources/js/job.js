@@ -590,3 +590,21 @@ dutykinds.forEach(kind => {
         kind.classList.add("badge-etc-meeting");
     }
 });
+
+document.querySelector(".request-autofill").addEventListener("click", () => {
+    document.querySelector("#jobSj").value = "탕비실 비품 주문 부탁드립니다.";
+    document.querySelector("#jobCn").value = "커피 원두랑 간식 채워주세요. ^^";
+    document.querySelector("#jobBeginDate").value = "2023-10-17";
+    document.querySelector("#jobClosDate").value = "2023-10-19";
+    document.querySelector("#team").checked = "true";
+    document.querySelector("#DUTY030").checked = "true";
+});
+
+document.querySelector(".new-autofill").addEventListener("click", () => {
+    document.querySelector("#sj").value = "탕비실 비품 주문 부탁드립니다.";
+    document.querySelector("#cn").value = "커피 원두랑 간식 채워주세요. ^^";
+    document.querySelector("#date-begin").value = "2023-10-17";
+    document.querySelector("#date-close").value = "2023-10-17";
+    document.querySelector("#personalData").checked = "true";
+    document.querySelector("#beforeData").checked = "true";
+});

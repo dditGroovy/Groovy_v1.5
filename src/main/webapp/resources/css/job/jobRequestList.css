@@ -145,6 +145,12 @@ form {
 	color: aliceblue ;
 }
 
+.승인 {
+	background: var(--color-main);
+	width: calc((100 / 1920) * 100vw) !important;
+
+}
+
 .stand, .approval, .refuse {
 	float: right ;
 }
@@ -155,7 +161,7 @@ form {
 	background: var(--color-font-row) ;
 }
 
-.approval, .승인 {
+.approval {
 	width: 10px ;
 	height: 10px ;
 	background: var(--color-main) ;
@@ -177,8 +183,7 @@ form {
 }
 
 .data-box>.승인 {
-	height: var(--vh-32);
-	width: calc((140/var(--vw)) * 100vw);
+	/*width: calc((140/var(--vw)) * 100vw);*/
 }
 
 .names {
@@ -342,7 +347,7 @@ form {
 
 .승인 span, .거절 span, .대기 span {
 	color: var(--color-white)
-}
+}인
 
 .btn-fill-bl-sm {
     width: calc(( 256/ var(--vw))* 100vw) ;
