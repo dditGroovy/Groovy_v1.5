@@ -30,6 +30,7 @@
              , VHCLE_PSNCPA
              , COMMON_CODE_HIPASS_ASN_AT
         FROM VHCLE
+        ORDER BY VHCLE_PSNCPA, COMMON_CODE_HIPASS_ASN_AT
     </select>
 
     <select id="getReservedVehicleByVhcleNo" resultType="vehicleVO" parameterType="String">

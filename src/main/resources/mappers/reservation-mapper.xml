@@ -27,8 +27,12 @@
     </select>
 
     <select id="getAllVehicles" resultType="vehicleVO">
-        SELECT *
+        SELECT VHCLE_NO
+             , VHCLE_VHCTY
+             , VHCLE_PSNCPA
+             , COMMON_CODE_HIPASS_ASN_AT
         FROM VHCLE
+        ORDER BY VHCLE_PSNCPA, COMMON_CODE_HIPASS_ASN_AT
     </select>
 
     <insert id="inputVehicle" parameterType="vehicleVO">

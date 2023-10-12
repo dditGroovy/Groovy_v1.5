@@ -6,8 +6,9 @@
         <h1><a href="${pageContext.request.contextPath}/reserve/loadVehicle">예약 관리</a></h1>
     </header>
     <div class="cardWrap">
-        <div class="card-title card-df">
+        <div class="side-header-wrap">
             <h2 class="font-md font-18 color-font-md">차량 등록</h2>
+            <button class="btn-autofill btn btn-free-white" type="button">+</button>
         </div>
         <div class="card card-df grid-card">
             <form action="${pageContext.request.contextPath}/reserve/inputVehicle" method="post">
@@ -41,3 +42,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector(".btn-autofill").addEventListener("click", function () {
+        document.querySelector("#vhcleNo").value = "58허2092";
+        document.querySelector("#vhcleVhcty").value = "카니발";
+        document.querySelector("#vhclePsncpa").value = "9";
+        document.querySelector("#HIPASS011").setAttribute("checked", true);
+    })
+</script>

@@ -6,6 +6,17 @@ table {
     margin-bottom: var(--vh-48);
 }
 
+.side-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vw-12);
+    background: var(--color-white);
+    padding: 8px var(--vw-24);
+    margin-bottom: var(--vh-12);
+}
+
 tr {
     height: var(--vh-56);
     border-bottom: var(--color-stroke);

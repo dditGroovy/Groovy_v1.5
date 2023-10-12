@@ -22,7 +22,7 @@
                                 class="icon i-change"></i>내게 쓰기</a>
                     </div>
                     <div>
-                        <button class="btn-autofill" type="button">+</button>
+                        <button class="btn-autofill btn btn-free-white" type="button">+</button>
                     </div>
                 </div>
                 <div class="content-body">
@@ -174,7 +174,10 @@
                                         Swal.fire({
                                             text: '메일을 성공적으로 전송했습니다',
                                             showConfirmButton: false,
-                                            timer: 1500
+                                            timer: 5000,
+                                            willClose: () => {
+                                                location.href = "/email/sent";
+                                            }
                                         })
                                         location.href = "/email/sent";
                                     },
@@ -186,9 +189,12 @@
                                 Swal.fire({
                                     text: '메일을 성공적으로 전송했습니다',
                                     showConfirmButton: false,
-                                    timer: 1500
+                                    timer: 5000,
+                                    willClose: () => {
+                                        location.href = "/email/sent";
+                                    }
                                 })
-                                location.href = "/email/sent";
+
                             }
                         }).catch(function (error) {
                             console.log("최대 알람 번호 가져오기 오류:", error);
