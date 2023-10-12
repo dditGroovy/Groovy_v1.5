@@ -33,7 +33,9 @@
                    placeholder="PASSWORD"/>
             <div class="service-wrap">
                 <div class="checkboxWrap">
-                    <input type="checkbox" name="remember-me" id="rememberId" class="checkBox"/>
+<%--                    시큐리티 remember-me  --%>
+<%--                    <input type="checkbox" name="remember-me" id="rememberId" class="checkBox"/>--%>
+                    <input type="checkbox" name="rememberId" id="rememberId" class="checkBox"/>
                     <label for="rememberId" class="checkBoxLabel">아이디 기억하기</label>
                     <button type="button" id="autofill1" class="btn btn-free-white btn-autofill">+</button>
                     <button type="button" id="autofill2" class="btn btn-free-white btn-autofill">+</button>
@@ -51,22 +53,22 @@
         </form>
     </div>
 </div>
-<%--<script>--%>
-<%--    $(function () {--%>
-<%--        let emplIdCookie = Cookies.get("emplId");--%>
-<%--        if (emplIdCookie != null) {--%>
-<%--            $("#empl-id").val(emplIdCookie);--%>
-<%--            $("#rememberId").prop("checked", true); //--%>
-<%--        }--%>
+<script>
+    $(function () {
+        let emplIdCookie = Cookies.get("emplId");
+        if (emplIdCookie != null) {
+            $("#empl-id").val(emplIdCookie);
+            $("#rememberId").prop("checked", true); //
+        }
 
-<%--        $("#rememberId").change(function () {--%>
-<%--            if (!this.checked) {--%>
-<%--                $("#empl-id").val("");--%>
-<%--                Cookies.remove("emplId", {path: '/'});--%>
-<%--            }--%>
-<%--        });--%>
-<%--    });--%>
-<%--</script>--%>
+        $("#rememberId").change(function () {
+            if (!this.checked) {
+                $("#empl-id").val("");
+                Cookies.remove("emplId", {path: '/'});
+            }
+        });
+    });
+</script>
 <script>
 
     // 짱구

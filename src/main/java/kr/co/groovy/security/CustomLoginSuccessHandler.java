@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,14 +42,23 @@ public class CustomLoginSuccessHandler extends
         String username = customUser.getUsername();
         log.info("username : " + customUser.getUsername());
 
-        // 아이디 기억하기 쿠키 생성
-//        boolean isRememberIdChecked = request.getParameter("rememberId") != null;
-//        if (isRememberIdChecked) {
-//            Cookie idCookie = new Cookie("emplId", username);
-//            idCookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
-//            idCookie.setPath("/");
-//            response.addCookie(idCookie);
-//        }
+        boolean isRememberIdChecked = request.getParameter("rememberId") != null;
+        boolean emplIdCookieExists = false;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("emplId".equals(cookie.getName())) {
+                    emplIdCookieExists = true;
+                    break;
+                }
+            }
+        }
+        if (isRememberIdChecked && !emplIdCookieExists) {
+            Cookie idCookie = new Cookie("emplId", username);
+            idCookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
+            idCookie.setPath("/");
+            response.addCookie(idCookie);
+        }
 
         List<String> roleNames = new ArrayList<String>();
         auth.getAuthorities().forEach(authority -> {

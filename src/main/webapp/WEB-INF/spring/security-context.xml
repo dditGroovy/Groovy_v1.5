@@ -30,17 +30,17 @@
                 invalidate-session="true"
                 delete-cookies="email"
         />
-        <security:remember-me key="groove_unique_key"
-                              token-validity-seconds="2419200"
-                              authentication-success-handler-ref="customLoginSuccess"
-                             />
+<!--        <security:remember-me key="groove_unique_key"-->
+<!--                              token-validity-seconds="2419200"-->
+<!--                              authentication-success-handler-ref="customLoginSuccess"-->
+<!--                             />-->
 
         <security:access-denied-handler ref="customAccessDenied"/>
         <security:intercept-url pattern="/resources/**" access="permitAll"/>
-        <security:intercept-url pattern="/" access="permitAll"/>
-        <security:intercept-url pattern="/signOut" access="permitAll"/>
-        <security:intercept-url pattern="/employee/signIn" access="permitAll"/>
-        <security:intercept-url pattern="/test/test1" access="hasRole('ROLE_EMP')"/>
+        <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+<!--        <security:intercept-url pattern="/**" access="hasRole('ROLE_EMP')"/>-->
+<!--        <security:intercept-url pattern="/signIn" access="permitAll()"/>-->
+<!--        <security:intercept-url pattern="/employee/initPassword" access="hasRole('ROLE_NEW')"/>-->
         <security:csrf disabled="true"/>
     </security:http>
 
