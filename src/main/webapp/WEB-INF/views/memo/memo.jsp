@@ -71,6 +71,8 @@
         }
     })
 
+    getList();
+
     function getList() {
         $.ajax({
             type: 'get',
