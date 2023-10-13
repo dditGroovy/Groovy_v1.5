@@ -79,6 +79,7 @@
     flex: 1;
     color: var(--color-font-high);
     font-size: var(--font-size-14);
+    text-overflow: ellipsis;
 }
 .list-date {
     color: var(--color-font-row);
