@@ -3,6 +3,7 @@ package kr.co.groovy.memo;
 import java.security.Principal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,12 @@ public class MemoController {
 		List<MemoVO> list = memoService.getMemo(memoEmplId);
 		model.addAttribute("memoList", list);
 		return "memo/memo";
+	}
+
+	@GetMapping("/getList")
+	public List<MemoVO> getList(Principal principal) {
+		List<MemoVO> list = memoService.getMemo(principal.getName());
+		return list;
 	}
 	
 	

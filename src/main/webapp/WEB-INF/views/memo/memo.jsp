@@ -19,33 +19,7 @@
                             </button>
                         </div>
                         <div id="appendMemo" style="display: none"></div>
-                        <c:forEach items="${memoList}" var="list">
-                            <div class="memo list-memo">
-                                <div class="btn-wrap">
-                                    <button class="more btn"><i class="icon i-more"></i></button>
-                                    <ul class="more-list">
-                                        <li><button class="modifyBtn btn">수정</button></li>
-                                        <li><button class="delete btn">삭제</button></li>
-                                    </ul>
-                                </div>
-                                <div class="memo-content">
-                                    <p class="memoSn">${list.memoSn}</p>
-                                <c:choose>
-                                    <c:when test="${not empty list.memoSj}">
-                                        <p class="title">${list.memoSj}</p>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <p class="title">제목없음</p>
-                                    </c:otherwise>
-                                </c:choose>
-                                    <p class="content">${list.memoCn}</p>
-                                    <p><fmt:formatDate value="${list.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>
-                                </div>
-                                <div class="save-btn-wrap" style="display: none">
-                                    <button class="save btn btn-free-blue">저장</button>
-                                </div>
-                            </div>
-                        </c:forEach>
+                        <div class="memolist-container"></div>
                     </div>
                 </div>
             </div>
@@ -96,6 +70,46 @@
             flug = false;
         }
     })
+
+    function getList() {
+        $.ajax({
+            type: 'get',
+            url: `/memo/getList`,
+            success: function (memoVOList) {
+                let code = ``;
+                memoVOList.forEach(memoVO => {
+                    code += `<div class="memo list-memo">
+                                <div class="btn-wrap">
+                                    <button class="more btn"><i class="icon i-more"></i></button>
+                                    <ul class="more-list">
+                                        <li><button class="modifyBtn btn">수정</button></li>
+                                        <li><button class="delete btn">삭제</button></li>
+                                    </ul>
+                                </div>
+                                <div class="memo-content">
+                                    <p class="memoSn">\${memoVO.memoSn}</p>`
+                    if (memoVO.memoSj != null) {
+                        code += `<p class="title">\${memoVO.memoSj}</p>`;
+                    } else {
+                        code += `<p class="title">제목없음</p>`;
+                    }
+                    code += `
+                            <p class="content">\${memoVO.memoCn}</p>
+                                    <p>\${memoVO.memoWrtngDate}</p>
+                                </div>
+                                <div class="save-btn-wrap" style="display: none">
+                                    <button class="save btn btn-free-blue">저장</button>
+                                </div>
+                            </div>
+                    `;
+                });
+                document.querySelector(".memolist-container").innerHTML = code;
+            },
+            error: function (xhr) {
+                console.log(xhr.status);
+            }
+        });
+    }
 
     function validateForm() {
         if (memoCnt === null) {
