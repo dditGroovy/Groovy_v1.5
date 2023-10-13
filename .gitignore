@@ -2169,3 +2169,5 @@ target/ddit-1.0.0-BUILD-SNAPSHOT/resources/images/sign.png
 target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/admin/at/salary/specification.html
 target/classes/kr/co/groovy/alarm/WebSocketConfig.class
 target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/kr/co/groovy/alarm/WebSocketConfig.class
+target/ddit-1.0.0-BUILD-SNAPSHOT/resources/images/chonuriSign.png
+target/ddit-1.0.0-BUILD-SNAPSHOT/resources/images/watermarkGroovy.png

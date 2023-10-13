@@ -327,30 +327,30 @@
                 datauri: doc.output('datauristring')
             };
             let dataLength = Object.keys(data).length;
-            doc.save(dataLength)
-            // $.ajax({
-            //     url: "/salary/uploadFile",
-            //     type: 'post',
-            //     data: JSON.stringify(data),
-            //     contentType: 'application/json',
-            //     success: function (result) {
-            //         if (result === "success") {
-            //             pdfCount++;
-            //             if (dataLength === pdfCount) {
-            //                 Swal.fire({
-            //                     text: '급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.',
-            //                     showConfirmButton: false,
-            //                     timer: 1500
-            //                 })
-            //             }
-            //         }
-            //     },
-            //     error: function (xhr, status, error) {
-            //         console.log("code: " + xhr.status);
-            //         console.log("message: " + xhr.responseText);
-            //         console.log("error: " + xhr.error);
-            //     }
-            // });
+            // doc.save(dataLength)
+            $.ajax({
+                url: "/salary/uploadFile",
+                type: 'post',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (result) {
+                    if (result === "success") {
+                        pdfCount++;
+                        if (dataLength === pdfCount) {
+                            Swal.fire({
+                                text: '급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                    console.log("message: " + xhr.responseText);
+                    console.log("error: " + xhr.error);
+                }
+            });
         });
     }
 
