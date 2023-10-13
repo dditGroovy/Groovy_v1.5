@@ -5,7 +5,7 @@
 <div class="content-container">
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/facility/meeting">회의실 예약</a></h1>
-        <h1><a href="${pageContext.request.contextPath}/facility/rest" class="on">자리 예약</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/facility/rest" class="on">휴게실 예약</a></h1>
         <h1><a href="${pageContext.request.contextPath}/facility/vehicle">차량 예약</a></h1>
     </header>
 

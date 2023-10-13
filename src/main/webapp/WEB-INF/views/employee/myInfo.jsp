@@ -103,7 +103,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title font-14">댓글</p>
+                                <p class="toggle-title font-14">커뮤니티 댓글</p>
                                 <label class="toggle" for="answer">
                                     <input type="checkbox" id="answer" name="answer"
                                            value="${CustomUser.employeeVO.notificationVO.answer}">
@@ -111,7 +111,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title font-14">팀 커뮤니티</p>
+                                <p class="toggle-title font-14">커뮤니티 공지사항</p>
                                 <label class="toggle" for="teamNotice">
                                     <input type="checkbox" id="teamNotice" name="teamNotice"
                                            value="${CustomUser.employeeVO.notificationVO.teamNotice}">
