@@ -71,7 +71,7 @@
                                                 파일 첨부
                                             </label>
                                             <input type="file" name="postFile" id="postFile">
-                                            <p id="originName"></p>
+                                            <p id="originName"><span class="font-14">(첨부 파일은 1개까지 가능합니다)</span></p>
                                         </div>
                                         <div class="btn-wrap">
                                             <button type="button" class="btn btn-free-white btn-autofill" onclick="autoFill('post')">+</button>
