@@ -262,7 +262,7 @@ public class EmployeeService {
         bodyJson.put("type", "SMS");
         bodyJson.put("contentType", "COMM");
         bodyJson.put("from", "01039202239");
-        bodyJson.put("content", "[Groovy] 임시 비밀번호는 " + password + "입니다.");
+        bodyJson.put("content", "[Groovy] 임시 비밀번호는 " + password + " 입니다.");
         bodyJson.put("messages", toArr);
         String body = bodyJson.toJSONString();
 
