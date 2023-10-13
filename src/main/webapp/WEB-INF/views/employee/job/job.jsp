@@ -303,6 +303,7 @@
         <div class="modal-layer card-df sm newRequestJob">
             <div class="modal-top">
                 <button type="button" class="btn btn-free-white btn-autofill request-autofill">+</button>
+                <button type="button" class="btn btn-free-white btn-autofill request-room-autofill">+</button>
                 <div class="modal-title"><i class="icon i-idea i-3d"></i>업무 요청</div>
                 <button type="button" class="modal-close btn close">
                     <i class="icon i-close">X</i>

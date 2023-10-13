@@ -600,6 +600,15 @@ document.querySelector(".request-autofill").addEventListener("click", () => {
     document.querySelector("#DUTY030").checked = "true";
 });
 
+document.querySelector(".request-room-autofill").addEventListener("click", () => {
+    document.querySelector("#jobSj").value = "회의실 예약 부탁드립니다.";
+    document.querySelector("#jobCn").value = "A103 / 10시~12시 / 부탁드려요 ^^";
+    document.querySelector("#jobBeginDate").value = "2023-10-17";
+    document.querySelector("#jobClosDate").value = "2023-10-17";
+    document.querySelector("#meeting").checked = "true";
+    document.querySelector("#DUTY030").checked = "true";
+});
+
 document.querySelector(".new-autofill").addEventListener("click", () => {
     document.querySelector("#sj").value = "휴가 결재 올리기";
     document.querySelector("#cn").value = "청첩장💌파일 첨부(조누루팀장,봉미선부장)";
@@ -608,3 +617,4 @@ document.querySelector(".new-autofill").addEventListener("click", () => {
     document.querySelector("#personalData").checked = "true";
     document.querySelector("#beforeData").checked = "true";
 });
+
