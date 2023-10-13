@@ -2165,3 +2165,7 @@ target/ddit-1.0.0-BUILD-SNAPSHOT/resources/images/object/error500.png
 target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/security/401.jsp
 target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/security/404.jsp
 target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/security/500.jsp
+target/ddit-1.0.0-BUILD-SNAPSHOT/resources/images/sign.png
+target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/admin/at/salary/specification.html
+target/classes/kr/co/groovy/alarm/WebSocketConfig.class
+target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/kr/co/groovy/alarm/WebSocketConfig.class
