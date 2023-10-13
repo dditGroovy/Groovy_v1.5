@@ -20,9 +20,7 @@ public class ReservationService {
 
     /* 차량 예약 */
     public List<VehicleVO> getTodayReservedVehicles() {
-        List<VehicleVO> todayReservedVehicles = getReservedVehicles(mapper.getTodayReservedVehicles());
-        setCommonCodeToHipass(todayReservedVehicles);
-        return todayReservedVehicles;
+        return getReservedVehicles(mapper.getTodayReservedVehicles());
     }
 
     public List<VehicleVO> getAllReservation() {
@@ -31,6 +29,7 @@ public class ReservationService {
 
     public List<VehicleVO> getAllVehicles() {
         List<VehicleVO> allVehicles = mapper.getAllVehicles();
+        log.info("allVehicles: {}", allVehicles);
         setCommonCodeToHipass(allVehicles);
         return allVehicles;
     }
@@ -40,6 +39,7 @@ public class ReservationService {
     }
 
     private static void setCommonCodeToHipass(List<VehicleVO> list) {
+        log.info(list.toString());
         for (VehicleVO vehicleVO : list) {
             vehicleVO.setCommonCodeHipassAsnAt(Hipass.valueOf(vehicleVO.getCommonCodeHipassAsnAt()).getLabel());
         }
