@@ -275,7 +275,7 @@
 
         clbKind.value = "커피";
         clbNm.value = "CUP OF EXPERIENCE";
-        clbDc.value = "커피를 좋아하는 사람들의 모입입니다 : ) \n커피에 대한 생각과 바리스타 자격증 함께 준비해요 🙆‍♂️ ";
+        clbDc.value = "커피를 좋아하는 사람들의 모입입니다. 커피에 대한 생각과 바리스타 자격증 함께 준비해요 🙆‍♂️ ";
         clbPsncpa.value = 8;
     }
 

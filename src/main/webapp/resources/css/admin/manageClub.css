@@ -158,3 +158,6 @@
     height: var(--vh-40);
     margin-left: 10px;
 }
+.left-align {
+    justify-content: left !important;
+}

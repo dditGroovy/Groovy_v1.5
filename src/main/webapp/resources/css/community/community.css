@@ -52,10 +52,13 @@
     display: flex;
     justify-content: space-between;
 }
-#insertPostBtn {
+#insertPostBtn,.saveMoidfyBtn {
     width: calc((160/var(--vw))*100vw);
     padding: var(--vh-12) 0;
     text-align: center;
+}
+.saveMoidfyBtn {
+    align-self: flex-end;
 }
 .file-btn{
     width: calc((120/var(--vw))*100vw);
@@ -498,4 +501,13 @@ i.accordion-arrow.icon {
     display: flex;
     white-space: nowrap;
     gap: 4px;
+}
+.modifySntncCn {
+    border: none !important;
+}
+.enter-wrap .btn-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }

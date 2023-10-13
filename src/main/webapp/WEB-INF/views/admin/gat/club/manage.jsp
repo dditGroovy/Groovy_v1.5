@@ -134,11 +134,11 @@
                 return params.data.clbNm
             }, cellStyle: {textAlign: "center"}
         },
-        {field: "clbDc", headerName: "동호회 설명", cellStyle: {textAlign: "center"}},
-        {field: "clbPsncpa", headerName: "동호회 정원", cellStyle: {textAlign: "center"}},
-        {field: "clbDate", headerName: "신청 날짜", cellStyle: {textAlign: "center"}},
-        {field: "chk", headerName: " ", cellRenderer: ClassProposalBtn, cellStyle: {textAlign: "center"}},
-        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, cellStyle: {textAlign: "center"}},
+        {field: "clbDc", headerName: "동호회 설명", cellClass: 'left-align'},
+        {field: "clbPsncpa", headerName: "동호회 정원"},
+        {field: "clbDate", headerName: "신청 날짜"},
+        {field: "chk", headerName: " ", cellRenderer: ClassProposalBtn},
+        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true},
     ];
     <c:forEach var="clubVO" items="${clubList}" varStatus="status">
     rowDataRequest.push({
@@ -162,17 +162,17 @@
 
     let rowDataRegist = [];
     const columnDefsRegist = [
-        {field: "No", headerName: "No", cellStyle: {textAlign: "center"}},
-        {field: "clbDate", headerName: "등록일", cellStyle: {textAlign: "center"}},
+        {field: "No", headerName: "No"},
+        {field: "clbDate", headerName: "등록일"},
         {
             field: "clbNm", headerName: "동호회 이름", getQuickFilterText: (params) => {
                 return params.data.clbNm
-            }, cellStyle: {textAlign: "center"}
+            }
         },
-        {field: "clbPsncpa", headerName: "전체 회원수/정원", cellStyle: {textAlign: "center"}},
-        {field: "clbChirmnEmplId", headerName: "동호회장(사번)", cellStyle: {textAlign: "center"}},
-        {field: "chk", headerName: " ", cellRenderer: ClassClubBtn, cellStyle: {textAlign: "center"}},
-        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, cellStyle: {textAlign: "center"}},
+        {field: "clbPsncpa", headerName: "전체 회원수/정원"},
+        {field: "clbChirmnEmplId", headerName: "동호회장(사번)"},
+        {field: "chk", headerName: " ", cellRenderer: ClassClubBtn},
+        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true},
     ];
     <c:forEach var="clubRegist" items="${clubRegistList}" varStatus="status">
     rowDataRegist.push({

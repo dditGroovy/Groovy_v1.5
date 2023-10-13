@@ -118,16 +118,22 @@ post.forEach((item) => {
 
             const content = sntncCnbox.innerText;
             const textArea = document.createElement("textarea");
-            textArea.classList = "modifySntncCn";
+            textArea.classList = "modifySntncCn input-l";
             textArea.value = content;
 
             const saveBtn = document.createElement("button");
-            saveBtn.classList = "saveMoidfyBtn";
+            saveBtn.classList = "saveMoidfyBtn btn btn-free-blue";
             saveBtn.innerText = "수정";
+
+            const newDiv = document.createElement("div");
+            newDiv.classList = "btn-wrap";
+
+            newDiv.appendChild(saveBtn);
 
             sntncCnbox.innerHTML = "";
             sntncCnbox.appendChild(textArea);
-            sntncCnbox.appendChild(saveBtn);
+
+            document.querySelector(".enter-wrap").appendChild(newDiv);
         }
         if (target.classList.contains("saveMoidfyBtn")) {
             const modisntncCn = document.querySelector(".modifySntncCn").value;
@@ -729,8 +735,10 @@ inputPostForm.addEventListener("submit",e=>{
     e.preventDefault();
 })
 
-const sntncCnVal = document.querySelector("#sntncCn").value;
+
 document.querySelector("#insertPostBtn").addEventListener("click",()=>{
+    const sntncCnVal = document.querySelector("#sntncCn").value;
+    console.log(sntncCnVal);
     if(sntncCnVal == ""){
         Swal.fire({
             text: '포스트 내용을 입력해주세요!',
