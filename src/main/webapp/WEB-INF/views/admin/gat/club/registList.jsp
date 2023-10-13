@@ -40,7 +40,7 @@
                     acceptAjax(clbEtprCode, '3');
                 };
                 this.manageMemberBtn.onclick = () => {
-                    window.location.href = `/club/admin/${clbEtprCode}`;
+                    window.location.href = "/club/admin/" + clbEtprCode;
                 };
             } else if (clbConfmAt == 3) {
                 this.eGui.innerHTML = `
