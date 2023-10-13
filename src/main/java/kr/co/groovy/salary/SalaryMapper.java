@@ -56,4 +56,5 @@ public interface SalaryMapper {
 
     UploadFileVO getDtsmtFileByDateAndEmplId(Map<String, String> map);
 
+    int deleteDtsmt(String fileName);
 }

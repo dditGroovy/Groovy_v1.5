@@ -37,16 +37,16 @@ import java.util.*;
 @Service
 @EnableScheduling
 public class SalaryService {
-    final String uploadPath;
+    final String uploadHyejin;
     final
     SalaryMapper salaryMapper;
     final EmployeeMapper employeeMapper;
     final EmailService emailService;
 
 
-    public SalaryService(SalaryMapper salaryMapper, String uploadPath, EmployeeMapper employeeMapper, EmailService emailService) {
+    public SalaryService(SalaryMapper salaryMapper, String uploadHyejin, EmployeeMapper employeeMapper, EmailService emailService) {
         this.salaryMapper = salaryMapper;
-        this.uploadPath = uploadPath;
+        this.uploadHyejin = uploadHyejin;
         this.employeeMapper = employeeMapper;
         this.emailService = emailService;
     }
@@ -230,7 +230,7 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = this.uploadPath + "/salary";
+            String uploadPath = this.uploadHyejin + "/salary";
             File uploadDir = new File(uploadPath);
             if (uploadDir.exists() == false) {
                 if (uploadDir.mkdirs()) {
@@ -290,7 +290,7 @@ public class SalaryService {
             if (vo != null) {
                 String originalName = new String(vo.getUploadFileStreNm().getBytes("utf-8"), "iso-8859-1");
                 String fileName = vo.getUploadFileStreNm();
-                filePath = uploadPath + "/salary";
+                filePath = uploadHyejin + "/salary";
 
                 File file = new File(filePath, fileName);
                 if (!file.isFile()) {
@@ -310,6 +310,23 @@ public class SalaryService {
             }
         }
         return result;
+    }
+
+    public String deleteDtsmt(String fileName) {
+        String uploadPath = this.uploadHyejin + "/salary";
+        File file = new File(uploadPath, fileName + ".pdf");
+        if (file.exists()) {
+            if (file.delete()) {
+                salaryMapper.deleteDtsmt(fileName);
+                log.info("파일 삭제 성공");
+            } else {
+                log.info("파일 삭제 실패");
+            }
+            return "success";
+        } else {
+            log.info("파일이 존재하지 않습니다.");
+            return "fail";
+        }
     }
 }
 

@@ -181,5 +181,9 @@ public class SalaryController {
         return salaryService.sentEmails(principal, map.get("data"), map.get("date"));
     }
 
-
+    @DeleteMapping("/deleteDtsmt")
+    @ResponseBody
+    public String deleteDtsmt(@RequestBody String fileName) {
+        return salaryService.deleteDtsmt(fileName);
+    }
 }

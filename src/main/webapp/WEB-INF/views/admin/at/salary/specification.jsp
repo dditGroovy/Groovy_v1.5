@@ -7,7 +7,7 @@
         font-size: 30px;
     }
 
-    .r, .s {
+    .r {
         text-align: right;
     }
 
@@ -53,7 +53,7 @@
     }
 
     .p {
-        margin: 50px 0 20px;
+        margin: 50px 0px 35px 0px;
     }
 
     .rT {
@@ -63,8 +63,17 @@
     .f {
         width: 100%;
         border-bottom: 1px solid #000;
-    }</style>
-<h1 class="h">\${r.month}월 그루비 급여명세서</h1>
+    }
+
+    .i {
+        position: absolute;
+        top: 945px;
+        left: 400px;
+        scale: 0.5;
+        z-index: -10;
+    }
+</style>
+<h1 class="h">\${fMonth}월 그루비 급여명세서</h1>
 <p class="p r" style="text-align: right;">지급일: \${fDate}</p>
 <div class="d">
     <table class="n">
@@ -167,4 +176,6 @@
     </table>
 </div>
 <p class="t p">\${r.salaryEmplNm}님의 노고에 감사드립니다</p>
-<p class="s">그루비 (인)</p>
+<div class="t"><span>그루비</span></div>
+<br>
+<div class="t"><span>대표이사 조 누 리 (인)</span><img class="i" src="/resources/images/sign.png"/></div>

@@ -16,6 +16,9 @@
                            placeholder="검색어를 입력하세요"/>
                 </div>
                 <div class="btn-wrapper">
+                    <button class="btn btn-free-white btn-sm color-font-md font-14 font-md btn-batch" id="deleteFile">
+                        <span>일괄삭제</span>
+                    </button>
                     <button class="btn btn-free-white btn-sm color-font-md font-14 font-md btn-batch" id="makePdfDtsmt">
                         <span>일괄생성</span>
                     </button>
@@ -301,7 +304,10 @@
         const fSisWci = formatNumber(r.salaryDtsmtSisWci);
         const fIncmtax = formatNumber(r.salaryDtsmtIncmtax);
         const fLocalityIncmtax = formatNumber(r.salaryDtsmtLocalityIncmtax);
-        const fDate = formatDate(r.salaryDtsmtIssuDate);
+        const fMonth = r.month - 1;
+        date = new Date(r.salaryDtsmtIssuDate);
+        date = new Date(date.getFullYear(), date.getMonth() - 1, date.getDate())
+        let fDate = formatDate(date.getTime());
 
         let format = `<jsp:include page="specification.jsp"/>`
         let downloadDiv = document.querySelector("#downloadDiv");
@@ -321,30 +327,30 @@
                 datauri: doc.output('datauristring')
             };
             let dataLength = Object.keys(data).length;
-
-            $.ajax({
-                url: "/salary/uploadFile",
-                type: 'post',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function (result) {
-                    if (result === "success") {
-                        pdfCount++;
-                        if (dataLength === pdfCount) {
-                            Swal.fire({
-                                text: '급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status);
-                    console.log("message: " + xhr.responseText);
-                    console.log("error: " + xhr.error);
-                }
-            });
+            doc.save(dataLength)
+            // $.ajax({
+            //     url: "/salary/uploadFile",
+            //     type: 'post',
+            //     data: JSON.stringify(data),
+            //     contentType: 'application/json',
+            //     success: function (result) {
+            //         if (result === "success") {
+            //             pdfCount++;
+            //             if (dataLength === pdfCount) {
+            //                 Swal.fire({
+            //                     text: '급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.',
+            //                     showConfirmButton: false,
+            //                     timer: 1500
+            //                 })
+            //             }
+            //         }
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.log("code: " + xhr.status);
+            //         console.log("message: " + xhr.responseText);
+            //         console.log("error: " + xhr.error);
+            //     }
+            // });
         });
     }
 
@@ -433,6 +439,28 @@
                 console.log("message: " + xhr.responseText);
                 console.log("error: " + xhr.error);
             }
+        });
+    });
+
+    document.querySelector("#deleteFile").addEventListener("click", function () {
+        let selectedRowData = getSelectedRowData();
+
+        let nowDate = new Date();
+        let year = nowDate.getFullYear().toString().substring(2);
+        let month = nowDate.getMonth() + 1;
+        month = (month < 10) ? "0" + month : month;
+        let date = year + month
+        selectedRowData.forEach((data) => {
+            let emplId = data.emplId;
+            let fileName = `SD-AT-\${date}-\${emplId}`
+            let xhr = new XMLHttpRequest();
+            xhr.open("delete", "/salary/deleteDtsmt", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    console.log(xhr.responseText)
+                }
+            }
+            xhr.send(fileName);
         });
     })
 
