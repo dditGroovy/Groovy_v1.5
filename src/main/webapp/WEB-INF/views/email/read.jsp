@@ -79,7 +79,9 @@
                 <div class="mail-body">
                     <div class="mail-view">
                         <div class="mail-content">
-                            <p id="emailFromCn"><input type="hidden" value='<c:out value="${emailVO.emailFromCn}"/>'></p>
+                            <p id="emailFromCn" data-type="<c:out value="${emailVO.emailFromCnType}"/>">
+                                <input type="hidden" value='<c:out value="${emailVO.emailFromCn}"/>'>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -109,13 +111,13 @@
         xhr.send(at);
     })
 
-    window.onload = function () {
-        let contentType = `<c:out value="${emailVO.emailFromCnType}"/>`;
+    window.addEventListener("load", function () {
+        let contentType = document.querySelector("#emailFromCn").getAttribute("data-type");
         let content = document.querySelector("input[type=hidden]").value;
         if (contentType.includes("text/html")) {
             document.querySelector("#emailFromCn").innerHTML = content;
         } else {
             document.querySelector("#emailFromCn").innerText = content;
         }
-    }
+    });
 </script>

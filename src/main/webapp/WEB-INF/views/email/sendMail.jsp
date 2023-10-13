@@ -174,7 +174,7 @@
                                         Swal.fire({
                                             text: '메일을 성공적으로 전송했습니다',
                                             showConfirmButton: false,
-                                            timer: 5000,
+                                            timer: 1500,
                                             willClose: () => {
                                                 location.href = "/email/sent";
                                             }
@@ -189,7 +189,7 @@
                                 Swal.fire({
                                     text: '메일을 성공적으로 전송했습니다',
                                     showConfirmButton: false,
-                                    timer: 5000,
+                                    timer: 1500,
                                     willClose: () => {
                                         location.href = "/email/sent";
                                     }
