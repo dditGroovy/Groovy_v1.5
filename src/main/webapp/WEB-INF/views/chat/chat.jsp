@@ -69,7 +69,7 @@
     const chatRoomMessages = {};
     const subscribedRooms = new Set();
 
-    let sockJS = new SockJS("/chat");
+    let sockJS = new SockJS("https://groovy.best/chat");
     let client = Stomp.over(sockJS);
 
     let currentRoomNo;
