@@ -312,9 +312,9 @@
         let format = `<jsp:include page="specification.jsp"/>`
         let downloadDiv = document.querySelector("#downloadDiv");
         downloadDiv.innerHTML = format;
-        html2canvas(downloadDiv, {scale: 2}).then((canvas) => {
+        html2canvas(downloadDiv, {scale: 0.5}).then((canvas) => {
             const doc = new jsPDF('p', 'mm', 'a4');
-            let imgData = canvas.toDataURL("image/png");
+            let imgData = canvas.toDataURL("image/jpeg");
             let imgWidth = 210;
             let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
