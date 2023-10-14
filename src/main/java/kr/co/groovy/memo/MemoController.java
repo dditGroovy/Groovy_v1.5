@@ -35,12 +35,6 @@ public class MemoController {
 		model.addAttribute("memoList", list);
 		return "memo/memo";
 	}
-
-	@GetMapping("/getList")
-	public List<MemoVO> getList(Principal principal) {
-		List<MemoVO> list = memoService.getMemo(principal.getName());
-		return list;
-	}
 	
 	
 	@ResponseBody
