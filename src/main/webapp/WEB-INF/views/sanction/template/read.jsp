@@ -213,7 +213,7 @@
 
         function connectWs() {
             //웹소켓 연결
-            sock = new SockJS("/echo-ws");
+            sock = new SockJS("https://groovy.best/echo-ws");
             socket = sock;
 
             sock.onerror = function (err) {

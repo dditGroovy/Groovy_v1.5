@@ -22,7 +22,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(myHandler(), "/echo-ws")
                 .addInterceptors(new HttpSessionHandshakeInterceptor())
-                .setAllowedOrigins("https://5f3c-175-116-155-226.ngrok-free.app/")
+                .setAllowedOrigins("https://groovy.best/")
                 .withSockJS();
     }
 
