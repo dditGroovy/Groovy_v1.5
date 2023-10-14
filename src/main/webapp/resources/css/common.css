@@ -341,7 +341,9 @@ i.icon {
 .userId {
     margin-bottom: 24px;
 }
-
+.userId, userPw {
+    font-size: var(--font-size-14);
+}
 .find-id-pw {
     text-align: right;
     font-size: 14px;
