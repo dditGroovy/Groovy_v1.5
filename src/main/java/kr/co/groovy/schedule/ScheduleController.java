@@ -49,7 +49,7 @@ public class ScheduleController {
 			return new ResponseEntity<>(result, HttpStatus.OK); 
 		}
 	
-		
+		@ResponseBody
 		@GetMapping("/schedule/{schdulSn}")
 		public ResponseEntity<ScheduleVO> getOneSchedule(@PathVariable int schdulSn) {
 			ScheduleVO scheduleVO = scheduleService.getOneSchedule(schdulSn);
@@ -63,9 +63,10 @@ public class ScheduleController {
 	
 		
 		@PostMapping("/schedule")
+		@ResponseBody
 		public String inputSchedule(@RequestBody List<Map<String, Object>> list) throws ParseException, Exception {
 			scheduleService.inputSchedule(list);
-			return "schedule/calendar";
+			return "success";
 		}
 		
 	

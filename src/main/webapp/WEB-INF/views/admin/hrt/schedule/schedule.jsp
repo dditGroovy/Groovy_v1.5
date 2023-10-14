@@ -162,7 +162,6 @@
 
             request.done(function (datas) {
                 datas.forEach((data) => {
-                	console.log(data)
                     startDate = new Date(data.start);
 
                     dataYear = new Date(data.end).getFullYear();
@@ -209,7 +208,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 const userInput = result.value;
-
+                                
                                 let events = new Array();
                                 let obj = new Object();
 
@@ -219,26 +218,44 @@
                                 events.push(obj);
 
                                 let jsondata = JSON.stringify(events);
+                                
+                                let event = {
+                                    title: userInput,
+                                    start: arg.start,
+                                    end: arg.end
+                                };
 
-                                $(function saveData(jsonData) {
                                     $.ajax({
                                         url: "/schedule/schedule",
                                         method: "POST",
-                                        dataType: "json",
+                                        dataType: "text",
                                         data: JSON.stringify(events),
-                                        contentType: 'application/json'
+                                        contentType: 'application/json',
+                                        success: function (data) {
+                                        	if(data == "success")
+                                            calendar.addEvent(event);
+                                            calendar.unselect();
+                                            location.reload();
+                                        },
+                                        error: function (request, status, error) {
+                                            console.log("code: " + request.status);
+                                            console.log("message: " + request.responseText);
+                                            console.log("error: " + error);
+                                        }
                                     });
-                                    location.reload();
-                                    calendar.unselect();
-                                });
-                            }
-                        });
-                    },
+                                }
+                            });
+                        
+                        },
+
                     eventClick: function (info) {
 
                         $("#eventModal").modal("show");
 
-                        let schdulSn = info.event.id;
+                        let clickedEvent = info.event;
+                        console.log(clickedEvent)
+                        let schdulSn = clickedEvent.id;
+                        console.log(schdulSn)
 
                         $.ajax({
                             url: `/schedule/schedule/\${schdulSn}`,
@@ -248,6 +265,8 @@
                                 console.log(response)
                                 let schdulBeginDate = new Date(response.schdulBeginDate);
                                 let schdulClosDate = new Date(response.schdulClosDate);
+                                console.log(schdulBeginDate)
+                                console.log(schdulClosDate)
 
                                 $("#eventTitle").val(response.schdulNm);
                                 $("#eventStart").val(schdulBeginDate.toISOString().slice(0, 10));
@@ -277,6 +296,14 @@
                                     obj.end = $("#eventEnd").val();
 
                                     events.push(obj);
+                                    
+                                    let event = {
+                                        id: info.event.id,
+                                        title: $("#eventTitle").val(),
+                                        start: $("#eventStart").val(),
+                                        end: $("#eventEnd").val()
+                                    };
+
 
                                     $.ajax({
                                         url: `/schedule/schedule/\${schdulSn}`,
@@ -286,13 +313,10 @@
                                         contentType: 'application/json',
                                         success: function (response) {
                                             if (response == "success") {
-                                                location.href = location.href;
-                                            } else {
-                                                Swal.fire({
-                                                    title: '일정 수정에 실패했습니다',
-                                                    showConfirmButton: false,
-                                                    timer: 1500
-                                                })
+                                            	 info.event.setProp('title', event.title);
+                                                 info.event.setStart(event.start);
+                                                 info.event.setEnd(event.end);
+                                                 $("#eventModal").modal("hide");
                                             }
                                         },
                                         error: function (request, status, error) {
@@ -323,13 +347,8 @@
                                         contentType: 'application/json',
                                         success: function (response) {
                                             if (response == "success") {
-                                                location.href = location.href;
-                                            } else {
-                                                Swal.fire({
-                                                    title: '일정 삭제에 실패했습니다',
-                                                    showConfirmButton: false,
-                                                    timer: 1500
-                                                })
+                                            	 info.event.remove();
+                                            	 $("#eventModal").modal("hide");
                                             }
                                         },
                                         error: function (request, status, error) {
