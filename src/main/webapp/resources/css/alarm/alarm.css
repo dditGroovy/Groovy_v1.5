@@ -98,6 +98,7 @@
     line-height: 1.2;
 }
 .alarmListBox .aTag p span {
+    display: inline-block;
     font-size: 11px;
     color: var(--color-font-high);
     vertical-align: baseline;
