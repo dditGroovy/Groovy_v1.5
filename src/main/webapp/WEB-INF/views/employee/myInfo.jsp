@@ -285,6 +285,8 @@
                 <div class="modal-footer btn-wrapper">
                     <button type="submit" class="btn btn-fill-bl-sm" id="iSave">확인</button>
                     <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+                    <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
+
                 </div>
             </div>
         </div>
@@ -296,6 +298,11 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
+
+    $("#autofill").on("click",function (){
+        $("input[type='password']").val("groovy40@dditfinal");
+    })
+
     // 패스워드 변경
     $("#iSave").on("click", function () {
         let newPassword = $('input[name="newPassword"]').val();

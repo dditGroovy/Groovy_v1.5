@@ -159,7 +159,7 @@
                     document.querySelector("#countBox").innerText = count;
                     let code = `<table border="1" class='requestTable'>
                         <thead><tr>
-                            <th>신청 번호</th>
+                            <th>번호</th>
                             <th>사용 기간</th>
                             <th>사용처</th>
                             <th>사용 목적</th>
@@ -169,7 +169,7 @@
                         </tr></thead><tbody>`;
                     if (data.length === 0) {
                         code += `<tr>
-                            <td colspan="5">법인 카드 신청 기록이 없습니다.</td>
+                            <td colspan="7">법인 카드 신청 기록이 없습니다.</td>
                         </tr>`
                     } else {
                         $.each(data, function (index, recodeVO) {

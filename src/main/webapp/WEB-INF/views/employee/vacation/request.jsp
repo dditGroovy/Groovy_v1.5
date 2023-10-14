@@ -204,7 +204,7 @@
                         </tr></thead><tbody>`;
                     if (data.length === 0) {
                         code += `<tr>
-                            <td colspan="5">휴가 신청 기록이 없습니다.</td>
+                            <td colspan="6">휴가 신청 기록이 없습니다.</td>
                         </tr>`
                     } else {
                         $.each(data, function (index, recodeVO) {
@@ -316,6 +316,12 @@
         })
 
         function submitAjax(formId) {
+            let noticeText;
+            if(formId == 'vacationRequestForm'){
+                noticeText = '신청이 완료되었습니다';
+            } else {
+                noticeText = '수정이 완료되었습니다'
+            }
             let formData = $("#" + formId).serialize();
             $.ajax({
                 type: "POST",
@@ -323,7 +329,7 @@
                 data: formData,
                 success: function (res) {
                     Swal.fire({
-                        text: '신청이 완료되었습니다',
+                        text: noticeText,
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -333,7 +339,7 @@
                 },
                 error: function (error) {
                     Swal.fire({
-                        text: '신청에 실패하였습니다',
+                        text: '시스템 오류로 인해 처리 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })

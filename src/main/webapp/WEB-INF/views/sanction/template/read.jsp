@@ -172,6 +172,7 @@
         <div class="modal-layer card-df sm reject" id="rejectModal">
             <div class="modal-top">
                 <div class="modal-title">반려하기</div>
+                    <button type="button" id="autofill" class="btn btn-free-white btn-autofill">+</button>
                 <button type="button" class="modal-close btn close">
                     <i class="icon i-close">X</i>
                 </button>
@@ -179,12 +180,14 @@
             <div class="modal-container">
                 <div class="modal-content input-wrap">
                     <label for="rejectReason" class="label-df"> 반려 사유</label>
+
                     <textarea cols="50" rows="5" id="rejectReason" class="bg-sky"></textarea>
                 </div>
             </div>
             <div class="modal-footer btn-wrapper">
                 <button type="button" id="submitReject" class="btn btn-fill-bl-sm" onclick="submitReject()">확인</button>
                 <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+
             </div>
         </div>
     </div>
@@ -197,6 +200,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+
+        // autofill
+        $("#autofill").on("click",function (){
+            $("#rejectReason").val("첨부파일 누락");
+        })
+
         var socket = null;
         document.addEventListener("DOMContentLoaded", () => {
             connectWs();
@@ -328,6 +337,7 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg();
+                    $("#elctrnSanctnFinalDate").html(getCurrentDate());
                     alarm('최종승인');
                     $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
@@ -394,6 +404,7 @@
                     modalClose()
                     let returnResnElement = document.getElementById("returnResn");
                     returnResnElement.innerHTML = `<div class="form-label"> 반려 사유 </div><p class="file-content form-out-content">\${rejectReason}</p>`;
+                    $("#elctrnSanctnFinalDate").html(getCurrentDate());
                     Swal.fire({
                         text: '반려 처리되었습니다',
                         showConfirmButton: false,

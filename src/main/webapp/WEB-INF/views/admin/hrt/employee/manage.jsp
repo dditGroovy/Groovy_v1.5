@@ -216,7 +216,7 @@
         $("input[name='emplNm']").val("맹구");
         $("input[name='emplPassword']").val("groovy40@dditfinal");
         $("input[name='emplTelno']").val("010-8890-0345");
-        $("input[name='emplBrthdy']").val("2020-05-03");
+        $("input[name='emplBrthdy']").val("2000-05-03");
         $("#empEdu2").prop("checked", true);
         $("input[name='emplZip']").val("34908");
         $("input[name='emplAdres']").val("대전광역시 중구 계룡로 846");
