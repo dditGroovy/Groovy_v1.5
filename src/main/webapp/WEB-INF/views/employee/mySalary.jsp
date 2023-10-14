@@ -212,6 +212,7 @@
         let contentTitle = document.querySelector(".content-title").textContent;
         let year = contentTitle.substring(contentTitle.indexOf("년") - 2, contentTitle.indexOf("년"));
         let month = contentTitle.substring(contentTitle.indexOf("월") - 1, contentTitle.indexOf("월"));
+        month = parseInt(month) + 1;
         month = month < 10 ? "0" + month : month;
         let date = year + month;
         location.href = `/file/download/salary?date=\${date}&data=\${data}`;
