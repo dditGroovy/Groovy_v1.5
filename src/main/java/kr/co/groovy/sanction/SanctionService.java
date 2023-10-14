@@ -126,7 +126,6 @@ public class SanctionService {
 
         String fileName = mapper.getSign(writer);
         File file = new File(String.format("%s/sign/%s", uploadPath, fileName));
-        log.info(file + "");
         byte[] signImg = FileUtils.readFileToByteArray(file);
         String encodedString = Base64.getEncoder().encodeToString(signImg);
         vo.setElctrnSanctnDrftEmplSign(encodedString.getBytes());

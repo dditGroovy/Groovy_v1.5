@@ -42,8 +42,10 @@ public class FileController {
             String fileName = vo.getUploadFileStreNm();
 
             File file = new File(filePath, fileName);
-            if (!file.isFile()) {
-                log.info("파일 없음");
+            if (!file.exists()) {
+                log.info(filePath);
+                log.info(fileName);
+                log.info(uploadFileSn + "번 파일 없음");
                 return;
             }
 
