@@ -147,9 +147,9 @@
 
     $("#hideAmount").on("change", function () {
         if (this.checked) {
-            $("#totalStr, #total").css("visibility", "hidden");
+            $(".totalStr, .totalAmount").css("visibility", "hidden");
         } else {
-            $("#totalStr, #total").css("visibility", "visible");
+            $(".totalStr, .totalAmount").css("visibility", "visible");
         }
     });
 
@@ -175,16 +175,16 @@
                                 <span>\${formatedDate} 지급</span>
                             </div>
                             <div class="item-wrap">
-                                <strong id="totalStr">실수령액</strong>
-                                <span id="total">\${netPay} 원</span>
+                                <strong class="totalStr">실수령액</strong>
+                                <span class="totalAmount">\${netPay} 원</span>
                             </div>
                         </a></li>`
                 });
                 $("#paystubList").html(code);
                 if ($("#hideAmount").prop("checked")) {
-                    $("#totalStr, #total").css("visibility", "hidden");
+                    $(".totalStr, .totalAmount").css("visibility", "hidden");
                 } else {
-                    $("#totalStr, #total").css("visibility", "visible");
+                    $(".totalStr, .totalAmount").css("visibility", "visible");
                 }
             },
             error: function (xhr) {
