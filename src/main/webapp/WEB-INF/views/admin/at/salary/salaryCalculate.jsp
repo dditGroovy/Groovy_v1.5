@@ -66,6 +66,7 @@
         });
     }
 
+    // 지금이 10월 13일이면 9월근태, 지금이 10월 15일이면 10월근태
     function getAllMonth(year) {
         $.ajax({
             type: 'get',
@@ -77,7 +78,7 @@
                 let nowDate = new Date();
                 let code = ``;
                 for (let i = 1; i <= 12; i++) {
-                    if (result.includes(i < 10 ? `0\${i}` : `\${i}` && nowDate.getDate() >= 15) || (i < nowDate.getMonth() + 1 && nowDate.getDate() >= 14)) {
+                    if (i <= parseInt(result[i])) {
                         code += `<button type="button" class="btn btn-free-white btn-sm font-14 font-md color-font-md btn-batch" onclick="getSalaryByYearAndMonth(\${year}, this)">\${i}월</button>`;
                     } else {
                         code += `<button type="button" class="btn btn-free-white btn-sm font-14 font-md color-font-md btn-batch" disabled>\${i}월</button>`;
