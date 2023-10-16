@@ -1,5 +1,3 @@
-@import "../commonStyle.css";
-
 .content-header {
     margin-bottom: var(--vh-32);
 }
@@ -11,6 +9,7 @@
 }
 
 .box-notice {
+    width: calc((476 / var(--vw))*100vw);
     height: calc((346 / 1080) * 100vh);
 }
 
