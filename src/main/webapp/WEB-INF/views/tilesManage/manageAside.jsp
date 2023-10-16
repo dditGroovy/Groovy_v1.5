@@ -102,6 +102,30 @@
         sessionStorage.setItem('activeNavItem', 0);
     }
     /*  관리자 Aside   */
+    const depth2NavList = document.querySelectorAll(".depth2-nav-list");
+    const departmentNavList = document.querySelectorAll(".department.nav-list > a");
+
+    depth2NavList.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            departmentNavList.forEach((navItem) => {
+                navItem.classList.remove('active');
+            });
+
+            const parentDepartmentNavItem = item.closest(".department.nav-list").querySelector("a");
+            parentDepartmentNavItem.classList.add('active');
+
+            const index = Array.from(departmentNavList).indexOf(parentDepartmentNavItem);
+            sessionStorage.setItem('activeNavItem', index);
+        });
+    });
+
+    const activeIndex = sessionStorage.getItem('activeNavItem');
+    if (activeIndex === null || activeIndex === undefined) {
+        departmentNavList[0].classList.add('active');
+        sessionStorage.setItem('activeNavItem', 0);
+    }
     const departmentItems   = document.querySelectorAll(".department.nav-list");
     function setActiveDepartment(item) {
         const departmentItems = document.querySelectorAll('.depth1 .department.nav-list');

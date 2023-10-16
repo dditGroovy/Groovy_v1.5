@@ -26,6 +26,7 @@ public class CommunityService {
         this.uploadPath = uploadPath;
     }
 
+    @Transactional
     public void inputPost(SntncVO vo, MultipartFile postFile) throws IOException {
         /* sntncEtprCode */
         String sntncEtprCode = makeSntncEtprCode();
@@ -63,6 +64,7 @@ public class CommunityService {
 
     }
 
+    @Transactional
     public void inputTeamNoti(Map<String, Object> map) {
         /* sntncEtprCode */
         String sntncEtprCode = makeSntncEtprCode();
@@ -70,6 +72,7 @@ public class CommunityService {
         mapper.inputTeamNoti(map);
     }
 
+    @Transactional
     public List<SntncVO> loadPost(String emplId) {
         List<SntncVO> sntncList = mapper.loadPost(emplId);
 
@@ -93,12 +96,6 @@ public class CommunityService {
         mapper.modifyTeamNoti(map);
     }
 
-/*    public List<SntncVO> loadPost(String emplId) {
-        return mapper.loadPost(emplId);
-    }
-
-    */
-
     public int modifyPost(Map<String, Object> map) {
         return mapper.modifyPost(map);
     }
@@ -119,8 +116,18 @@ public class CommunityService {
         return mapper.findRecommend(map);
     }
 
+    @Transactional
     public void inputRecommend(RecommendVO vo) {
-        mapper.inputRecommend(vo);
+        Map<String, Object> map = new HashMap<>();
+        map.put("emplId", vo.getRecomendEmplId());
+        map.put("sntncEtprCode", vo.getSntncEtprCode());
+
+        if(mapper.findRecommend(map) == 0) {
+            mapper.inputRecommend(vo);
+        }else {
+            mapper.deleteRecommend(vo);
+            mapper.inputRecommend(vo);
+        }
     }
 
     public void deleteRecommend(RecommendVO vo) {
