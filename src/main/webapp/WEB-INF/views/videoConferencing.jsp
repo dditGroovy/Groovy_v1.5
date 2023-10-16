@@ -35,14 +35,14 @@
     const streamControls = document.getElementById('streamControls');
 
     const appId = '3e5fbb869b084748968baccbcb51dd6f';
-    const token = '007eJxTYEixyu6tMvxXHjRDtu1g88nddg+YT2Uq7jC5s8lyX6/7R3cFBuNU07SkJAszyyQDCxNzEwtLM4ukxOTkpOQkU8OUFLM0+/U6qQ2BjAz1Km1MjAwQCOKzMaQX5eeXVTIwAACoQSCc';
+    const token = '007eJxTYFC/xMZ/9U/EIecyz7t29VPi0x4du2yrwusvz3XbrPKdkqgCg3GqaVpSkoWZZZKBhYm5iYWlmUVSYnJyUnKSqWFKilmagbRuakMgI4PkcS9WRgYIBPHZGNKL8vPLKhkYAADqHf8=';
     const channelName = 'groovy';
 
     const client = AgoraRTC.createClient({mode:"rtc", codec:"vp8"});
 
 
     let localTracks = [];
-    let remoteUsers = {}
+    let remoteUsers = {};
 
     let joinAndDisplayLocalStream = async () => {
 
