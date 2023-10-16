@@ -376,8 +376,7 @@
                     let proflPhotoFileStreNm = content.proflPhotoFileStreNm;
 
                     if (chttMbrEmplId == emplId) {
-                        let code = `
-                            <div class="me chat-user">
+                        let code = `<div class="me chat-user">
                                             <img src="/uploads/profile/\${proflPhotoFileStreNm}" class="thum" />
                                             <p class="chat-msg card-df">\${chttCn}</p>
                                         </div>`;

@@ -132,8 +132,32 @@
     </main>
 </div>
 <script>
-    let isSavedChecked = ${CustomUser.employeeVO.hideAmount}
-        $("#hideAmount").prop("checked", isSavedChecked);
+    let isSavedChecked = ${CustomUser.employeeVO.hideAmount};
+
+    $("#hideAmount").prop("checked", isSavedChecked);
+
+    $("#hideAmount").on("change", function () {
+        if (this.checked) {
+            $(".totalStr, .totalAmount").css("visibility", "hidden");
+        } else {
+            $(".totalStr, .totalAmount").css("visibility", "visible");
+        }
+    });
+
+    $("#hideAmount").on("click", function () {
+        let isChecked = $(this).prop("checked");
+        $.ajax({
+            url: "/salary/paystub/saveCheckboxState",
+            type: "post",
+            data: {"isChecked": isChecked},
+            success: function (result) {
+            },
+            error: function (xhr) {
+            }
+        });
+    });
+
+
 
     let year = $("#selectedYear").val();
     if (year != null) {
@@ -145,13 +169,7 @@
         loadPaystubList(year);
     })
 
-    $("#hideAmount").on("change", function () {
-        if (this.checked) {
-            $(".totalStr, .totalAmount").css("visibility", "hidden");
-        } else {
-            $(".totalStr, .totalAmount").css("visibility", "visible");
-        }
-    });
+
 
     function loadPaystubList(year) {
         $.ajax({
