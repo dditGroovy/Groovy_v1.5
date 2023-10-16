@@ -102,5 +102,9 @@ public class CommonController {
     public String line(){
         return "sanction/line/line";
     }
+    @GetMapping("/chart")
+    public String chart(){
+        return "admin/chart/chart";
+    }
 }
 

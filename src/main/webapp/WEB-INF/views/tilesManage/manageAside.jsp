@@ -57,6 +57,13 @@
                     </ul>
                 </ul>
             </div>
+            <div class="chart">
+                <ul class="depth1">
+                    <li class="department nav-list">
+                        <a href="${pageContext.request.contextPath}/common/chart">통계<i class="icon"></i></a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </div>
 </sec:authorize>
@@ -88,7 +95,7 @@
     /*  aside   */
     navList.forEach((item, index) => {
         item.addEventListener('click', (e) => {
-            e.preventDefault();
+           /* e.preventDefault();*/
 
             navList.forEach((otherItem) => {
                 otherItem.classList.remove('active');
