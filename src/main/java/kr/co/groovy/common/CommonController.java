@@ -104,7 +104,7 @@ public class CommonController {
     }
     @GetMapping("/chart")
     public String chart(){
-        return "admin/chart/chart";
+        return "admin/chart/common/chart";
     }
 }
 
