@@ -89,52 +89,68 @@
             console.log("ERROR: ", err);
         }
     }
-    const navList = document.querySelectorAll(".nav-list > a");
+    /*  aside   */
+    const departmentNavLinks = document.querySelectorAll('.department.nav-list');
     const activeIndex = sessionStorage.getItem('activeNavItem');
 
-    /*  aside   */
-    navList.forEach((item, index) => {
-        item.addEventListener('click', (e) => {
-           /* e.preventDefault();*/
-
-            navList.forEach((otherItem) => {
-                otherItem.classList.remove('active');
-            });
-            item.classList.add('active');
-            sessionStorage.setItem('activeNavItem', index);
-        });
-    });
-    if (activeIndex === null || activeIndex === undefined) {
-        navList[0].classList.add('active');
-        sessionStorage.setItem('activeNavItem', 0);
+    if (activeIndex === null) {
+        departmentNavLinks[0].querySelector('a').classList.add('active');
     }
-    /*  관리자 Aside   */
-    const departmentItems   = document.querySelectorAll(".department.nav-list");
-    function setActiveDepartment(item) {
-        const departmentItems = document.querySelectorAll('.depth1 .department.nav-list');
-        departmentItems.forEach(function (department) {
-            department.classList.remove("active");
-            const ul = department.nextElementSibling;
+
+    // .department.nav-list를 클릭했을 때 .depth2 높이값
+    departmentNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (!link.closest('.chart')) {
+                e.preventDefault();
+            }
+
+            departmentNavLinks.forEach(otherLink => {
+                otherLink.querySelector('a').classList.remove('active');
+            });
+
+            link.querySelector('a').classList.add('active');
+
+            const index = Array.from(departmentNavLinks).indexOf(link);
+            sessionStorage.setItem('activeNavItem', index);
+
+            const ul = link.nextElementSibling;
+
+            departmentNavLinks.forEach(function (department) {
+                department.classList.remove("active");
+                const ul = department.nextElementSibling;
+                if (ul) {
+                    ul.style.maxHeight = "0";
+                }
+            });
+
             if (ul) {
-                ul.style.maxHeight = "0";
+                if (link.querySelector('a').classList.contains('active')) {
+                    ul.style.maxHeight = ul.scrollHeight + "px";
+                } else {
+                    ul.style.maxHeight = "0";
+                }
             }
         });
-        if (item != null) {
-            item.classList.add("active");
-        }
+    });
 
-        const ul = item.closest("li").nextElementSibling;
-        if (ul) {
-            ul.style.maxHeight = ul.scrollHeight + "px";
-        }
+    const activeLink = departmentNavLinks[activeIndex];
+    const ul = activeLink.nextElementSibling;
+    if (ul && activeLink.querySelector('a').classList.contains('active')) {
+        ul.style.maxHeight = ul.scrollHeight + "px";
     }
 
-    departmentItems.forEach(function (item) {
-        item.addEventListener("click", function (e) {
-            const target = e.target;
-            setActiveDepartment(target);
-        });
+    window.addEventListener('DOMContentLoaded', () => {
+        const activedIndex = sessionStorage.getItem('activeNavItem');
+        if (activedIndex != null) {
+            departmentNavLinks.forEach(link => {
+                link.querySelector("a").classList.remove("active");
+            })
+            const activeLink = departmentNavLinks[activedIndex];
+            departmentNavLinks[activedIndex].querySelector('a').classList.add('active');
+            const ul = activeLink.nextElementSibling;
+            if (ul && activeLink.querySelector('a').classList.contains('active')) {
+                ul.style.maxHeight = ul.scrollHeight + "px";
+            }
+        }
     });
-    const idx = sessionStorage.getItem("activeNavItem")
-    setActiveDepartment(departmentItems[idx]);
 </script>

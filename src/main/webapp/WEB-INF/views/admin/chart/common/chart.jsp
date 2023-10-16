@@ -4,10 +4,18 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
+        gap: 24px;
         /*height: 100vh;*/
     }
-
     .side-header-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--vw-12);
+        background: var(--color-white);
+        padding: 8px var(--vw-24);
+        margin-bottom: var(--vh-12);
         margin-bottom: var(--vh-16);
     }
 
