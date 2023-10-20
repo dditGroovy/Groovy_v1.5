@@ -39,7 +39,7 @@
 	WHERE FCLTY_RESVE_SN = #{fcltyResveSn}
 </delete>
 
-<!-- 회의실 갯수 -->
+<!-- 시설 갯수 -->
 <select id="getRoomCount" resultType="int" parameterType="String">
 	SELECT COUNT(COMMON_CODE_FCLTY_KIND)
 	FROM FCLTY
